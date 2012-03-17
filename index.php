@@ -79,16 +79,18 @@ function dlcounter_download($fn) {
  * @return string  The (X)HTML.
  */
 function dlcounter($fn) {
-    global $sn, $su, $pth, $plugin_tx;
+    global $sn, $su, $pth, $plugin_cf, $plugin_tx;
     static $units = array('B', 'KB', 'MB', 'GB');
 
-    $ffn = $pth['folder']['downloads'].$fn;
+    $pcf = $plugin_cf['dlcounter'];
+
+    $ffn = $pth['folder']['base'].$pcf['folder_downloads'].$fn;
     if (!is_readable($ffn)) {
 	e('notreadable', 'file', $ffn);
 	return FALSE;
     }
     $size = filesize($ffn);
-    $log = round(log($size, 1024));
+    $log = intval(log($size, 1024));
     $size = round($size / pow(1024, $log), 1).' '.$units[$log];
     return '<form class="dlcounter" action="'.$sn.'?'.$su.'" method="post">'."\n"
 	    .tag('input type="hidden" name="dlcounter" value="'.$fn.'"')
