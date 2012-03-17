@@ -4,7 +4,7 @@
  * Front-end functionality of Dlcounter_XH.
  * Copyright (c) 2012 Christoph M. Becker (see license.txt)
  */
- 
+
 
 // utf-8-marker: äöüß
 
@@ -15,7 +15,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('DLCOUNTER_VERSION', '1dev1');
+define('DLCOUNTER_VERSION', '1dev2');
 
 
 /**
@@ -48,9 +48,9 @@ function dlcounter_log($file) {
  */
 function dlcounter_download($fn) {
     global $pth, $plugin_cf;
-    
+
     $pcf = $plugin_cf['dlcounter'];
-    
+
     $fn = $pth['folder']['base'].$pcf['folder_downloads'].basename($fn);
     if (is_readable($fn)) {
 	if (dlcounter_log($fn)) {
@@ -76,16 +76,25 @@ function dlcounter_download($fn) {
  * Returns the download form view.
  *
  * @param string $fn  The name of the file.
+ * @return string  The (X)HTML.
  */
 function dlcounter($fn) {
     global $sn, $su, $pth, $plugin_tx;
-    
-    //return '<a href="'.$sn.'?&dlcounter='.$fn.'">'.tag('img src="'.$pth['folder']['plugins'].'dlcounter/images/download-button.png"').'</a>';
+    static $units = array('B', 'KB', 'MB', 'GB');
+
+    $ffn = $pth['folder']['downloads'].$fn;
+    if (!is_readable($ffn)) {
+	e('notreadable', 'file', $ffn);
+	return FALSE;
+    }
+    $size = filesize($ffn);
+    $log = round(log($size, 1024));
+    $size = round($size / pow(1024, $log), 1).' '.$units[$log];
     return '<form class="dlcounter" action="'.$sn.'?'.$su.'" method="post">'."\n"
 	    .tag('input type="hidden" name="dlcounter" value="'.$fn.'"')
 	    .tag('input type="image" src="'.$pth['folder']['plugins'].'dlcounter/images/download-button.png"'
 		    .' alt="'.$plugin_tx['dlcounter']['label_download'].'"'
-		    .' title="'.$fn.'"')
+		    .' title="'.$fn.' – '.$size.'"')
 	    .'</form>'."\n";
 }
 
