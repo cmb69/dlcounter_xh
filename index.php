@@ -19,7 +19,7 @@ define('DLCOUNTER_VERSION', '1dev2');
 
 
 /**
- * Returns wether a log entry for the download was appended.
+ * Returns whether a log entry for the download was appended.
  *
  * @param string $file  The name of the file.
  * @return bool
