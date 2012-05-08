@@ -2,6 +2,11 @@ TODO
 ? optional mimetype specification for link (http://www.cmsimpleforum.com/viewtopic.php?f=16&t=3946#p23904)
 ? add register user info to download log
 
+implement filtering of files (by date; perhaps grouping)
+
+Version 1dev3 - released TODO
+
+
 Version 1dev2 - internally released 2012-03-17
 cmb	added filesize info to download button
 cmb	added warning if download file is not readable
