@@ -40,6 +40,61 @@ function dlcounter_read_db() {
 }
 
 
+function DLCounter_group($recs)
+{
+    $fd = getdate($recs[0][0]);
+    $fm = 12 * $fd['year'] + $fd['mon'];
+    $res = array();
+    foreach ($recs as $rec) {
+	$date = getdate($rec[0]);
+	$off = 12 * $date['year'] + $date['mon'] - $fm;
+	$fn = $rec[1];
+	$res[$fn][$off] = isset($res[$fn][$off]) ? $res[$fn][$off] + 1 : 0;
+    }
+    return $res;
+}
+
+
+function DLCounter_color($im, $i)
+{
+    $r = $i % 3 == 0 ? 255 : 0;
+    $g = $i % 3 == 1 ? 255 : 0;
+    $b = $i % 3 == 2 ? 255 : 0;
+    return imagecolorallocate($im, $r, $g, $b);
+}
+
+function DLCounter_graph($data)
+{
+    $width = 800; $height = 600;
+    $sx = $width / 8; $sy = $height / 50;
+    $im = imagecreate($width, $height);
+    $bg = imagecolorallocate($im, 255, 255, 255);
+    //$fg = imagecolorallocate($im, 0, 0, 0);
+    imagefilledrectangle($im, 0, 0, $width - 1, $height - 1, $bg);
+    $j = 0;
+    foreach ($data as $file) {
+	$fg = DLCounter_color($im, $j);
+	//var_dump($fg);
+	foreach ($file as $i => $count) {
+	    $x2 = $sx * $i; $y2 = $height - $sy * $count;
+	    if (isset($x1, $y1)) { 
+		imageline($im, $x1, $y1, $x2, $y2, $fg);
+	    }
+	    $x1 = $x2; $y1 = $y2;
+	}
+	unset($x1, $y1);
+	$j++;
+    }
+    header('Content-Type: image/png');
+    imagepng($im);
+    exit;
+}
+
+if (isset($_GET['dlcounter_graph'])) {
+    DLCounter_graph(DLCounter_group(dlcounter_read_db()));
+}
+
+
 /**
  * Outputs the JS to initialize the tablesorter to <head>.
  *
