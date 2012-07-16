@@ -22,7 +22,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 function dlcounter_read_db() {
     global $pth;
     static $data = NULL;
-
+    
     if (!isset($data)) {
 	$data = array();
 	$fn = $pth['folder']['plugins'].'dlcounter/data/downloads.dat';
@@ -40,18 +40,6 @@ function dlcounter_read_db() {
 }
 
 
-function dlcounter_filtered() {
-    $data = dlcounter_read_db();
-    $res = array();
-    foreach ($data as $rec) {
-	if ($rec[0] > time() - 2592000) {
-	    $res[] = $rec;
-	}
-    }
-    return $res;
-}
-
-
 /**
  * Outputs the JS to initialize the tablesorter to <head>.
  *
@@ -60,20 +48,16 @@ function dlcounter_filtered() {
  */
 function dlcounter_include_js() {
     global $pth, $hjs;
-
+    
     include_once $pth['folder']['plugins'].'jquery/jquery.inc.php';
     include_jQuery();
-    include_jqueryui();
     include_jQueryPlugin('tablesorter', $pth['folder']['plugins'].'dlcounter/lib/jquery.tablesorter.js');
     $hjs .= <<<SCRIPT
 <script type="text/javascript">
 /* <![CDATA[ */
-(function($) {
-    $(function() {
-	$('input[name^="dlcounter_date"]').datepicker();
-	$('table.tablesorter').tablesorter()
-    })
-})(jQuery)
+jQuery(function() {
+    jQuery('table.tablesorter').tablesorter()
+})
 /* ]]> */
 </script>
 
@@ -151,20 +135,13 @@ function dlcounter_system_check() { // RELEASE-TODO
  */
 function dlcounter_admin_main() {
     global $plugin_tx;
-
+    
     $ptx = $plugin_tx['dlcounter'];
     dlcounter_include_js();
     $data = dlcounter_read_db();
-    //$data = dlcounter_filtered();
-
+    
     $o = '<div id="dlcounter-stats">'."\n";
-
-    $o .= '<form action="" method="GET">'."\n"
-	    .tag('input type="text" name="dlcounter_date_start"')."\n"
-	    .tag('input type="text" name="dlcounter_date_end"')."\n"
-	    .tag('input type="submit" class="submit" value="Filter"')."\n"
-	    .'<form>'."\n";
-
+    
     $totals = array_count_values(array_map(create_function('$elt', 'return $elt[1];'), $data));
     $o .= '<h4 onclick="jQuery(this).next().toggle()">'.$ptx['label_totals'].'</h4>'."\n"
 	    .'<table class="tablesorter">'."\n".'<thead>'."\n".'<tr>'
@@ -174,7 +151,7 @@ function dlcounter_admin_main() {
 	$o .= '<tr><td>'.$file.'</td><td>'.$count.'</td></tr>'."\n";
     }
     $o .= '</tbody>'."\n".'</table>'."\n";
-
+    
     $o .= '<h4 onclick="jQuery(this).next().toggle()">'.$ptx['label_individual'].'</h4>'."\n"
 	    .'<table class="tablesorter">'."\n".'<thead>'."\n".'<tr>'
 	    .'<th>Date</th><th>File</th>'
@@ -183,9 +160,9 @@ function dlcounter_admin_main() {
 	$o .= '<tr><td>'.date($ptx['format_date'], $rec[0]).'</td><td>'.$rec[1].'</td></tr>'."\n";
     }
     $o .= '</tbody>'."\n".'</table>'."\n";
-
+    
     $o .= '</div>'."\n";
-
+    
     return $o;
 }
 
@@ -196,9 +173,9 @@ function dlcounter_admin_main() {
 if (isset($dlcounter) && $dlcounter === 'true') {
     initvar('admin');
     initvar('action');
-
+    
     $o .= print_plugin_admin('on');
-
+    
     switch ($admin) {
 	case '':
 	    $o .= dlcounter_version().tag('hr').dlcounter_system_check();
@@ -209,7 +186,7 @@ if (isset($dlcounter) && $dlcounter === 'true') {
 	default:
 	    $o .= plugin_admin_common($action, $admin, $plugin);
     }
-
+    
 }
 
 ?>

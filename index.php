@@ -15,7 +15,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('DLCOUNTER_VERSION', '1dev3');
+define('DLCOUNTER_VERSION', '1dev2');
 
 
 /**
