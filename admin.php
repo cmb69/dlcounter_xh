@@ -70,21 +70,27 @@ SCRIPT;
  *
  * @return string  The (X)HTML.
  */
-function dlcounter_version() {
-    return '<h1>Dlcounter_XH</h1>'."\n"
-	    .'<p>Version: '.DLCOUNTER_VERSION.'</p>'."\n"
-	    .'<p>Copyright &copy; 2012 <a href="http://3-magi.net">Christoph M. Becker</a></p>'."\n"
-	    .'<p style="text-align:justify">This program is free software: you can redistribute it and/or modify'
-	    .' it under the terms of the GNU General Public License as published by'
-	    .' the Free Software Foundation, either version 3 of the License, or'
-	    .' (at your option) any later version.</p>'."\n"
-	    .'<p style="text-align:justify">This program is distributed in the hope that it will be useful,'
-	    .' but WITHOUT ANY WARRANTY; without even the implied warranty of'
-	    .' MERCHAN&shy;TABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the'
-	    .' GNU General Public License for more details.</p>'."\n"
-	    .'<p style="text-align:justify">You should have received a copy of the GNU General Public License'
-	    .' along with this program.  If not, see'
-	    .' <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>'."\n";
+function dlcounter_version()
+{
+    global $pth;
+    
+    return '<h1>Dlcounter_XH</h1>'
+	. tag('img class="dlcounter_plugin_icon" src="'
+	    . $pth['folder']['plugins'] . 'dlcounter/dlcounter.png" width="128"'
+	    . ' height="128" alt="Plugin Icon"')
+	. '<p>Version: ' . DLCOUNTER_VERSION . '</p>'
+	. '<p>Copyright &copy; 2012 <a href="http://3-magi.net">Christoph M. Becker</a></p>'
+	. '<p class="dlcounter_license">This program is free software: you can redistribute it and/or modify'
+	. ' it under the terms of the GNU General Public License as published by'
+	. ' the Free Software Foundation, either version 3 of the License, or'
+	. ' (at your option) any later version.</p>'
+	. '<p class="dlcounter_license">This program is distributed in the hope that it will be useful,'
+	. ' but WITHOUT ANY WARRANTY; without even the implied warranty of'
+	. ' MERCHAN&shy;TABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the'
+	. ' GNU General Public License for more details.</p>'
+	. '<p class="dlcounter_license">You should have received a copy of the GNU General Public License'
+	. ' along with this program.  If not, see'
+	. ' <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>';
 }
 
 

@@ -2,11 +2,9 @@
 
 /**
  * Front-end functionality of Dlcounter_XH.
+ *
  * Copyright (c) 2012 Christoph M. Becker (see license.txt)
  */
-
-
-// utf-8-marker: äöüß
 
 
 if (!defined('CMSIMPLE_XH_VERSION')) {
@@ -15,7 +13,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 
-define('DLCOUNTER_VERSION', '1dev2');
+define('DLCOUNTER_VERSION', '1beta1');
 
 
 /**
@@ -96,7 +94,7 @@ function dlcounter($fn) {
 	    .tag('input type="hidden" name="dlcounter" value="'.$fn.'"')
 	    .tag('input type="image" src="'.$pth['folder']['plugins'].'dlcounter/images/download-button.png"'
 		    .' alt="'.$plugin_tx['dlcounter']['label_download'].'"'
-		    .' title="'.$fn.' – '.$size.'"')
+		    .' title="'.$fn.' ? '.$size.'"')
 	    .'</form>'."\n";
 }
 

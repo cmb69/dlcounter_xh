@@ -1,0 +1,2 @@
+? optional mimetype specification for link (http://www.cmsimpleforum.com/viewtopic.php?f=16&t=3946#p23904)
+? add register user info to download log
