@@ -21,7 +21,8 @@ define('DLCOUNTER_VERSION', '1alpha1');
  *
  * @return string
  */
-function Dlcounter_dataFolder() {
+function Dlcounter_dataFolder()
+{
     global $pth, $plugin_cf;
 
     $pcf = $plugin_cf['dlcounter'];
@@ -52,7 +53,8 @@ function Dlcounter_dataFolder() {
  * @param string $file  The name of the file.
  * @return bool
  */
-function Dlcounter_log($file) {
+function Dlcounter_log($file)
+{
     global $adm;
 
     $rec = $adm ? '' : time() . "\t" . basename($file) . "\n";
@@ -74,14 +76,15 @@ function Dlcounter_log($file) {
  * @param string $fn  The name of the file.
  * @return void
  */
-function Dlcounter_download($fn) {
+function Dlcounter_download($fn)
+{
     global $pth, $plugin_cf;
 
     $pcf = $plugin_cf['dlcounter'];
 
     $fn = $pth['folder']['base'] . $pcf['folder_downloads'] . basename($fn);
     if (is_readable($fn)) {
-	if (dlcounter_log($fn)) {
+	if (Dlcounter_log($fn)) {
 	    header('Content-Description: File Transfer');
 	    header('Content-Type: application/octet-stream');
 	    header('Content-Disposition: attachment; filename=' . basename($fn));
@@ -109,7 +112,8 @@ function Dlcounter_download($fn) {
  * @param string $fn  The name of the file.
  * @return string  The (X)HTML.
  */
-function dlcounter($fn) {
+function dlcounter($fn)
+{
     global $su, $pth, $plugin_cf, $plugin_tx;
     
     $units = array('B', 'KB', 'MB', 'GB');
@@ -134,13 +138,10 @@ function dlcounter($fn) {
 
 
 /**
- * Handles the download request.
+ * Handle the download request.
  */
 if (isset($_GET['dlcounter']) && $_GET['dlcounter'] !== '') {
-    dlcounter_download(stsl($_GET['dlcounter']));
+    Dlcounter_download(stsl($_GET['dlcounter']));
 }
-//if (!empty($_POST['dlcounter'])) {
-//    dlcounter_download(stsl($_POST['dlcounter']));
-//}
 
 ?>

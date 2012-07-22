@@ -2,10 +2,9 @@
 
 /**
  * Back-end functionality of Dlcounter_XH.
+ *
  * Copyright (c) 2012 Christoph M. Becker (see license.txt)
  */
-
-// utf-8-marker: äöüß
 
 
 if (!defined('CMSIMPLE_XH_VERSION')) {
@@ -19,22 +18,19 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
  *
  * @return array
  */
-function dlcounter_read_db() {
+function Dlcounter_readDb()
+{
     global $pth;
-    static $data = NULL;
     
-    if (!isset($data)) {
-	$data = array();
-	$fn = $pth['folder']['plugins'].'dlcounter/data/downloads.dat';
-	$lines = file($fn);
-	if ($lines !== FALSE) {
-	    foreach ($lines as $line) {
-		list($ts, $fn) = explode("\t", $line);
-		$data[] = array(trim($ts), trim($fn));
-	    }
-	} else {
-	    e('cntopen', 'file', $fn);
+    $data = array();
+    $fn = Dlcounter_dataFolder() . 'downloads.dat';
+    $lines = file($fn);
+    if ($lines !== false) {
+	foreach ($lines as $line) {
+	    $data[] = explode("\t", rtrim($line));
 	}
+    } else {
+	e('cntopen', 'file', $fn);
     }
     return $data;
 }
@@ -46,12 +42,14 @@ function dlcounter_read_db() {
  * @global string $hjs
  * @return void
  */
-function dlcounter_include_js() {
+function Dlcounter_hjs()
+{
     global $pth, $hjs;
     
-    include_once $pth['folder']['plugins'].'jquery/jquery.inc.php';
+    include_once $pth['folder']['plugins'] . 'jquery/jquery.inc.php';
     include_jQuery();
-    include_jQueryPlugin('tablesorter', $pth['folder']['plugins'].'dlcounter/lib/jquery.tablesorter.js');
+    include_jQueryPlugin('tablesorter',
+	$pth['folder']['plugins'] . 'dlcounter/lib/jquery.tablesorter.js');
     $hjs .= <<<SCRIPT
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -70,7 +68,7 @@ SCRIPT;
  *
  * @return string  The (X)HTML.
  */
-function dlcounter_version()
+function Dlcounter_version()
 {
     global $pth;
     
@@ -99,38 +97,39 @@ function dlcounter_version()
  *
  * @return string  The (X)HTML.
  */
-function dlcounter_system_check() { // RELEASE-TODO
+function Dlcounter_systemCheck() // RELEASE-TODO
+{
     global $pth, $tx, $plugin_tx, $plugin_cf;
 
     define('DLCOUNTER_PHP_VERSION', '4.2.0');
     $ptx = $plugin_tx['dlcounter'];
-    $imgdir = $pth['folder']['plugins'].'dlcounter/images/';
+    $imgdir = $pth['folder']['plugins'] . 'dlcounter/images/';
     $ok = tag('img src="'.$imgdir.'ok.png" alt="ok"');
     $warn = tag('img src="'.$imgdir.'warn.png" alt="warning"');
     $fail = tag('img src="'.$imgdir.'fail.png" alt="failure"');
-    $htm = '<h4>'.$ptx['syscheck_title'].'</h4>'
-	    .(version_compare(PHP_VERSION, DLCOUNTER_PHP_VERSION) >= 0 ? $ok : $fail)
-	    .'&nbsp;&nbsp;'.sprintf($ptx['syscheck_phpversion'], DLCOUNTER_PHP_VERSION)
-	    .tag('br').tag('br')."\n";
+    $o = '<h4>' . $ptx['syscheck_title'] . '</h4>'
+	. (version_compare(PHP_VERSION, DLCOUNTER_PHP_VERSION) >= 0 ? $ok : $fail)
+	. '&nbsp;&nbsp;' . sprintf($ptx['syscheck_phpversion'], DLCOUNTER_PHP_VERSION)
+	. tag('br') . tag('br');
     foreach (array('date') as $ext) {
-	$htm .= (extension_loaded($ext) ? $ok : $fail)
-		.'&nbsp;&nbsp;'.sprintf($ptx['syscheck_extension'], $ext).tag('br')."\n";
+	$o .= (extension_loaded($ext) ? $ok : $fail)
+	    . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_extension'], $ext) . tag('br');
     }
-    $htm .= tag('br').(strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
-	    .'&nbsp;&nbsp;'.$ptx['syscheck_encoding'].tag('br')."\n";
-    $htm .= (!get_magic_quotes_runtime() ? $ok : $warn)
-	    .'&nbsp;&nbsp;'.$ptx['syscheck_magic_quotes'].tag('br')."\n";
-    $htm .= (file_exists($pth['folder']['plugins'].'jquery/jquery.inc.php') ? $ok : $fail)
-	    .'&nbsp;&nbsp;'.$ptx['syscheck_jquery'].tag('br').tag('br')."\n";
+    $o .= tag('br') . (strtoupper($tx['meta']['codepage']) == 'UTF-8' ? $ok : $warn)
+	. '&nbsp;&nbsp;' . $ptx['syscheck_encoding'] . tag('br')
+	. (!get_magic_quotes_runtime() ? $ok : $warn)
+	. '&nbsp;&nbsp;' . $ptx['syscheck_magic_quotes'] . tag('br')
+	. (file_exists($pth['folder']['plugins'] . 'jquery/jquery.inc.php') ? $ok : $fail)
+	. '&nbsp;&nbsp;' . $ptx['syscheck_jquery'] . tag('br') . tag('br');
     foreach (array('config/', 'css/', 'languages/') as $folder) {
-	$folders[] = $pth['folder']['plugins'].'dlcounter/'.$folder;
+	$folders[] = $pth['folder']['plugins'] . 'dlcounter/' . $folder;
     }
-    //$folders[] = advfrm_data_folder();
+    $folders[] = Dlcounter_dataFolder();
     foreach ($folders as $folder) {
-	$htm .= (is_writable($folder) ? $ok : $warn)
-		.'&nbsp;&nbsp;'.sprintf($ptx['syscheck_writable'], $folder).tag('br')."\n";
+	$o .= (is_writable($folder) ? $ok : $warn)
+	    . '&nbsp;&nbsp;' . sprintf($ptx['syscheck_writable'], $folder) . tag('br');
     }
-    return $htm;
+    return $o;
 }
 
 
@@ -139,60 +138,59 @@ function dlcounter_system_check() { // RELEASE-TODO
  *
  * @return string  The (X)HTML.
  */
-function dlcounter_admin_main() {
+function Dlcounter_adminMain()
+{
     global $plugin_tx;
     
     $ptx = $plugin_tx['dlcounter'];
-    dlcounter_include_js();
-    $data = dlcounter_read_db();
+    Dlcounter_hjs();
+    $data = Dlcounter_readDb();
     
-    $o = '<div id="dlcounter-stats">'."\n";
+    $o = '<div id="dlcounter_stats">';
+    
+    $o .= '<div class="plugineditcaption">Dlcounter</div>';
     
     $totals = array_count_values(array_map(create_function('$elt', 'return $elt[1];'), $data));
-    $o .= '<h4 onclick="jQuery(this).next().toggle()">'.$ptx['label_totals'].'</h4>'."\n"
-	    .'<table class="tablesorter">'."\n".'<thead>'."\n".'<tr>'
-	    .'<th>File</th><th>Count</th>'
-	    .'</tr>'."\n".'</thead>'."\n".'<tbody>'."\n";
+    $o .= '<h4 onclick="jQuery(this).next().toggle()">' . $ptx['label_totals'] . '</h4>'
+	    .'<table class="tablesorter"><thead><tr>'
+	    .'<th>' . $ptx['label_file'] . '</th><th>' . $ptx['label_count'] . '</th>'
+	    .'</tr></thead><tbody>';
     foreach ($totals as $file => $count) {
-	$o .= '<tr><td>'.$file.'</td><td>'.$count.'</td></tr>'."\n";
+	$o .= '<tr><td>' . $file . '</td><td>' . $count . '</td></tr>';
     }
-    $o .= '</tbody>'."\n".'</table>'."\n";
+    $o .= '</tbody></table>';
     
-    $o .= '<h4 onclick="jQuery(this).next().toggle()">'.$ptx['label_individual'].'</h4>'."\n"
-	    .'<table class="tablesorter">'."\n".'<thead>'."\n".'<tr>'
-	    .'<th>Date</th><th>File</th>'
-	    .'</tr>'."\n".'</thead>'."\n".'<tbody>'."\n";
+    $o .= '<h4 onclick="jQuery(this).next().toggle()">' . $ptx['label_individual'] . '</h4>'
+	    .'<table class="tablesorter"><thead><tr>'
+	    .'<th>'. $ptx['label_date'] . '</th><th>'. $ptx['label_file'] . '</th>'
+	    .'</tr></thead><tbody>';
     foreach ($data as $rec) {
-	$o .= '<tr><td>'.date($ptx['format_date'], $rec[0]).'</td><td>'.$rec[1].'</td></tr>'."\n";
+	$o .= '<tr><td>' . date('Y-m-d H:i:s', $rec[0]) . '</td><td>' . $rec[1] . '</td></tr>';
     }
-    $o .= '</tbody>'."\n".'</table>'."\n";
+    $o .= '</tbody></table>';
     
-    $o .= '</div>'."\n";
+    $o .= '</div>';
     
     return $o;
 }
 
 
 /**
- * Handles the plugin's administration.
+ * Handle the plugin administration.
  */
 if (isset($dlcounter) && $dlcounter === 'true') {
-    initvar('admin');
-    initvar('action');
-    
     $o .= print_plugin_admin('on');
     
     switch ($admin) {
-	case '':
-	    $o .= dlcounter_version().tag('hr').dlcounter_system_check();
-	    break;
-	case 'plugin_main':
-	    $o .= dlcounter_admin_main();
-	    break;
-	default:
-	    $o .= plugin_admin_common($action, $admin, $plugin);
+    case '':
+	$o .= Dlcounter_version() . tag('hr') . Dlcounter_systemCheck();
+	break;
+    case 'plugin_main':
+	$o .= Dlcounter_adminMain();
+	break;
+    default:
+	$o .= plugin_admin_common($action, $admin, $plugin);
     }
-    
 }
 
 ?>

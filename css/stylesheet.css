@@ -1,21 +1,14 @@
-/**
- * The download form
- */
+/* download form */
  
 form.dlcounter {
     text-align: center;
 }
 
-/* plugin info */
-
-img.dlcounter_plugin_icon {float: left; margin: 0}
-p.dlcounter_license {clear: both; text-align: justify}
-
 /* statistics */
 
-#dlcounter-stats {}
+#dlcounter_stats {}
 
-#dlcounter-stats h4 {
+#dlcounter_stats h4 {
     color: #3D3D3D;
     background-color: #8dbdd8;
     cursor: pointer;
@@ -23,7 +16,7 @@ p.dlcounter_license {clear: both; text-align: justify}
 }
 
 /* tables */
-#dlcounter-stats table.tablesorter {
+#dlcounter_stats table.tablesorter {
     font-family:arial;
     background-color: #CDCDCD;
     font-size: 8pt;
@@ -31,41 +24,46 @@ p.dlcounter_license {clear: both; text-align: justify}
     text-align: left;
 }
 
-#dlcounter-stats table.tablesorter thead tr th,
-#dlcounter-stats table.tablesorter tfoot tr th {
+#dlcounter_stats table.tablesorter thead tr th,
+#dlcounter_stats table.tablesorter tfoot tr th {
     background-color: #e6EEEE;
     border: 1px solid #FFF;
     font-size: 8pt;
     padding: 4px;
 }
 
-#dlcounter-stats table.tablesorter thead tr .header {
+#dlcounter_stats table.tablesorter thead tr .header {
     background-image: url(bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
     cursor: pointer;
 }
 
-#dlcounter-stats table.tablesorter tbody td {
+#dlcounter_stats table.tablesorter tbody td {
     color: #3D3D3D;
     padding: 4px;
     background-color: #FFF;
     vertical-align: top;
 }
 
-#dlcounter-stats table.tablesorter tbody tr.odd td {
+#dlcounter_stats table.tablesorter tbody tr.odd td {
     background-color:#F0F0F6;
 }
 
-#dlcounter-stats table.tablesorter thead tr .headerSortUp {
+#dlcounter_stats table.tablesorter thead tr .headerSortUp {
     background-image: url(asc.gif);
 }
 
-#dlcounter-stats table.tablesorter thead tr .headerSortDown {
+#dlcounter_stats table.tablesorter thead tr .headerSortDown {
     background-image: url(desc.gif);
 }
 
-#dlcounter-stats table.tablesorter thead tr .headerSortDown,
-#dlcounter-stats table.tablesorter thead tr .headerSortUp {
+#dlcounter_stats table.tablesorter thead tr .headerSortDown,
+#dlcounter_stats table.tablesorter thead tr .headerSortUp {
     background-color: #8dbdd8;
 }
+
+/* plugin info */
+
+img.dlcounter_plugin_icon {float: left; margin: 0}
+p.dlcounter_license {clear: both; text-align: justify}
