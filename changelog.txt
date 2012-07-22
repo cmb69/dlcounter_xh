@@ -1,4 +1,4 @@
-Version 1alpha1 - released TODO
+Version 1alpha1 - released 2012-07-22
 cmb	added plugin icon
 
 Version 1dev2 - internally released 2012-03-17

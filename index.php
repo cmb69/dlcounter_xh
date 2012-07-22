@@ -128,12 +128,12 @@ function dlcounter($fn)
     $log = intval(log($size, 1024));
     $size = round($size / pow(1024, $log), 1) . ' ' . $units[$log];
     return '<form class="dlcounter" action="?' . $su . '" method="GET">'
-	.tag('input type="hidden" name="dlcounter" value="' . $fn . '"')
-	.tag('input type="image" src="' . $pth['folder']['plugins']
+	. tag('input type="hidden" name="dlcounter" value="' . $fn . '"')
+	. tag('input type="image" src="' . $pth['folder']['plugins']
 	    . 'dlcounter/images/download-button.png"'
 	    . ' alt="' . $plugin_tx['dlcounter']['label_download'] . '"'
 	    . ' title="' . $fn . ' &ndash; ' . $size . '"')
-	.'</form>';
+	. '</form>';
 }
 
 

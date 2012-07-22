@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD Simplified DocBook XML V1.2CR1//EN"
+    "http://docbook.org/xml/simple/1.2CR1/sdocbook.dtd">
+
+<article lang="en">
+<title>Dlcounter_XH Manual</title>
+<articleinfo>
+<author><firstname>Christoph</firstname><surname>Becker</surname><othername>M.</othername></author>
+</articleinfo>
+<abstract>
+<para> Dlcounter_XH is a simple download counter for CMSimple_XH. Instead of a
+link to the downloadable file, it offers the downloads as HTML form, which
+should be ignored by bots, so the download count is somewhat more accurate.
+Please note that absolute accurate download counts cannot be archieved with
+Dlcounter_XH (and probably neither with any other download counter) as e.g.
+cancelled downloads or multiple downloads initiated by download managers are not
+especially catered for. The downloads statistics can be accessed in the plugins
+back-end. </para>
+</abstract>
+
+<section id="important-notice">
+<title>Important Notice</title>
+<para>Dlcounter_XH couldn't be tested so far in various environments and it's
+quite likely that some features may change (particularly the statistics in the
+back-end). It is a so called ALPHA version. <emphasis>Use with
+caution!</emphasis></para>
+</section>
+
+<section id="requirements">
+<title>Requirements</title>
+<para>Dlcounter_XH is a plugin for CMSimple_XH ≥ 1.2. It requires a UTF-8
+encoded version and <ulink
+url="http://www.cmsimple-xh.com/wiki/doku.php/plugins:jquery4cmsimple">jQuery4CMSimple</ulink>.</para>
+</section>
+
+<section id="installation">
+<title>Installation</title>
+<para>The installation is done as with many other CMSimple_XH plugins. See the
+<ulink
+url="http://www.cmsimple-xh.com/wiki/doku.php/manuals:users_manual:plugins:installation">CMSimple_XH
+wiki</ulink> for further details.</para>
+<orderedlist>
+<listitem><para>Backup the data on your server.</para></listitem>
+<listitem><para>Unzip the distribution on your computer.</para></listitem>
+<listitem><para>Upload the whole directory dlcounter/ to your server into
+CMSimple_XH's plugins directory.</para></listitem>
+<listitem><para>Set write permissions to the subdirectories config/, css/,
+languages/ and the plugin's data folder.</para></listitem>
+<listitem><para>Protect Dlcounter_XH's data and downloads folder against direct
+access by any means your webserver provides. An .htaccess file for Apache
+servers is already distributed in the default data folder.</para></listitem>
+<listitem><para>Switch to "Dlcounter" in the back-end to check if all
+requirements are fulfilled.</para></listitem>
+</orderedlist>
+</section>
+
+<section id="settings">
+<title>Settings</title>
+<para>The plugin's configuration is done as with many other CMSimple_XH plugins
+in the website's back-end. Select "Dlcounter" from "Plugins".</para>
+<para>You can change the default settings of Dlcounter_XH in "Plugin Config".
+Hints for the options will be displayed when hovering over the help icon with
+your mouse.</para>
+<para>Localization is done in "Plugin Language". You can translate the character
+strings to your own language, or customize them according to your needs.</para>
+<para>The look of Dlcounter_XH can be customized in "Plugin Stylesheet". Please
+note, that the statistics view in the back-end is quite likely to change in the
+next release, so don't spend much time on customizing it's look.</para>
+</section>
+
+<section id="usage">
+<title>Usage</title>
+<para>All downloads that shall be counted, have to placed in the configured
+downloads folder or a subfolder thereof. To display the download form for the
+file <literal>download.pdf</literal> on a page, enter:</para>
+<programlisting>{{{PLUGIN:dlcounter('download.pdf');}}}</programlisting>
+<para>You can safely check, if the download works as expected, by triggering it
+when your logged in as administrator; these downloads will not be counted. If
+you like to use another PNG graphic for the download button, you can exchange
+the default one in the plugin's images/ folder. There are aleady some
+alternatives with different color schemes.</para>
+<para>To view the download statistics just switch to
+"Plugins→Dlcounter→Statistics". You can sort the tables by clicking on the
+respective column heading.</para>
+</section>
+
+<section id="license">
+<title>License</title>
+<para>Dlcounter_XH is licensed under GPLv3.</para>
+<para>© 2012 Christoph M. Becker</para>
+</section>
+
+<section id="credits">
+<title>Credits</title>
+<para>Dlcounter_XH uses the <ulink url="http://tablesorter.com/">jQuery
+Tablesorter plugin</ulink>. Many thanks to Christian Bach for releasing it under
+GPL.</para>
+<para>The plugin icon is designed by <ulink
+url="http://yellowicon.com/">YellowIcon</ulink>. Many thanks for releasing this
+icon under GPL.</para>
+<para>The downloads buttons are designed by <ulink
+url="http://www.graphicsfuel.com/about-me/">Rafi</ulink>. Many thanks for
+releasing them as freeware.</para>
+<para>This plugin uses free applications icons from <ulink
+url="http://www.aha-soft.com/">Aha-Soft</ulink>. Many thanks for making these
+icons freely available.</para>
+<para>And last but not least many thanks to <ulink
+url="http://www.harteg.dk/">Peter Harteg</ulink>, the "father" of CMSimple, and
+all developers of <ulink url="http://www.cmsimple-xh.com/">CMSimple_XH</ulink>
+without whom this amazing CMS wouldn't exist.</para>
+</section>
+
+</article>
