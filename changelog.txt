@@ -1,5 +1,7 @@
 Version 1alpha1 - released 2012-07-22
-cmb	added plugin icon
+cmb	made data folder configurable
+cmb	made several cosmetic changes
+cmb	added English manual
 
 Version 1dev2 - internally released 2012-03-17
 cmb	added filesize info to download button
