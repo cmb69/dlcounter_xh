@@ -1,0 +1,11 @@
+Version 1alpha1 - released 2012-07-22
+* made data folder configurable
+* made several cosmetic changes
+* added English manual
+
+Version 1dev2 - internally released 2012-03-17
+* added filesize info to download button
+* added warning if download file is not readable
+
+Version 1dev1 - internally released 2012-01-08
+* initial release
