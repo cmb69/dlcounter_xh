@@ -233,7 +233,7 @@ SCRIPT;
                 . ' height="128" alt="Plugin Icon"'
             )
             . '<p>Version: ' . DLCOUNTER_VERSION . '</p>'
-            . '<p>Copyright &copy; 2012'
+            . '<p>Copyright &copy; 2012-2014'
             . ' <a href="http://3-magi.net">Christoph M. Becker</a></p>'
             . '<p class="dlcounter_license">'
             . 'This program is free software: you can redistribute it and/or modify'
