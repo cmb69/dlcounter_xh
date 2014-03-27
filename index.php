@@ -37,7 +37,7 @@ define('DLCOUNTER_VERSION', '1alpha1');
  *
  * @var Dlcounter
  */
-$_Dlcounter = new Dlcounter();
+$_Dlcounter = new Dlcounter(new Dlcounter_Domain());
 
 /**
  * Returns the download form view.
@@ -53,6 +53,21 @@ function dlcounter($filename)
     global $_Dlcounter;
 
     return $_Dlcounter->main($filename);
+}
+
+/**
+ * Includes the jquery4cmsimple include file.
+ *
+ * @return void
+ *
+ * @global array The paths of system files and folders.
+ * @global array The configuration of the plugins.
+ */
+function Dlcounter_includeJQuery()
+{
+    global $pth, $plugin_cf;
+
+    include_once $pth['folder']['plugins'] . 'jquery/jquery.inc.php';
 }
 
 /**

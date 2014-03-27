@@ -1,6 +1,5 @@
 <?php
 
-require_once 'vfsStream/vfsStream.php';
 require_once './classes/Dlcounter.php';
 
 const DLCOUNTER_VERSION = 'foobar';
@@ -19,6 +18,8 @@ function tag($string)
     return $string;
 }
 
+function Dlcounter_includeJQuery() {}
+
 function include_jQuery() {}
 
 function include_jQueryPlugin($name, $filename) {}
@@ -34,60 +35,34 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
 {
     private $_subject;
 
+    protected $model;
+
+    protected $records;
+
     private $_downloadFile;
 
     public function setUp()
     {
-        vfsStreamWrapper::register();
-        vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
-        $this->setUpJqueryInc();
-        $this->_subject = new Dlcounter();
-
-    }
-
-    protected function setUpJqueryInc()
-    {
-        mkdir(vfsStream::url('test/jquery/'));
-        file_put_contents(vfsStream::url('test/jquery/jquery.inc.php'), '');
-    }
-
-    protected function setUpDataFile()
-    {
-        $filename = vfsStream::url('test/dlcounter/data/');
-        mkdir($filename, 0777, true);
-        $filename .= 'downloads.dat';
-        $contents = "111\tfoo\n222\tbar\n333\tfoo";
-        file_put_contents($filename, $contents);
-    }
-
-    protected function setUpGlobals()
-    {
-        global $pth, $plugin_cf;
-
-        $plugin_cf = array(
-            'dlcounter' => array(
-                'folder_data' => 'dlcounter/data',
-                'folder_downloads' => ''
-            )
+        $this->model = $this->getMockBuilder('Dlcounter_Domain')->getMock();
+        $this->_subject = $this->getMockBuilder('DlCounter')
+            ->setConstructorArgs(array($this->model))
+            ->setMethods(array('includeJQuery'))
+            ->getMock();
+        $this->records = array(
+            array(111, 'foo'),
+            array(222, 'bar'),
+            array(333, 'foo')
         );
-        $pth = array(
-            'folder' => array(
-                'base' => vfsStream::url('test/'),
-                'plugins' => vfsStream::url('test/')
-            )
-        );
-    }
-
-    protected function setUpDownloadFile()
-    {
-        $this->_downloadFile = vfsStream::url('test/test.txt');
-        file_put_contents($this->_downloadFile, 'foobar');
-
     }
 
     public function testMain()
     {
-        $this->setUpDownloadFile();
+        $this->model->expects($this->once())
+            ->method('downloadFolder')
+            ->will($this->returnValue('./'));
+        $this->model->expects($this->once())
+            ->method('imageFolder')
+            ->will($this->returnValue(''));
         $matcher = array(
             'tag' => 'form',
             'attributes' => array(
@@ -95,7 +70,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'method' => 'GET'
             )
         );
-        $this->assertTag($matcher, $this->_subject->main($this->_downloadFile));
+        $this->assertTag($matcher, $this->_subject->main('version.nfo'));
     }
 
     public function testMainWithoutDownloadFile()
@@ -125,18 +100,24 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
 
     public function testSystemCheck()
     {
-        $this->setUpGlobals();
-        $this->setUpDataFile();
+        $this->model->expects($this->once())
+            ->method('systemChecks')
+            ->will($this->returnValue(array('foo' => 'bar')));
         $matcher = array(
-            'tag' => 'h4'
+            'tag' => 'ul',
+            'children' => array(
+                'only' => array('tag' => 'li'),
+                'count' => 1
+            )
         );
         $this->assertTag($matcher, $this->_subject->renderSystemCheck());
     }
 
     public function testAdminMain()
     {
-        $this->setUpGlobals();
-        $this->setUpDataFile();
+        $this->model->expects($this->once())
+            ->method('readDb')
+            ->will($this->returnValue($this->records));
         $matcher = array(
             'tag' => 'div',
             'id' => 'dlcounter_stats'
@@ -146,7 +127,9 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
 
     public function testAdminMainWhereDataFileCantBeRead()
     {
-        $this->setUpGlobals();
+        $this->model->expects($this->once())
+            ->method('readDb')
+            ->will($this->returnValue($this->records));
         $matcher = array(
             'tag' => 'div',
             'id' => 'dlcounter_stats'
@@ -156,8 +139,9 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
 
     public function testAdminMainHasSummaryTable()
     {
-        $this->setUpGlobals();
-        $this->setUpDataFile();
+        $this->model->expects($this->once())
+            ->method('readDb')
+            ->will($this->returnValue($this->records));
         $matcher = array(
             'tag' => 'tbody',
             'ancestor' => array(
@@ -174,8 +158,9 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
 
     public function testAdminMainHasDetailsTable()
     {
-        $this->setUpGlobals();
-        $this->setUpDataFile();
+        $this->model->expects($this->once())
+            ->method('readDb')
+            ->will($this->returnValue($this->records));
         $matcher = array(
             'tag' => 'tbody',
             'ancestor' => array(
@@ -195,37 +180,25 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
      */
     public function testDownload()
     {
-        $this->setUpGlobals();
-        $this->setUpDataFile();
-        $this->setUpDownloadFile();
-        $this->_subject->download($this->_downloadFile);
+        $this->model->expects($this->once())
+            ->method('downloadFolder')
+            ->will($this->returnValue('./'));
+        $this->_subject->download('version.nfo');
         $this->expectOutputString('foobar');
     }
 
-    /**
-     * @expectedException ExitException
-     */
-    public function testDownloadWithDefaultDataFolder()
-    {
-        global $plugin_cf;
-
-        $this->setUpGlobals();
-        $this->setUpDataFile();
-        $this->setUpDownloadFile();
-        $plugin_cf['dlcounter']['folder_data'] = '';
-        $this->_subject->download($this->_downloadFile);
-        $this->expectOutputString('foobar');
-    }
-
-    public function testDownloadWhereDataFileCantBeWritten()
+    public function testDownloadCantLog()
     {
         global $o;
 
         $o = '';
-        $this->setUpGlobals();
-        $this->setUpDownloadFile();
-        mkdir(vfsStream::url('test/dlcounter/data/downloads.dat'), 0777, true);
-        $this->_subject->download($this->_downloadFile);
+        $this->model->expects($this->once())
+            ->method('downloadFolder')
+            ->will($this->returnValue('./'));
+        $this->model->expects($this->once())
+            ->method('log')
+            ->will($this->throwException(new Dlcounter_WriteException()));
+        $this->_subject->download('version.nfo');
         $matcher = array(
             'tag' => 'p',
             'attributes' => array('class' => 'cmsimplecore_warning')
@@ -238,10 +211,10 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
      */
     public function testDownloadNotFound()
     {
-        $this->setUpGlobals();
-        $this->setUpDataFile();
-        $filename = vfsStream::url('foo');
-        $this->_subject->download($filename);
+        $this->model->expects($this->once())
+            ->method('downloadFolder')
+            ->will($this->returnValue('./'));
+        $this->_subject->download('foo.bar');
     }
 }
 

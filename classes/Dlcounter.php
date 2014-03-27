@@ -26,58 +26,20 @@
 class Dlcounter
 {
     /**
-     * Returns the data folder's path.
+     * The domain object.
      *
-     * @return string
-     *
-     * @global array The path of system files and folders.
-     * @global array The configuration of the plugins.
+     * @var Dlcounter_Domain
      */
-    protected function dataFolder()
-    {
-        global $pth, $plugin_cf;
-
-        $pcf = $plugin_cf['dlcounter'];
-        if (trim($pcf['folder_data']) == '') {
-            $fn = $pth['folder']['plugins'] . 'dlcounter/data/';
-        } else {
-            $fn = $pth['folder']['base'] . $pcf['folder_data'];
-            if ($fn{strlen($fn) - 1} != '/') {
-                $fn .= '/';
-            }
-        }
-        return $fn;
-    }
+    protected $domain;
 
     /**
-     * Appends a log entry for the download.
+     * Initializes a new instance.
      *
-     * @param string $file A filename.
-     *
-     * @return void
-     *
-     * @throws Dlcounter_WriteException
-     *
-     * @global bool Whether we're in admin mode.
+     * @param Dlcounter_Domain $domain A domain model.
      */
-    protected function log($file)
+    public function __construct(Dlcounter_Domain $domain)
     {
-        global $adm;
-
-        $rec = $adm ? '' : time() . "\t" . basename($file) . "\n";
-        $fn = $this->dataFolder() . 'downloads.dat';
-        if (!is_dir($fn)
-            && ($fh = fopen($fn, 'a')) !== false
-            && fwrite($fh, $rec) !== false
-        ) {
-        } else {
-            throw new Dlcounter_WriteException(
-                sprintf('Can\'t write to "%s"', $fn)
-            );
-        }
-        if (!empty($fh)) {
-            fclose($fh);
-        }
+        $this->domain = $domain;
     }
 
     /**
@@ -87,20 +49,19 @@ class Dlcounter
      *
      * @return void
      *
+     * @global bool   Whether we're in admin mode.
      * @global string The (X)HTML for the contents area.
-     * @global array  The paths of system files and folders.
-     * @global array  The configuration of the plugins.
      */
     public function download($fn)
     {
-        global $o, $pth, $plugin_cf;
+        global $adm, $o;
 
-        $pcf = $plugin_cf['dlcounter'];
-
-        $fn = $pth['folder']['base'] . $pcf['folder_downloads'] . basename($fn);
+        $fn = $this->domain->downloadFolder() . basename($fn);
         if (is_readable($fn)) {
             try {
-                $this->log($fn);
+                if (!$adm) {
+                    $this->domain->log($fn);
+                }
                 $this->deliverDownload($fn);
             } catch (Dlcounter_Exception $ex) {
                 $o .= $this->renderMessage('fail', $ex->getMessage());
@@ -139,19 +100,15 @@ class Dlcounter
      * @return string (X)HTML.
      *
      * @global string The URL of the current page.
-     * @global array  The paths of system files and folders.
-     * @global array  The configuration of the plugins.
      * @global array  The localization of the plugins.
      *
      * @todo Replace <input type=image> with <button>.
      */
     public function main($fn)
     {
-        global $su, $pth, $plugin_cf, $plugin_tx;
+        global $su, $plugin_tx;
 
-        $pcf = $plugin_cf['dlcounter'];
-
-        $ffn = $pth['folder']['base'] . $pcf['folder_downloads'] . $fn;
+        $ffn = $this->domain->downloadFolder() . $fn;
         if (!is_readable($ffn)) {
             return $this->renderMessage(
                 'fail', sprintf('Can\'t read file "%s"!', $ffn)
@@ -161,8 +118,8 @@ class Dlcounter
         return '<form class="dlcounter" action="?' . $su . '" method="GET">'
             . tag('input type="hidden" name="dlcounter" value="' . $fn . '"')
             . tag(
-                'input type="image" src="' . $pth['folder']['plugins']
-                . 'dlcounter/images/download-button.png"'
+                'input type="image" src="' . $this->domain->imageFolder()
+                . 'download-button.png"'
                 . ' alt="' . $plugin_tx['dlcounter']['label_download'] . '"'
                 . ' title="' . $fn . ' &ndash; ' . $size . '"'
             )
@@ -204,28 +161,6 @@ class Dlcounter
     }
 
     /**
-     * Returns the content of the downloads database.
-     *
-     * @return array
-     *
-     * @global array The paths of system files and folders.
-     */
-    protected function readDb()
-    {
-        global $pth;
-
-        $data = array();
-        $fn = $this->dataFolder() . 'downloads.dat';
-        $lines = is_readable($fn) ? file($fn) : false;
-        if ($lines !== false) {
-            foreach ($lines as $line) {
-                $data[] = explode("\t", rtrim($line));
-            }
-        }
-        return $data;
-    }
-
-    /**
      * Outputs the JS to initialize the tablesorter to <head>.
      *
      * @return void
@@ -237,7 +172,7 @@ class Dlcounter
     {
         global $pth, $hjs;
 
-        include_once $pth['folder']['plugins'] . 'jquery/jquery.inc.php';
+        Dlcounter_includeJQuery();
         include_jQuery();
         include_jQueryPlugin(
             'tablesorter',
@@ -259,17 +194,13 @@ SCRIPT;
      * Returns the plugin information view.
      *
      * @return string (X)HTML.
-     *
-     * @global array The paths of system files and folders.
      */
     public function version()
     {
-        global $pth;
-
         return '<h1>Dlcounter_XH</h1>'
             . tag(
                 'img class="dlcounter_plugin_icon" src="'
-                . $pth['folder']['plugins'] . 'dlcounter/dlcounter.png" width="128"'
+                . $this->domain->logoPath() . '" width="128"'
                 . ' height="128" alt="Plugin Icon"'
             )
             . '<p>Version: ' . DLCOUNTER_VERSION . '</p>'
@@ -320,7 +251,7 @@ EOT;
         $ptx = $plugin_tx['dlcounter'];
         $result = "<h4>$ptx[syscheck_title]</h4>"
             . '<ul class="pdeditor_system_check">';
-        foreach ($this->systemChecks() as $check => $state) {
+        foreach ($this->domain->systemChecks() as $check => $state) {
             $result .= $this->renderSystemCheckItem($check, $state);
         }
         $result .= '</ul>';
@@ -334,59 +265,13 @@ EOT;
      * @param string $state A state.
      *
      * @return string XHTML.
-     *
-     * @global array The paths of system files and folders.
      */
     protected function renderSystemCheckItem($check, $state)
     {
-        global $pth;
-
-        $imageFolder = $pth['folder']['plugins'] . 'dlcounter/images/';
+        $src = $this->domain->imageFolder() . $state . '.png';
         return '<li>'
-            . tag("img src=\"$imageFolder$state.png\" alt=\"$state\"")
-            . " $check"
+            . tag("img src=\"$src\" alt=\"$state\"") . " $check"
             . '</li>';
-    }
-
-    /**
-     * Returns the system checks as map<string, status>.
-     *
-     * @return array
-     *
-     * @global array The paths of system files and folders.
-     * @global array The localization of the core.
-     * @global array The localization of the plugins.
-     */
-    protected function systemChecks()
-    {
-        global $pth, $tx, $plugin_tx;
-
-        $ptx = $plugin_tx['dlcounter'];
-        $phpVersion = '4.2.0';
-        $result = array();
-        $result[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
-            = version_compare(PHP_VERSION, $phpVersion) >= 0
-                ? 'ok' : 'fail';
-        foreach (array('date') as $ext) {
-            $result[sprintf($ptx['syscheck_extension'], $ext)]
-                = extension_loaded($ext) ? 'ok' : 'fail';
-        }
-        $result[$ptx['syscheck_encoding']]
-            = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
-        $result[$ptx['syscheck_magic_quotes']]
-            = !get_magic_quotes_runtime() ? 'ok' : 'warn';
-        $result[$ptx['syscheck_jquery']]
-            = file_exists($pth['folder']['plugins'] . 'jquery/jquery.inc.php')
-                ? 'ok' : 'fail';
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'dlcounter/' . $folder;
-        }
-        $folders[] = $this->dataFolder();
-        foreach ($folders as $folder) {
-            $result[sprintf($ptx['syscheck_writable'], $folder)]
-                = is_writable($folder) ? 'ok' : 'warn';
-        }
-        return $result;
     }
 
     /**
@@ -402,7 +287,7 @@ EOT;
 
         $ptx = $plugin_tx['dlcounter'];
         $this->hjs();
-        $data = $this->readDb();
+        $data = $this->domain->readDb();
         $totals = array_count_values(
             array_map(create_function('$elt', 'return $elt[1];'), $data)
         );
@@ -524,6 +409,176 @@ EOT;
     {
         return '<tr><td>' . date('Y-m-d H:i:s', $timestamp) . '</td>'
             . '<td>' . $filename . '</td></tr>';
+    }
+}
+
+/**
+ * The domain model.
+ *
+ * @category CMSimple_XH
+ * @package  Dlcounter
+ * @author   Christoph M. Becker <cmbecker69@gmx.de>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ */
+class Dlcounter_Domain
+{
+    /**
+     * Returns the path of the data folder.
+     *
+     * @return string
+     *
+     * @global array The path of system files and folders.
+     * @global array The configuration of the plugins.
+     */
+    protected function dataFolder()
+    {
+        global $pth, $plugin_cf;
+
+        $pcf = $plugin_cf['dlcounter'];
+        if (trim($pcf['folder_data']) == '') {
+            $fn = $pth['folder']['plugins'] . 'dlcounter/data/';
+        } else {
+            $fn = $pth['folder']['base'] . $pcf['folder_data'];
+            if ($fn{strlen($fn) - 1} != '/') {
+                $fn .= '/';
+            }
+        }
+        return $fn;
+    }
+
+    /**
+     * Returns the path of the download folder.
+     *
+     * @return string
+     *
+     * @global array The paths of system files and folders.
+     * @global array The configuration of the plugins.
+     */
+    public function downloadFolder()
+    {
+        global $pth, $plugin_cf;
+
+        return $pth['folder']['base']
+            . $plugin_cf['dlcounter']['folder_downloads'];
+    }
+
+    /**
+     * Returns the path of the image folder.
+     *
+     * @return string
+     *
+     * @global array The paths of system files and folders.
+     */
+    public function imageFolder()
+    {
+        global $pth;
+
+        return $pth['folder']['plugins'] . 'dlcounter/images/';
+    }
+
+    /**
+     * Returns the path of the plugin logo.
+     *
+     * @return string
+     *
+     * @global array The paths of system files and folders.
+     */
+    public function logoPath()
+    {
+        global $pth;
+
+        return $pth['folder']['plugins'] . 'dlcounter/dlcounter.png';
+    }
+
+    /**
+     * Returns the content of the downloads database.
+     *
+     * @return array
+     *
+     * @global array The paths of system files and folders.
+     */
+    public function readDb()
+    {
+        global $pth;
+
+        $data = array();
+        $fn = $this->dataFolder() . 'downloads.dat';
+        $lines = is_readable($fn) ? file($fn) : false;
+        if ($lines !== false) {
+            foreach ($lines as $line) {
+                $data[] = explode("\t", rtrim($line));
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * Appends a log entry for the download.
+     *
+     * @param string $file A filename.
+     *
+     * @return void
+     *
+     * @throws Dlcounter_WriteException
+     */
+    public function log($file)
+    {
+        $rec = time() . "\t" . basename($file) . "\n";
+        $fn = $this->dataFolder() . 'downloads.dat';
+        if (is_dir(dirname($fn))
+            && ($fh = fopen($fn, 'a')) !== false
+            && fwrite($fh, $rec) !== false
+        ) {
+        } else {
+            throw new Dlcounter_WriteException(
+                sprintf('Can\'t write to "%s"', $fn)
+            );
+        }
+        if (!empty($fh)) {
+            fclose($fh);
+        }
+    }
+
+    /**
+     * Returns the system checks as map<string, status>.
+     *
+     * @return array
+     *
+     * @global array The paths of system files and folders.
+     * @global array The localization of the core.
+     * @global array The localization of the plugins.
+     */
+    public function systemChecks()
+    {
+        global $pth, $tx, $plugin_tx;
+
+        $ptx = $plugin_tx['dlcounter'];
+        $phpVersion = '4.2.0';
+        $result = array();
+        $result[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
+            = version_compare(PHP_VERSION, $phpVersion) >= 0
+                ? 'ok' : 'fail';
+        foreach (array('date') as $ext) {
+            $result[sprintf($ptx['syscheck_extension'], $ext)]
+                = extension_loaded($ext) ? 'ok' : 'fail';
+        }
+        $result[$ptx['syscheck_encoding']]
+            = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
+        $result[$ptx['syscheck_magic_quotes']]
+            = !get_magic_quotes_runtime() ? 'ok' : 'warn';
+        $result[$ptx['syscheck_jquery']]
+            = file_exists($pth['folder']['plugins'] . 'jquery/jquery.inc.php')
+                ? 'ok' : 'fail';
+        foreach (array('config/', 'css/', 'languages/') as $folder) {
+            $folders[] = $pth['folder']['plugins'] . 'dlcounter/' . $folder;
+        }
+        $folders[] = $this->dataFolder();
+        foreach ($folders as $folder) {
+            $result[sprintf($ptx['syscheck_writable'], $folder)]
+                = is_writable($folder) ? 'ok' : 'warn';
+        }
+        return $result;
     }
 }
 
