@@ -9,8 +9,6 @@ class ExitException extends Exception {}
 
 class NotFoundException extends Exception {}
 
-class EException extends Exception {}
-
 function shead($string)
 {
     throw new NotFoundException();
@@ -28,11 +26,6 @@ function include_jQueryPlugin($name, $filename) {}
 function Dlcounter_exit()
 {
     throw new ExitException();
-}
-
-function e()
-{
-    throw new EException();
 }
 
 runkit_function_redefine('header', '$string', '');
@@ -105,16 +98,12 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $this->_subject->main($this->_downloadFile));
     }
 
-    /**
-     * @expectedException EException
-     */
     public function testMainWithoutDownloadFile()
     {
         $matcher = array(
-            'tag' => 'form',
+            'tag' => 'p',
             'attributes' => array(
-                'class' => 'dlcounter',
-                'method' => 'GET'
+                'class' => 'cmsimplecore_warning'
             )
         );
         $this->assertTag($matcher, $this->_subject->main($this->_downloadFile));
@@ -148,6 +137,16 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
     {
         $this->setUpGlobals();
         $this->setUpDataFile();
+        $matcher = array(
+            'tag' => 'div',
+            'id' => 'dlcounter_stats'
+        );
+        $this->assertTag($matcher, $this->_subject->adminMain());
+    }
+
+    public function testAdminMainWhereDataFileCantBeRead()
+    {
+        $this->setUpGlobals();
         $matcher = array(
             'tag' => 'div',
             'id' => 'dlcounter_stats'
@@ -218,15 +217,20 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->expectOutputString('foobar');
     }
 
-    /**
-     * @expectedException ExitException
-     */
-    public function testDownloadWithoutDataFolder()
+    public function testDownloadWhereDataFileCantBeWritten()
     {
+        global $o;
+
+        $o = '';
         $this->setUpGlobals();
         $this->setUpDownloadFile();
+        mkdir(vfsStream::url('test/dlcounter/data/downloads.dat'), 0777, true);
         $this->_subject->download($this->_downloadFile);
-        $this->expectOutputString('foobar');
+        $matcher = array(
+            'tag' => 'p',
+            'attributes' => array('class' => 'cmsimplecore_warning')
+        );
+        $this->assertTag($matcher, $o);
     }
 
     /**

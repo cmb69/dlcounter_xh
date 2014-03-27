@@ -38,7 +38,7 @@ class Dlcounter
         global $pth, $plugin_cf;
 
         $pcf = $plugin_cf['dlcounter'];
-        if (empty($pcf['folder_data'])) {
+        if (trim($pcf['folder_data']) == '') {
             $fn = $pth['folder']['plugins'] . 'dlcounter/data/';
         } else {
             $fn = $pth['folder']['base'] . $pcf['folder_data'];
@@ -46,18 +46,17 @@ class Dlcounter
                 $fn .= '/';
             }
         }
-        if (!file_exists($fn) && !mkdir($fn, 0777, true)) {
-            e('cntsave', 'folder', $fn);
-        }
         return $fn;
     }
 
     /**
-     * Returns whether a log entry for the download was appended.
+     * Appends a log entry for the download.
      *
      * @param string $file A filename.
      *
-     * @return bool
+     * @return void
+     *
+     * @throws Dlcounter_WriteException
      *
      * @global bool Whether we're in admin mode.
      */
@@ -67,16 +66,18 @@ class Dlcounter
 
         $rec = $adm ? '' : time() . "\t" . basename($file) . "\n";
         $fn = $this->dataFolder() . 'downloads.dat';
-        if (($fh = fopen($fn, 'a')) !== false && fwrite($fh, $rec) !== false) {
-            $ok = true;
+        if (!is_dir($fn)
+            && ($fh = fopen($fn, 'a')) !== false
+            && fwrite($fh, $rec) !== false
+        ) {
         } else {
-            $ok = false;
-            e('cntwriteto', 'file', $fn);
+            throw new Dlcounter_WriteException(
+                sprintf('Can\'t write to "%s"', $fn)
+            );
         }
-        if ($fh !== false) {
+        if (!empty($fh)) {
             fclose($fh);
         }
-        return $ok;
     }
 
     /**
@@ -86,19 +87,23 @@ class Dlcounter
      *
      * @return void
      *
-     * @global array The paths of system files and folders.
-     * @global array The configuration of the plugins.
+     * @global string The (X)HTML for the contents area.
+     * @global array  The paths of system files and folders.
+     * @global array  The configuration of the plugins.
      */
     public function download($fn)
     {
-        global $pth, $plugin_cf;
+        global $o, $pth, $plugin_cf;
 
         $pcf = $plugin_cf['dlcounter'];
 
         $fn = $pth['folder']['base'] . $pcf['folder_downloads'] . basename($fn);
         if (is_readable($fn)) {
-            if ($this->log($fn)) {
+            try {
+                $this->log($fn);
                 $this->deliverDownload($fn);
+            } catch (Dlcounter_Exception $ex) {
+                $o .= $this->renderMessage('fail', $ex->getMessage());
             }
         } else {
             shead('404');
@@ -137,6 +142,8 @@ class Dlcounter
      * @global array  The paths of system files and folders.
      * @global array  The configuration of the plugins.
      * @global array  The localization of the plugins.
+     *
+     * @todo Replace <input type=image> with <button>.
      */
     public function main($fn)
     {
@@ -146,8 +153,9 @@ class Dlcounter
 
         $ffn = $pth['folder']['base'] . $pcf['folder_downloads'] . $fn;
         if (!is_readable($ffn)) {
-            e('notreadable', 'file', $ffn);
-            return false;
+            return $this->renderMessage(
+                'fail', sprintf('Can\'t read file "%s"!', $ffn)
+            );
         }
         $size = $this->renderSize(filesize($ffn));
         return '<form class="dlcounter" action="?' . $su . '" method="GET">'
@@ -159,6 +167,26 @@ class Dlcounter
                 . ' title="' . $fn . ' &ndash; ' . $size . '"'
             )
             . '</form>';
+    }
+
+    /**
+     * Renders a message.
+     *
+     * @param string $type    A type ('success', 'info', 'warning' or 'fail').
+     * @param string $message A message.
+     *
+     * @return string (X)HTML.
+     */
+    protected function renderMessage($type, $message)
+    {
+        if (function_exists('XH_message')) {
+            return XH_message($type, $message);
+        } else {
+            $class = in_array($type, array('warning', 'fail'))
+                ? 'cmsimplecore_warning'
+                : '';
+            return '<p class="' . $class . '">' . $message . '</p>';
+        }
     }
 
     /**
@@ -188,13 +216,11 @@ class Dlcounter
 
         $data = array();
         $fn = $this->dataFolder() . 'downloads.dat';
-        $lines = file($fn);
+        $lines = is_readable($fn) ? file($fn) : false;
         if ($lines !== false) {
             foreach ($lines as $line) {
                 $data[] = explode("\t", rtrim($line));
             }
-        } else {
-            e('cntopen', 'file', $fn);
         }
         return $data;
     }
@@ -499,6 +525,34 @@ EOT;
         return '<tr><td>' . date('Y-m-d H:i:s', $timestamp) . '</td>'
             . '<td>' . $filename . '</td></tr>';
     }
+}
+
+/**
+ * The base class of all plugin exceptions.
+ *
+ * @category CMSimple_XH
+ * @package  Dlcounter
+ * @author   Christoph M. Becker <cmbecker69@gmx.de>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ */
+class Dlcounter_Exception extends Exception
+{
+    // pass
+}
+
+/**
+ * Exceptions where data sources can't be written.
+ *
+ * @category CMSimple_XH
+ * @package  Dlcounter
+ * @author   Christoph M. Becker <cmbecker69@gmx.de>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ */
+class Dlcounter_WriteException extends Dlcounter_Exception
+{
+    // pass
 }
 
 ?>
