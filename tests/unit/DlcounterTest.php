@@ -5,7 +5,16 @@ require_once './classes/Dlcounter.php';
 
 const DLCOUNTER_VERSION = 'foobar';
 
-function shead($string) {}
+class ExitException extends Exception {}
+
+class NotFoundException extends Exception {}
+
+class EException extends Exception {}
+
+function shead($string)
+{
+    throw new NotFoundException();
+}
 
 function tag($string)
 {
@@ -16,13 +25,23 @@ function include_jQuery() {}
 
 function include_jQueryPlugin($name, $filename) {}
 
-function Dlcounter_exit() {}
+function Dlcounter_exit()
+{
+    throw new ExitException();
+}
+
+function e()
+{
+    throw new EException();
+}
 
 runkit_function_redefine('header', '$string', '');
 
 class DlcounterTest extends PHPUnit_Framework_TestCase
 {
     private $_subject;
+
+    private $_downloadFile;
 
     public function setUp()
     {
@@ -44,71 +63,11 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $filename = vfsStream::url('test/dlcounter/data/');
         mkdir($filename, 0777, true);
         $filename .= 'downloads.dat';
-        file_put_contents($filename, "12345\tfoo\n");
+        $contents = "111\tfoo\n222\tbar\n333\tfoo";
+        file_put_contents($filename, $contents);
     }
 
-    public function testMain()
-    {
-        $matcher = array(
-            'tag' => 'form'
-        );
-        $filename = vfsStream::url('test/test.txt');
-        file_put_contents($filename, 'foobar');
-        $this->assertTag($matcher, $this->_subject->main($filename));
-    }
-
-    public function testVersion()
-    {
-        $matcher = array(
-            'tag' => 'h1',
-            'content' => 'Dlcounter_XH'
-        );
-        $this->assertTag($matcher, $this->_subject->version());
-    }
-
-    public function testSystemCheck()
-    {
-        global $pth;
-
-        $this->setUpDataFile();
-        $pth = array('folder' => array('plugins' => vfsStream::url('test/')));
-        $matcher = array(
-            'tag' => 'h4'
-        );
-        $this->assertTag($matcher, $this->_subject->renderSystemCheck());
-    }
-
-    public function testAdminMain()
-    {
-        global $pth;
-
-        $matcher = array(
-            'tag' => 'div',
-            'id' => 'dlcounter_stats'
-        );
-        $this->setUpDataFile();
-        $pth = array('folder' => array('plugins' => vfsStream::url('test/')));
-        $this->assertTag($matcher, $this->_subject->adminMain());
-    }
-
-    public function testDownload()
-    {
-        global $pth;
-
-        $pth = array(
-            'folder' => array(
-                'base' => vfsStream::url('test/'),
-                'plugins' => vfsStream::url('test/')
-            )
-        );
-        $this->setUpDataFile();
-        $filename = vfsStream::url('test/test.txt');
-        file_put_contents($filename, 'foobar');
-        $this->_subject->download($filename);
-        $this->expectOutputString('foobar');
-    }
-
-    public function testMainWithCustomDataFolder()
+    protected function setUpGlobals()
     {
         global $pth, $plugin_cf;
 
@@ -124,23 +83,158 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'plugins' => vfsStream::url('test/')
             )
         );
+    }
+
+    protected function setUpDownloadFile()
+    {
+        $this->_downloadFile = vfsStream::url('test/test.txt');
+        file_put_contents($this->_downloadFile, 'foobar');
+
+    }
+
+    public function testMain()
+    {
+        $this->setUpDownloadFile();
+        $matcher = array(
+            'tag' => 'form',
+            'attributes' => array(
+                'class' => 'dlcounter',
+                'method' => 'GET'
+            )
+        );
+        $this->assertTag($matcher, $this->_subject->main($this->_downloadFile));
+    }
+
+    /**
+     * @expectedException EException
+     */
+    public function testMainWithoutDownloadFile()
+    {
+        $matcher = array(
+            'tag' => 'form',
+            'attributes' => array(
+                'class' => 'dlcounter',
+                'method' => 'GET'
+            )
+        );
+        $this->assertTag($matcher, $this->_subject->main($this->_downloadFile));
+    }
+
+    public function testVersion()
+    {
+        $matcher = array(
+            'tag' => 'h1',
+            'content' => 'Dlcounter_XH'
+        );
+        $this->assertTag($matcher, $this->_subject->version());
+        $matcher = array(
+            'tag' => 'p',
+            'content' => DLCOUNTER_VERSION
+        );
+        $this->assertTag($matcher, $this->_subject->version());
+    }
+
+    public function testSystemCheck()
+    {
+        $this->setUpGlobals();
         $this->setUpDataFile();
-        $filename = vfsStream::url('test/test.txt');
-        file_put_contents($filename, 'foobar');
-        $this->_subject->download($filename);
+        $matcher = array(
+            'tag' => 'h4'
+        );
+        $this->assertTag($matcher, $this->_subject->renderSystemCheck());
+    }
+
+    public function testAdminMain()
+    {
+        $this->setUpGlobals();
+        $this->setUpDataFile();
+        $matcher = array(
+            'tag' => 'div',
+            'id' => 'dlcounter_stats'
+        );
+        $this->assertTag($matcher, $this->_subject->adminMain());
+    }
+
+    public function testAdminMainHasSummaryTable()
+    {
+        $this->setUpGlobals();
+        $this->setUpDataFile();
+        $matcher = array(
+            'tag' => 'tbody',
+            'ancestor' => array(
+                'tag' => 'table',
+                'id' => 'dlcounter_summary_table'
+            ),
+            'children' => array(
+                'count' => 2,
+                'only' => array('tag' => 'tr')
+            )
+        );
+        $this->assertTag($matcher, $this->_subject->adminMain());
+    }
+
+    public function testAdminMainHasDetailsTable()
+    {
+        $this->setUpGlobals();
+        $this->setUpDataFile();
+        $matcher = array(
+            'tag' => 'tbody',
+            'ancestor' => array(
+                'tag' => 'table',
+                'id' => 'dlcounter_details_table'
+            ),
+            'children' => array(
+                'count' => 3,
+                'only' => array('tag' => 'tr')
+            )
+        );
+        $this->assertTag($matcher, $this->_subject->adminMain());
+    }
+
+    /**
+     * @expectedException ExitException
+     */
+    public function testDownload()
+    {
+        $this->setUpGlobals();
+        $this->setUpDataFile();
+        $this->setUpDownloadFile();
+        $this->_subject->download($this->_downloadFile);
         $this->expectOutputString('foobar');
     }
 
-    public function testDownloadFailure()
+    /**
+     * @expectedException ExitException
+     */
+    public function testDownloadWithDefaultDataFolder()
     {
-        global $pth;
+        global $plugin_cf;
 
-        $pth = array(
-            'folder' => array(
-                'base' => vfsStream::url('test/'),
-                'plugins' => vfsStream::url('test/')
-            )
-        );
+        $this->setUpGlobals();
+        $this->setUpDataFile();
+        $this->setUpDownloadFile();
+        $plugin_cf['dlcounter']['folder_data'] = '';
+        $this->_subject->download($this->_downloadFile);
+        $this->expectOutputString('foobar');
+    }
+
+    /**
+     * @expectedException ExitException
+     */
+    public function testDownloadWithoutDataFolder()
+    {
+        $this->setUpGlobals();
+        $this->setUpDownloadFile();
+        $this->_subject->download($this->_downloadFile);
+        $this->expectOutputString('foobar');
+    }
+
+    /**
+     * @expectedException NotFoundException
+     */
+    public function testDownloadNotFound()
+    {
+        $this->setUpGlobals();
         $this->setUpDataFile();
         $filename = vfsStream::url('foo');
         $this->_subject->download($filename);

@@ -46,14 +46,8 @@ class Dlcounter
                 $fn .= '/';
             }
         }
-        if (file_exists($fn)) {
-            if (!is_dir($fn)) {
-                e('cntopen', 'folder', $fn);
-            }
-        } else {
-            if (!mkdir($fn, 0777)) {
-                e('cntsave', 'folder', $fn);
-            }
+        if (!file_exists($fn) && !mkdir($fn, 0777, true)) {
+            e('cntsave', 'folder', $fn);
         }
         return $fn;
     }
@@ -409,7 +403,7 @@ EOT;
         $ptx = $plugin_tx['dlcounter'];
         $o = '<h4 onclick="jQuery(this).next().toggle()">' . $ptx['label_totals']
             . '</h4>'
-            . '<table class="tablesorter">'
+            . '<table id="dlcounter_summary_table" class="tablesorter">'
             . $this->renderSummaryTableHead()
             . '<tbody>';
         foreach ($totals as $file => $count) {
@@ -465,7 +459,7 @@ EOT;
         $ptx = $plugin_tx['dlcounter'];
         $o = '<h4 onclick="jQuery(this).next().toggle()">'
             . $ptx['label_individual'] . '</h4>'
-            . '<table class="tablesorter">'
+            . '<table id="dlcounter_details_table" class="tablesorter">'
             . $this->renderDetailsTableHead()
             . '<tbody>';
         foreach ($data as $rec) {
