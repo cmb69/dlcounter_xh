@@ -5,6 +5,8 @@ require_once './classes/Dlcounter.php';
 
 const DLCOUNTER_VERSION = 'foobar';
 
+function shead($string) {}
+
 function tag($string)
 {
     return $string;
@@ -13,6 +15,10 @@ function tag($string)
 function include_jQuery() {}
 
 function include_jQueryPlugin($name, $filename) {}
+
+function Dlcounter_exit() {}
+
+runkit_function_redefine('header', '$string', '');
 
 class DlcounterTest extends PHPUnit_Framework_TestCase
 {
@@ -46,7 +52,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $matcher = array(
             'tag' => 'form'
         );
-        $filename = vfsStream::url('test/') . '/test.txt';
+        $filename = vfsStream::url('test/test.txt');
         file_put_contents($filename, 'foobar');
         $this->assertTag($matcher, $this->_subject->main($filename));
     }
@@ -60,6 +66,18 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $this->_subject->version());
     }
 
+    public function testSystemCheck()
+    {
+        global $pth;
+
+        $this->setUpDataFile();
+        $pth = array('folder' => array('plugins' => vfsStream::url('test/')));
+        $matcher = array(
+            'tag' => 'h4'
+        );
+        $this->assertTag($matcher, $this->_subject->renderSystemCheck());
+    }
+
     public function testAdminMain()
     {
         global $pth;
@@ -71,6 +89,61 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->setUpDataFile();
         $pth = array('folder' => array('plugins' => vfsStream::url('test/')));
         $this->assertTag($matcher, $this->_subject->adminMain());
+    }
+
+    public function testDownload()
+    {
+        global $pth;
+
+        $pth = array(
+            'folder' => array(
+                'base' => vfsStream::url('test/'),
+                'plugins' => vfsStream::url('test/')
+            )
+        );
+        $this->setUpDataFile();
+        $filename = vfsStream::url('test/test.txt');
+        file_put_contents($filename, 'foobar');
+        $this->_subject->download($filename);
+        $this->expectOutputString('foobar');
+    }
+
+    public function testMainWithCustomDataFolder()
+    {
+        global $pth, $plugin_cf;
+
+        $plugin_cf = array(
+            'dlcounter' => array(
+                'folder_data' => 'dlcounter/data',
+                'folder_downloads' => ''
+            )
+        );
+        $pth = array(
+            'folder' => array(
+                'base' => vfsStream::url('test/'),
+                'plugins' => vfsStream::url('test/')
+            )
+        );
+        $this->setUpDataFile();
+        $filename = vfsStream::url('test/test.txt');
+        file_put_contents($filename, 'foobar');
+        $this->_subject->download($filename);
+        $this->expectOutputString('foobar');
+    }
+
+    public function testDownloadFailure()
+    {
+        global $pth;
+
+        $pth = array(
+            'folder' => array(
+                'base' => vfsStream::url('test/'),
+                'plugins' => vfsStream::url('test/')
+            )
+        );
+        $this->setUpDataFile();
+        $filename = vfsStream::url('foo');
+        $this->_subject->download($filename);
     }
 }
 

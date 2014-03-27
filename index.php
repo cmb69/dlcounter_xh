@@ -42,15 +42,30 @@ $_Dlcounter = new Dlcounter();
 /**
  * Returns the download form view.
  *
- * @param string $fn A filename.
+ * @param string $filename A filename.
  *
  * @return string (X)HTML.
+ *
+ * @global Dlcounter The plugin object.
  */
-function dlcounter($fn)
+function dlcounter($filename)
 {
     global $_Dlcounter;
 
-    return $_Dlcounter->main($fn);
+    return $_Dlcounter->main($filename);
+}
+
+/**
+ * Exits the script.
+ *
+ * We can't call exit directly, because that breaks unit tests,
+ * so we use this workaround.
+ *
+ * @return void
+ */
+function Dlcounter_exit()
+{
+    exit;
 }
 
 /*
