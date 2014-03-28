@@ -65,6 +65,9 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
             'attributes' => array(
                 'class' => 'dlcounter',
                 'method' => 'post'
+            ),
+            'child' => array(
+                'tag' => 'button'
             )
         );
         $this->assertTag($matcher, $this->_subject->main('version.nfo'));

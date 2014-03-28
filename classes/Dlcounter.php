@@ -117,12 +117,13 @@ class Dlcounter
         $size = $this->renderSize(filesize($ffn));
         return '<form class="dlcounter" action="?' . $su . '" method="post">'
             . tag('input type="hidden" name="dlcounter" value="' . $fn . '"')
+            . '<button>'
             . tag(
-                'input type="image" src="' . $this->domain->imageFolder()
-                . 'download-button.png"'
+                'img src="' . $this->domain->imageFolder() . 'download-button.png"'
                 . ' alt="' . $plugin_tx['dlcounter']['label_download'] . '"'
                 . ' title="' . $fn . ' &ndash; ' . $size . '"'
             )
+            . '</button>'
             . '</form>';
     }
 

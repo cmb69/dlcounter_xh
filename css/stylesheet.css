@@ -1,10 +1,20 @@
-/* download form */
- 
-form.dlcounter {
+/*
+ * download form
+ */
+
+.dlcounter {
     text-align: center;
 }
 
-/* statistics */
+.dlcounter button {
+    padding: 0;
+    border: none;
+    margin: 0;
+}
+
+/*
+ * statistics
+ */
 
 #dlcounter_stats {}
 
@@ -15,7 +25,6 @@ form.dlcounter {
     padding: 3px;
 }
 
-/* tables */
 #dlcounter_stats table.tablesorter {
     font-family:arial;
     background-color: #CDCDCD;
@@ -63,7 +72,9 @@ form.dlcounter {
     background-color: #8dbdd8;
 }
 
-/* plugin info */
+/*
+ * plugin info
+ */
 
 img.dlcounter_plugin_icon {float: left; margin: 0}
 p.dlcounter_license {clear: both; text-align: justify}
