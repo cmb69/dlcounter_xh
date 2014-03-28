@@ -538,12 +538,12 @@ class Dlcounter_Domain
         global $pth, $tx, $plugin_tx;
 
         $ptx = $plugin_tx['dlcounter'];
-        $phpVersion = '4.2.0';
+        $phpVersion = '5.1.0';
         $result = array();
         $result[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
             = version_compare(PHP_VERSION, $phpVersion) >= 0
                 ? 'ok' : 'fail';
-        foreach (array('date') as $ext) {
+        foreach (array() as $ext) {
             $result[sprintf($ptx['syscheck_extension'], $ext)]
                 = extension_loaded($ext) ? 'ok' : 'fail';
         }
