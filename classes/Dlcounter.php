@@ -56,7 +56,7 @@ class Dlcounter
     {
         global $su, $plugin_tx;
 
-        $filename = $this->domain->downloadFolder() . $basename;
+        $filename = $this->domain->downloadFolder() . basename($basename);
         if (!is_readable($filename)) {
             return $this->renderMessage(
                 'fail', sprintf('Can\'t read file "%s"!', $filename)

@@ -90,6 +90,23 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRenderDownloadFormWithDownloadFileInSubfolder()
+    {
+        $this->model->expects($this->once())
+            ->method('downloadFolder')
+            ->will($this->returnValue('./'));
+        $matcher = array(
+            'tag' => 'p',
+            'attributes' => array(
+                'class' => 'cmsimplecore_warning'
+            )
+        );
+        $this->assertTag(
+            $matcher,
+            $this->subject->renderDownloadForm('languages/en.php')
+        );
+    }
+
     /**
      * @expectedException ExitException
      */
