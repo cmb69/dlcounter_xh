@@ -13,6 +13,5 @@
 * i18n of Exceptions
 * test tablesorter with Migrate plugin
 * translate manual to German
-* replace version number with build script
 * fix download URL / don't show Not found + any page
 * add German localization

@@ -30,7 +30,7 @@ require_once $pth['folder']['plugin_classes'] . 'Dlcounter.php';
 /**
  * The plugin version.
  */
-define('DLCOUNTER_VERSION', '1alpha1');
+define('DLCOUNTER_VERSION', '@DLCOUNTER_VERSION@');
 
 /**
  * The plugin object.
