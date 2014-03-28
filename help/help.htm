@@ -80,14 +80,18 @@ strings to your own language, or customize them according to your needs.</p>
 
 <h2 id="usage">Usage</h2>
 <p>All downloads that shall be counted have to placed directly in the configured
-downloads folder. To display the download form for the file download.pdf on a
-page, enter:</p>
+downloads folder (see Config&rarr;Folder&rarr;Downloads). To display the
+download form for the file download.pdf on a page, enter:</p>
 <pre>{{{PLUGIN:dlcounter('download.pdf');}}}</pre>
 <p>You can safely check if the download works as expected, by triggering it
 when you are logged in as administrator; these downloads will not be counted. If
 you like to use another PNG image for the download button, you can exchange
 the default one in the plugin's images/ folder. There are aleady some
 alternatives with different color schemes.</p>
+<p>To prohibit direct downloading of the files (somebody may be able to guess a
+file's URL), you have to protect the configured download folder by any means
+your server provides (for Apache servers you can use a copy of
+data/.htaccess).</p>
 <p>To view the download statistics just switch to
 Plugins&rarr;Dlcounter&rarr;Statistics. You can sort the tables by clicking on
 the respective column heading.</p>
