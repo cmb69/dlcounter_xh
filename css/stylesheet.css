@@ -63,10 +63,17 @@
 /*
  * plugin info
  */
+.dlcounter_system_check {
+    list-style: none;
+    padding-left: 0;
+}
+.dlcounter_system_check img {
+    padding-right: 0.5em;
+}
 .dlcounter_plugin_icon {
     float: left;
-    margin: 0;
+    margin: 0.5em 0.5em 0 0;
 }
-p.dlcounter_license {
+.dlcounter_license {
     text-align: justify;
 }

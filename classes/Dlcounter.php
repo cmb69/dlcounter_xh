@@ -138,57 +138,34 @@ class Dlcounter
      * Renders the plugin info.
      *
      * @return string (X)HTML.
+     *
+     * @global array The localization of the plugins.
      */
     public function renderPluginInfo()
     {
-        return $this->renderVersion() . tag('hr') . $this->renderSystemCheck();
+        global $plugin_tx;
+
+        $ptx = $plugin_tx['dlcounter'];
+        return '<h1>Dlcounter &ndash; ' . $ptx['info_title'] . '</h1>'
+            . $this->renderSynopsis()
+            . $this->renderSystemCheck()
+            . $this->renderVersion();
     }
 
     /**
-     * Renders the plugin version.
+     * Renders the plugin synopsis.
      *
      * @return string (X)HTML.
+     *
+     * @global array The localization of the plugins.
      */
-    protected function renderVersion()
+    protected function renderSynopsis()
     {
-        return '<h1>Dlcounter_XH</h1>'
-            . tag(
-                'img class="dlcounter_plugin_icon" src="'
-                . $this->domain->logoPath() . '" width="128"'
-                . ' height="128" alt="Plugin Icon"'
-            )
-            . '<p>Version: ' . DLCOUNTER_VERSION . '</p>'
-            . '<p>Copyright &copy; 2012-2014'
-            . ' <a href="http://3-magi.net">Christoph M. Becker</a></p>'
-            . $this->renderLicense();
-    }
+        global $plugin_tx;
 
-    /**
-     * Renders the license text.
-     *
-     * @return string (X)HTML.
-     */
-    protected function renderLicense()
-    {
-        return <<<EOT
-<p class="dlcounter_license">
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-</p>
-<p class="dlcounter_license">
-    This program is distributed in the hope that it will be useful,
-    but <em>without any warranty</em>; without even the implied warranty of
-    <em>merchantability</em> or <em>fitness for a particular purpose</em>.
-    See the GNU General Public License for more details.
-</p>
-<p class="dlcounter_license">
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see
-    <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
-</p>
-EOT;
+        $ptx = $plugin_tx['dlcounter'];
+        return '<h4>' . $ptx['synopsis_title'] . '</h4>'
+            . "<pre>{{{PLUGIN:dlcounter('$ptx[synopsis_filename]');}}}</pre>";
     }
 
     /**
@@ -226,6 +203,58 @@ EOT;
         return '<li>'
             . tag("img src=\"$src\" alt=\"$state\"") . " $check"
             . '</li>';
+    }
+
+    /**
+     * Renders the plugin version.
+     *
+     * @return string (X)HTML.
+     *
+     * @global array The localization of the plugins.
+     */
+    protected function renderVersion()
+    {
+        global $plugin_tx;
+
+        $ptx = $plugin_tx['dlcounter'];
+        return '<h4>' . $ptx['info_about'] . '</h4>'
+            . tag(
+                'img class="dlcounter_plugin_icon" src="'
+                . $this->domain->logoPath() . '" width="128"'
+                . ' height="128" alt="Plugin Icon"'
+            )
+            . '<p>Version: ' . DLCOUNTER_VERSION . '</p>'
+            . '<p>Copyright &copy; 2012-2014'
+            . ' <a href="http://3-magi.net">Christoph M. Becker</a></p>'
+            . $this->renderLicense();
+    }
+
+    /**
+     * Renders the license text.
+     *
+     * @return string (X)HTML.
+     */
+    protected function renderLicense()
+    {
+        return <<<EOT
+<p class="dlcounter_license">
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+</p>
+<p class="dlcounter_license">
+    This program is distributed in the hope that it will be useful,
+    but <em>without any warranty</em>; without even the implied warranty of
+    <em>merchantability</em> or <em>fitness for a particular purpose</em>.
+    See the GNU General Public License for more details.
+</p>
+<p class="dlcounter_license">
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see
+    <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
+</p>
+EOT;
     }
 
     /**

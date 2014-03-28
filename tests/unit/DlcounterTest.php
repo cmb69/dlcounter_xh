@@ -155,18 +155,10 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
 
     public function testRenderPluginInfoHasSystemCheck()
     {
-        global $plugin_tx;
-
-        $plugin_tx['dlcounter']['syscheck_title'] = 'System check';
         $this->model->expects($this->once())
             ->method('systemChecks')
             ->will($this->returnValue(array('foo' => 'bar')));
         $actual = $this->subject->renderPluginInfo();
-        $matcher = array(
-            'tag' => 'h4',
-            'content' => $plugin_tx['dlcounter']['syscheck_title']
-        );
-        $this->assertTag($matcher, $actual);
         $matcher = array(
             'tag' => 'ul',
             'attributes' => array('class' => 'dlcounter_system_check'),
