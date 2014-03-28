@@ -1,11 +1,9 @@
 /*
  * download form
  */
-
 .dlcounter {
     text-align: center;
 }
-
 .dlcounter button {
     padding: 0;
     border: none;
@@ -15,16 +13,13 @@
 /*
  * statistics
  */
-
 #dlcounter_stats {}
-
 #dlcounter_stats h4 {
     color: #3D3D3D;
     background-color: #8dbdd8;
     cursor: pointer;
     padding: 3px;
 }
-
 #dlcounter_stats table.tablesorter {
     font-family:arial;
     background-color: #CDCDCD;
@@ -32,7 +27,6 @@
     width: 100%;
     text-align: left;
 }
-
 #dlcounter_stats table.tablesorter thead tr th,
 #dlcounter_stats table.tablesorter tfoot tr th {
     background-color: #e6EEEE;
@@ -40,33 +34,27 @@
     font-size: 8pt;
     padding: 4px;
 }
-
 #dlcounter_stats table.tablesorter thead tr .header {
     background-image: url(bg.gif);
     background-repeat: no-repeat;
     background-position: center right;
     cursor: pointer;
 }
-
 #dlcounter_stats table.tablesorter tbody td {
     color: #3D3D3D;
     padding: 4px;
     background-color: #FFF;
     vertical-align: top;
 }
-
 #dlcounter_stats table.tablesorter tbody tr.odd td {
     background-color:#F0F0F6;
 }
-
 #dlcounter_stats table.tablesorter thead tr .headerSortUp {
     background-image: url(asc.gif);
 }
-
 #dlcounter_stats table.tablesorter thead tr .headerSortDown {
     background-image: url(desc.gif);
 }
-
 #dlcounter_stats table.tablesorter thead tr .headerSortDown,
 #dlcounter_stats table.tablesorter thead tr .headerSortUp {
     background-color: #8dbdd8;
@@ -75,6 +63,10 @@
 /*
  * plugin info
  */
-
-img.dlcounter_plugin_icon {float: left; margin: 0}
-p.dlcounter_license {clear: both; text-align: justify}
+.dlcounter_plugin_icon {
+    float: left;
+    margin: 0;
+}
+p.dlcounter_license {
+    text-align: justify;
+}

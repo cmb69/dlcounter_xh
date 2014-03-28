@@ -43,26 +43,72 @@ class Dlcounter
     }
 
     /**
+     * Renders the download form.
+     *
+     * @param string $basename A filename.
+     *
+     * @return string (X)HTML.
+     *
+     * @global string The URL of the current page.
+     * @global array  The localization of the plugins.
+     */
+    public function renderDownloadForm($basename)
+    {
+        global $su, $plugin_tx;
+
+        $filename = $this->domain->downloadFolder() . $basename;
+        if (!is_readable($filename)) {
+            return $this->renderMessage(
+                'fail', sprintf('Can\'t read file "%s"!', $filename)
+            );
+        }
+        $size = $this->renderSize(filesize($filename));
+        return '<form class="dlcounter" action="?' . $su . '" method="post">'
+            . tag('input type="hidden" name="dlcounter" value="' . $basename . '"')
+            . '<button>'
+            . tag(
+                'img src="' . $this->domain->imageFolder() . 'download-button.png"'
+                . ' alt="' . $plugin_tx['dlcounter']['label_download'] . '"'
+                . ' title="' . $basename . ' &ndash; ' . $size . '"'
+            )
+            . '</button>'
+            . '</form>';
+    }
+
+    /**
+     * Renders a filesize.
+     *
+     * @param int $filesize A filesize.
+     *
+     * @return string
+     */
+    protected function renderSize($filesize)
+    {
+        $units = array('B', 'KB', 'MB', 'GB');
+        $log = (int) log($filesize, 1024);
+        return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
+    }
+
+    /**
      * Delivers the download.
      *
-     * @param string $fn A filename.
+     * @param string $basename A basename.
      *
      * @return void
      *
-     * @global bool   Whether we're in admin mode.
      * @global string The (X)HTML for the contents area.
      */
-    public function download($fn)
+    public function download($basename)
     {
-        global $adm, $o;
+        global $o;
 
-        $fn = $this->domain->downloadFolder() . basename($fn);
-        if (is_readable($fn)) {
+        $filename = $this->domain->downloadFolder() . basename($basename);
+        if (is_readable($filename)) {
             try {
-                if (!$adm) {
-                    $this->domain->log($fn);
+                if (!XH_ADM) {
+                    $this->domain->log($filename);
                 }
-                $this->deliverDownload($fn);
+                $this->deliverDownload($filename);
             } catch (Dlcounter_Exception $ex) {
                 $o .= $this->renderMessage('fail', $ex->getMessage());
             }
@@ -93,110 +139,21 @@ class Dlcounter
     }
 
     /**
-     * Returns the download form view.
-     *
-     * @param string $fn A filename.
-     *
-     * @return string (X)HTML.
-     *
-     * @global string The URL of the current page.
-     * @global array  The localization of the plugins.
-     *
-     * @todo Replace <input type=image> with <button>.
-     */
-    public function main($fn)
-    {
-        global $su, $plugin_tx;
-
-        $ffn = $this->domain->downloadFolder() . $fn;
-        if (!is_readable($ffn)) {
-            return $this->renderMessage(
-                'fail', sprintf('Can\'t read file "%s"!', $ffn)
-            );
-        }
-        $size = $this->renderSize(filesize($ffn));
-        return '<form class="dlcounter" action="?' . $su . '" method="post">'
-            . tag('input type="hidden" name="dlcounter" value="' . $fn . '"')
-            . '<button>'
-            . tag(
-                'img src="' . $this->domain->imageFolder() . 'download-button.png"'
-                . ' alt="' . $plugin_tx['dlcounter']['label_download'] . '"'
-                . ' title="' . $fn . ' &ndash; ' . $size . '"'
-            )
-            . '</button>'
-            . '</form>';
-    }
-
-    /**
-     * Renders a message.
-     *
-     * @param string $type    A type ('success', 'info', 'warning' or 'fail').
-     * @param string $message A message.
+     * Renders the plugin info.
      *
      * @return string (X)HTML.
      */
-    protected function renderMessage($type, $message)
+    public function renderPluginInfo()
     {
-        if (function_exists('XH_message')) {
-            return XH_message($type, $message);
-        } else {
-            $class = in_array($type, array('warning', 'fail'))
-                ? 'cmsimplecore_warning'
-                : '';
-            return '<p class="' . $class . '">' . $message . '</p>';
-        }
+        return $this->renderVersion() . tag('hr') . $this->renderSystemCheck();
     }
 
     /**
-     * Renders a filesize.
-     *
-     * @param int $filesize A file size.
-     *
-     * @return string
-     */
-    protected function renderSize($filesize)
-    {
-        $units = array('B', 'KB', 'MB', 'GB');
-        $log = intval(log($filesize, 1024));
-        return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
-    }
-
-    /**
-     * Outputs the JS to initialize the tablesorter to <head>.
-     *
-     * @return void
-     *
-     * @global array  The paths of system files and folders.
-     * @global string The (X)HTML to insert into the head element.
-     */
-    protected function hjs()
-    {
-        global $pth, $hjs;
-
-        Dlcounter_includeJQuery();
-        include_jQuery();
-        include_jQueryPlugin(
-            'tablesorter',
-            $pth['folder']['plugins'] . 'dlcounter/lib/jquery.tablesorter.js'
-        );
-        $hjs .= <<<SCRIPT
-<script type="text/javascript">
-/* <![CDATA[ */
-jQuery(function() {
-    jQuery('table.tablesorter').tablesorter()
-})
-/* ]]> */
-</script>
-
-SCRIPT;
-    }
-
-    /**
-     * Returns the plugin information view.
+     * Renders the plugin version.
      *
      * @return string (X)HTML.
      */
-    public function version()
+    protected function renderVersion()
     {
         return '<h1>Dlcounter_XH</h1>'
             . tag(
@@ -245,7 +202,7 @@ EOT;
      *
      * @global array The localization of the plugins.
      */
-    public function renderSystemCheck()
+    protected function renderSystemCheck()
     {
         global $plugin_tx;
 
@@ -276,13 +233,13 @@ EOT;
     }
 
     /**
-     * Returns the statistics view.
+     * Renders the statistics.
      *
      * @return string (X)HTML.
      *
      * @global array The localization of the plugins.
      */
-    public function adminMain()
+    public function renderStatistics()
     {
         global $plugin_tx;
 
@@ -411,6 +368,56 @@ EOT;
         return '<tr><td>' . date('Y-m-d H:i:s', $timestamp) . '</td>'
             . '<td>' . $filename . '</td></tr>';
     }
+
+    /**
+     * Outputs the JS to initialize the tablesorter to <head>.
+     *
+     * @return void
+     *
+     * @global array  The paths of system files and folders.
+     * @global string The (X)HTML to insert into the head element.
+     */
+    protected function hjs()
+    {
+        global $pth, $hjs;
+
+        Dlcounter_includeJQuery();
+        include_jQuery();
+        include_jQueryPlugin(
+            'tablesorter',
+            $pth['folder']['plugins'] . 'dlcounter/lib/jquery.tablesorter.js'
+        );
+        $hjs .= <<<SCRIPT
+<script type="text/javascript">
+/* <![CDATA[ */
+jQuery(function() {
+    jQuery('table.tablesorter').tablesorter();
+})
+/* ]]> */
+</script>
+
+SCRIPT;
+    }
+
+    /**
+     * Renders a message.
+     *
+     * @param string $type    A type ('success', 'info', 'warning' or 'fail').
+     * @param string $message A message.
+     *
+     * @return string (X)HTML.
+     */
+    protected function renderMessage($type, $message)
+    {
+        if (function_exists('XH_message')) {
+            return XH_message($type, $message);
+        } else {
+            $class = in_array($type, array('warning', 'fail'))
+                ? 'cmsimplecore_warning'
+                : '';
+            return '<p class="' . $class . '">' . $message . '</p>';
+        }
+    }
 }
 
 /**
@@ -424,30 +431,6 @@ EOT;
  */
 class Dlcounter_Domain
 {
-    /**
-     * Returns the path of the data folder.
-     *
-     * @return string
-     *
-     * @global array The path of system files and folders.
-     * @global array The configuration of the plugins.
-     */
-    protected function dataFolder()
-    {
-        global $pth, $plugin_cf;
-
-        $pcf = $plugin_cf['dlcounter'];
-        if (trim($pcf['folder_data']) == '') {
-            $fn = $pth['folder']['plugins'] . 'dlcounter/data/';
-        } else {
-            $fn = $pth['folder']['base'] . $pcf['folder_data'];
-            if ($fn{strlen($fn) - 1} != '/') {
-                $fn .= '/';
-            }
-        }
-        return $fn;
-    }
-
     /**
      * Returns the path of the download folder.
      *
@@ -495,7 +478,7 @@ class Dlcounter_Domain
     /**
      * Returns the content of the downloads database.
      *
-     * @return array
+     * @return array An array of records.
      *
      * @global array The paths of system files and folders.
      */
@@ -503,41 +486,40 @@ class Dlcounter_Domain
     {
         global $pth;
 
-        $data = array();
-        $fn = $this->dataFolder() . 'downloads.dat';
-        $lines = is_readable($fn) ? file($fn) : false;
+        $result = array();
+        $filename = $this->dataFolder() . 'downloads.dat';
+        $lines = is_readable($filename) ? file($filename) : false;
         if ($lines !== false) {
             foreach ($lines as $line) {
-                $data[] = explode("\t", rtrim($line));
+                $result[] = explode("\t", rtrim($line));
             }
         }
-        return $data;
+        return $result;
     }
 
     /**
      * Appends a log entry for the download.
      *
-     * @param string $file A filename.
+     * @param string $basename A basename.
      *
      * @return void
      *
      * @throws Dlcounter_WriteException
      */
-    public function log($file)
+    public function log($basename)
     {
-        $rec = time() . "\t" . basename($file) . "\n";
-        $fn = $this->dataFolder() . 'downloads.dat';
-        if (is_dir(dirname($fn))
-            && ($fh = fopen($fn, 'a')) !== false
-            && fwrite($fh, $rec) !== false
+        $line = time() . "\t" . basename($basename) . "\n";
+        $filename = $this->dataFolder() . 'downloads.dat';
+        if (!is_dir(dirname($filename))
+            || ($stream = fopen($filename, 'a')) === false
+            || fwrite($stream, $line) == false
         ) {
-        } else {
             throw new Dlcounter_WriteException(
-                sprintf('Can\'t write to "%s"', $fn)
+                sprintf('Can\'t write to "%s"', $filename)
             );
         }
-        if (!empty($fh)) {
-            fclose($fh);
+        if (isset($stream) && $stream) {
+            fclose($stream);
         }
     }
 
@@ -578,6 +560,30 @@ class Dlcounter_Domain
         foreach ($folders as $folder) {
             $result[sprintf($ptx['syscheck_writable'], $folder)]
                 = is_writable($folder) ? 'ok' : 'warn';
+        }
+        return $result;
+    }
+
+    /**
+     * Returns the path of the data folder.
+     *
+     * @return string
+     *
+     * @global array The path of system files and folders.
+     * @global array The configuration of the plugins.
+     */
+    protected function dataFolder()
+    {
+        global $pth, $plugin_cf;
+
+        $pcf = $plugin_cf['dlcounter'];
+        if (trim($pcf['folder_data']) == '') {
+            $result = $pth['folder']['plugins'] . 'dlcounter/data/';
+        } else {
+            $result = $pth['folder']['base'] . $pcf['folder_data'];
+            if ($result[strlen($result) - 1] != '/') {
+                $result .= '/';
+            }
         }
         return $result;
     }

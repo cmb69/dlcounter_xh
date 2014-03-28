@@ -2,6 +2,8 @@
 
 require_once './classes/Dlcounter.php';
 
+const XH_ADM = false;
+
 const DLCOUNTER_VERSION = 'foobar';
 
 class ExitException extends Exception {}
@@ -33,18 +35,16 @@ runkit_function_redefine('header', '$string', '');
 
 class DlcounterTest extends PHPUnit_Framework_TestCase
 {
-    private $_subject;
+    protected $subject;
 
     protected $model;
 
     protected $records;
 
-    private $_downloadFile;
-
     public function setUp()
     {
         $this->model = $this->getMockBuilder('Dlcounter_Domain')->getMock();
-        $this->_subject = new Dlcounter($this->model);
+        $this->subject = new Dlcounter($this->model);
         $this->records = array(
             array(111, 'foo'),
             array(222, 'bar'),
@@ -52,7 +52,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testMain()
+    public function testRenderDownloadForm()
     {
         $this->model->expects($this->once())
             ->method('downloadFolder')
@@ -70,10 +70,13 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'tag' => 'button'
             )
         );
-        $this->assertTag($matcher, $this->_subject->main('version.nfo'));
+        $this->assertTag(
+            $matcher,
+            $this->subject->renderDownloadForm('version.nfo')
+        );
     }
 
-    public function testMainWithoutDownloadFile()
+    public function testRenderDownloadFormWithoutDownloadFile()
     {
         $matcher = array(
             'tag' => 'p',
@@ -81,98 +84,10 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'class' => 'cmsimplecore_warning'
             )
         );
-        $this->assertTag($matcher, $this->_subject->main($this->_downloadFile));
-    }
-
-    public function testVersion()
-    {
-        $matcher = array(
-            'tag' => 'h1',
-            'content' => 'Dlcounter_XH'
+        $this->assertTag(
+            $matcher,
+            $this->subject->renderDownloadForm('foo')
         );
-        $this->assertTag($matcher, $this->_subject->version());
-        $matcher = array(
-            'tag' => 'p',
-            'content' => DLCOUNTER_VERSION
-        );
-        $this->assertTag($matcher, $this->_subject->version());
-    }
-
-    public function testSystemCheck()
-    {
-        $this->model->expects($this->once())
-            ->method('systemChecks')
-            ->will($this->returnValue(array('foo' => 'bar')));
-        $matcher = array(
-            'tag' => 'ul',
-            'children' => array(
-                'only' => array('tag' => 'li'),
-                'count' => 1
-            )
-        );
-        $this->assertTag($matcher, $this->_subject->renderSystemCheck());
-    }
-
-    public function testAdminMain()
-    {
-        $this->model->expects($this->once())
-            ->method('readDb')
-            ->will($this->returnValue($this->records));
-        $matcher = array(
-            'tag' => 'div',
-            'id' => 'dlcounter_stats'
-        );
-        $this->assertTag($matcher, $this->_subject->adminMain());
-    }
-
-    public function testAdminMainWhereDataFileCantBeRead()
-    {
-        $this->model->expects($this->once())
-            ->method('readDb')
-            ->will($this->returnValue($this->records));
-        $matcher = array(
-            'tag' => 'div',
-            'id' => 'dlcounter_stats'
-        );
-        $this->assertTag($matcher, $this->_subject->adminMain());
-    }
-
-    public function testAdminMainHasSummaryTable()
-    {
-        $this->model->expects($this->once())
-            ->method('readDb')
-            ->will($this->returnValue($this->records));
-        $matcher = array(
-            'tag' => 'tbody',
-            'ancestor' => array(
-                'tag' => 'table',
-                'id' => 'dlcounter_summary_table'
-            ),
-            'children' => array(
-                'count' => 2,
-                'only' => array('tag' => 'tr')
-            )
-        );
-        $this->assertTag($matcher, $this->_subject->adminMain());
-    }
-
-    public function testAdminMainHasDetailsTable()
-    {
-        $this->model->expects($this->once())
-            ->method('readDb')
-            ->will($this->returnValue($this->records));
-        $matcher = array(
-            'tag' => 'tbody',
-            'ancestor' => array(
-                'tag' => 'table',
-                'id' => 'dlcounter_details_table'
-            ),
-            'children' => array(
-                'count' => 3,
-                'only' => array('tag' => 'tr')
-            )
-        );
-        $this->assertTag($matcher, $this->_subject->adminMain());
     }
 
     /**
@@ -187,7 +102,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
             'Dlcounter_XH,1alpha1,1alpha1,,,http://3-magi.net/?CMSimple_XH/'
             . 'Dlcounter_XH,http://3-magi.net/downloads/versioninfo/dlcounter1.nfo'
         );
-        $this->_subject->download('version.nfo');
+        $this->subject->download('version.nfo');
     }
 
     public function testDownloadCantLog()
@@ -201,7 +116,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->model->expects($this->once())
             ->method('log')
             ->will($this->throwException(new Dlcounter_WriteException()));
-        $this->_subject->download('version.nfo');
+        $this->subject->download('version.nfo');
         $matcher = array(
             'tag' => 'p',
             'attributes' => array('class' => 'cmsimplecore_warning')
@@ -217,7 +132,95 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->model->expects($this->once())
             ->method('downloadFolder')
             ->will($this->returnValue('./'));
-        $this->_subject->download('foo.bar');
+        $this->subject->download('foo.bar');
+    }
+
+    public function testRenderPluginInfo()
+    {
+        $this->model->expects($this->once())
+            ->method('systemChecks')
+            ->will($this->returnValue(array('foo' => 'bar')));
+        $actual = $this->subject->renderPluginInfo();
+        $matcher = array(
+            'tag' => 'h1',
+            'content' => 'Dlcounter_XH'
+        );
+        $this->assertTag($matcher, $actual);
+        $matcher = array(
+            'tag' => 'p',
+            'content' => DLCOUNTER_VERSION
+        );
+        $this->assertTag($matcher, $actual);
+        $matcher = array(
+            'tag' => 'ul',
+            'children' => array(
+                'only' => array('tag' => 'li'),
+                'count' => 1
+            )
+        );
+        $this->assertTag($matcher, $actual);
+    }
+
+    public function testRenderStatistics()
+    {
+        $this->model->expects($this->once())
+            ->method('readDb')
+            ->will($this->returnValue($this->records));
+        $matcher = array(
+            'tag' => 'div',
+            'id' => 'dlcounter_stats'
+        );
+        $this->assertTag($matcher, $this->subject->renderStatistics());
+    }
+
+    public function testRenderStatisticsWhereDataFileCantBeRead()
+    {
+        $this->model->expects($this->once())
+            ->method('readDb')
+            ->will($this->returnValue($this->records));
+        $matcher = array(
+            'tag' => 'div',
+            'id' => 'dlcounter_stats'
+        );
+        $this->assertTag($matcher, $this->subject->renderStatistics());
+    }
+
+    public function testRenderStatisticsHasSummaryTable()
+    {
+        $this->model->expects($this->once())
+            ->method('readDb')
+            ->will($this->returnValue($this->records));
+        $matcher = array(
+            'tag' => 'tbody',
+            'ancestor' => array(
+                'tag' => 'table',
+                'id' => 'dlcounter_summary_table'
+            ),
+            'children' => array(
+                'count' => 2,
+                'only' => array('tag' => 'tr')
+            )
+        );
+        $this->assertTag($matcher, $this->subject->renderStatistics());
+    }
+
+    public function testRenderStatisticsHasDetailsTable()
+    {
+        $this->model->expects($this->once())
+            ->method('readDb')
+            ->will($this->returnValue($this->records));
+        $matcher = array(
+            'tag' => 'tbody',
+            'ancestor' => array(
+                'tag' => 'table',
+                'id' => 'dlcounter_details_table'
+            ),
+            'children' => array(
+                'count' => 3,
+                'only' => array('tag' => 'tr')
+            )
+        );
+        $this->assertTag($matcher, $this->subject->renderStatistics());
     }
 }
 

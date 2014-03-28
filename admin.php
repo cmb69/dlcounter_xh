@@ -30,10 +30,10 @@ if (isset($dlcounter) && $dlcounter === 'true') {
 
     switch ($admin) {
     case '':
-        $o .= $_Dlcounter->version() . tag('hr') . $_Dlcounter->renderSystemCheck();
+        $o .= $_Dlcounter->renderPluginInfo();
         break;
     case 'plugin_main':
-        $o .= $_Dlcounter->adminMain();
+        $o .= $_Dlcounter->renderStatistics();
         break;
     default:
         $o .= plugin_admin_common($action, $admin, $plugin);

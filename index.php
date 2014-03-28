@@ -52,7 +52,7 @@ function dlcounter($filename)
 {
     global $_Dlcounter;
 
-    return $_Dlcounter->main($filename);
+    return $_Dlcounter->renderDownloadForm($filename);
 }
 
 /**
