@@ -13,26 +13,24 @@
 /*
  * statistics
  */
-#dlcounter_stats {}
+#dlcounter_stats {
+}
 #dlcounter_stats h4 {
     color: #3D3D3D;
-    background-color: #8dbdd8;
+    background-color: #8bd;
     cursor: pointer;
-    padding: 3px;
+    padding: 0.2em;
 }
 #dlcounter_stats table.tablesorter {
-    font-family:arial;
-    background-color: #CDCDCD;
-    font-size: 8pt;
+    background-color: #ccc;
     width: 100%;
     text-align: left;
 }
 #dlcounter_stats table.tablesorter thead tr th,
 #dlcounter_stats table.tablesorter tfoot tr th {
-    background-color: #e6EEEE;
-    border: 1px solid #FFF;
-    font-size: 8pt;
-    padding: 4px;
+    background-color: #dee;
+    border: 1px solid #fff;
+    padding: 0.2em;
 }
 #dlcounter_stats table.tablesorter thead tr .header {
     background-image: url(bg.gif);
@@ -41,23 +39,23 @@
     cursor: pointer;
 }
 #dlcounter_stats table.tablesorter tbody td {
-    color: #3D3D3D;
-    padding: 4px;
-    background-color: #FFF;
+    color: #444;
+    padding: 0.2em;
+    background-color: #fff;
     vertical-align: top;
 }
 #dlcounter_stats table.tablesorter tbody tr.odd td {
-    background-color:#F0F0F6;
+    background-color:#eee;
 }
 #dlcounter_stats table.tablesorter thead tr .headerSortUp {
-    background-image: url(asc.gif);
+    background-image: url("asc.gif");
 }
 #dlcounter_stats table.tablesorter thead tr .headerSortDown {
-    background-image: url(desc.gif);
+    background-image: url("desc.gif");
 }
 #dlcounter_stats table.tablesorter thead tr .headerSortDown,
 #dlcounter_stats table.tablesorter thead tr .headerSortUp {
-    background-color: #8dbdd8;
+    background-color: #8bd;
 }
 
 /*

@@ -274,8 +274,8 @@ EOT;
         $totals = array_count_values(
             array_map(create_function('$elt', 'return $elt[1];'), $data)
         );
-        return '<div id="dlcounter_stats">'
-            . '<div class="plugineditcaption">Dlcounter</div>'
+        return '<h1>Dlcounter &ndash; ' . $ptx['menu_main'] . '</h1>'
+            . '<div id="dlcounter_stats">'
             . $this->renderSummaryTable($totals)
             . $this->renderDetailsTable($data)
             . '</div>';
