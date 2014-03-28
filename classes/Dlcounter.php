@@ -56,10 +56,11 @@ class Dlcounter
     {
         global $su, $plugin_tx;
 
+        $ptx = $plugin_tx['dlcounter'];
         $filename = $this->domain->downloadFolder() . basename($basename);
         if (!is_readable($filename)) {
             return $this->renderMessage(
-                'fail', sprintf('Can\'t read file "%s"!', $filename)
+                'fail', sprintf($ptx['message_cantread'], $filename)
             );
         }
         $size = $this->renderSize(filesize($filename));
@@ -68,7 +69,7 @@ class Dlcounter
             . '<button>'
             . tag(
                 'img src="' . $this->domain->imageFolder() . 'download-button.png"'
-                . ' alt="' . $plugin_tx['dlcounter']['label_download'] . '"'
+                . ' alt="' . $ptx['label_download'] . '"'
                 . ' title="' . $basename . ' &ndash; ' . $size . '"'
             )
             . '</button>'
@@ -505,16 +506,20 @@ class Dlcounter_Domain
      * @return void
      *
      * @throws Dlcounter_WriteException
+     *
+     * @global array The localization of the plugins.
      */
     public function log($timestamp, $basename)
     {
+        global $plugin_tx;
+
         $line = $timestamp . "\t" . basename($basename) . "\n";
         $filename = $this->dataFolder() . 'downloads.dat';
         if (!is_dir(dirname($filename))
             || file_put_contents($filename, $line, FILE_APPEND | LOCK_EX) === false
         ) {
             throw new Dlcounter_WriteException(
-                sprintf('Can\'t write to "%s"', $filename)
+                sprintf($plugin_tx['dlcounter']['message_cantwrite'], $filename)
             );
         }
     }
