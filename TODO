@@ -1,6 +1,5 @@
 * show in front-end: "already downloaded x times"
   <http://cmsimpleforum.com/viewtopic.php?f=12&t=5255&p=31159#p31159>
-* add ee localization (<http://www.eau.ee/~alo/?CMSIMPLE:Keel>)
 * optional mimetype specification for link
   <http://www.cmsimpleforum.com/viewtopic.php?f=16&t=3946#p23904>
 * add register user info to download log
@@ -16,3 +15,4 @@
 * translate manual to German
 * replace version number with build script
 * fix download URL / don't show Not found + any page
+* add German localization
