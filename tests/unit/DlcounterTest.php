@@ -153,28 +153,40 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->subject->download('foo.bar');
     }
 
-    public function testRenderPluginInfo()
+    public function testRenderPluginInfoHasSystemCheck()
     {
+        global $plugin_tx;
+
+        $plugin_tx['dlcounter']['syscheck_title'] = 'System check';
         $this->model->expects($this->once())
             ->method('systemChecks')
             ->will($this->returnValue(array('foo' => 'bar')));
         $actual = $this->subject->renderPluginInfo();
         $matcher = array(
-            'tag' => 'h1',
-            'content' => 'Dlcounter_XH'
-        );
-        $this->assertTag($matcher, $actual);
-        $matcher = array(
-            'tag' => 'p',
-            'content' => DLCOUNTER_VERSION
+            'tag' => 'h4',
+            'content' => $plugin_tx['dlcounter']['syscheck_title']
         );
         $this->assertTag($matcher, $actual);
         $matcher = array(
             'tag' => 'ul',
+            'attributes' => array('class' => 'pdeditor_system_check'),
             'children' => array(
                 'only' => array('tag' => 'li'),
                 'count' => 1
             )
+        );
+        $this->assertTag($matcher, $actual);
+    }
+
+    public function testRenderPluginInfoHasVersion()
+    {
+        $this->model->expects($this->once())
+            ->method('systemChecks')
+            ->will($this->returnValue(array()));
+        $actual = $this->subject->renderPluginInfo();
+        $matcher = array(
+            'tag' => 'p',
+            'content' => DLCOUNTER_VERSION
         );
         $this->assertTag($matcher, $actual);
     }
