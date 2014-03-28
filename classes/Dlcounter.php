@@ -516,7 +516,7 @@ class Dlcounter_Domain
         $line = $timestamp . "\t" . basename($basename) . "\n";
         $filename = $this->dataFolder() . 'downloads.dat';
         if (!is_dir(dirname($filename))
-            || file_put_contents($filename, $line, FILE_APPEND) === false
+            || file_put_contents($filename, $line, FILE_APPEND | LOCK_EX) === false
         ) {
             throw new Dlcounter_WriteException(
                 sprintf('Can\'t write to "%s"', $filename)
