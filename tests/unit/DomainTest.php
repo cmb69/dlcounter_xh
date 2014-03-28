@@ -76,8 +76,12 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $folder = vfsStream::url('test/plugins/dlcounter/data/');
         mkdir($folder, 0777, true);
         file_put_contents($folder . 'downloads.dat', '');
-        $this->subject->log('foo');
-        $this->assertCount(1, $this->subject->readDb());
+        $timestamp = time();
+        $this->subject->log($timestamp, 'foo');
+        $this->assertEquals(
+            array(array($timestamp, 'foo')),
+            $this->subject->readDb()
+        );
     }
 
     /**
@@ -86,7 +90,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
     public function testCantLog()
     {
         $folder = vfsStream::url('test/plugins/dlcounter/data/');
-        $this->subject->log('foo');
+        $this->subject->log(time(), 'foo');
     }
 
     public function testLogInCustomDataFolder()
@@ -97,8 +101,12 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $folder = vfsStream::url('test/userfiles/');
         mkdir($folder, 0777, true);
         file_put_contents($folder . 'downloads.dat', '');
-        $this->subject->log('foo');
-        $this->assertCount(1, $this->subject->readDb());
+        $timestamp = time();
+        $this->subject->log($timestamp, 'foo');
+        $this->assertEquals(
+            array(array($timestamp, 'foo')),
+            $this->subject->readDb()
+        );
     }
 
     public function testSystemChecks()

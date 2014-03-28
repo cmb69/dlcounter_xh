@@ -106,7 +106,7 @@ class Dlcounter
         if (is_readable($filename)) {
             try {
                 if (!XH_ADM) {
-                    $this->domain->log($filename);
+                    $this->domain->log(time(), $filename);
                 }
                 $this->deliverDownload($filename);
             } catch (Dlcounter_Exception $ex) {
@@ -500,15 +500,16 @@ class Dlcounter_Domain
     /**
      * Appends a log entry for the download.
      *
-     * @param string $basename A basename.
+     * @param int    $timestamp A timestamp.
+     * @param string $basename  A basename.
      *
      * @return void
      *
      * @throws Dlcounter_WriteException
      */
-    public function log($basename)
+    public function log($timestamp, $basename)
     {
-        $line = time() . "\t" . basename($basename) . "\n";
+        $line = $timestamp . "\t" . basename($basename) . "\n";
         $filename = $this->dataFolder() . 'downloads.dat';
         if (!is_dir(dirname($filename))
             || ($stream = fopen($filename, 'a')) === false
