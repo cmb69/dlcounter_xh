@@ -13,6 +13,7 @@
 * add synopsis to plugin info
 * clean buttons (remove "frame")
 * i18n of Exceptions
-* test tablesorted with Migrate plugin
-* check if downloads in subfolders are possible (& document)
+* test tablesorter with Migrate plugin
 * translate manual to German
+* replace version number with build script
+* fix download URL / don't show Not found + any page
