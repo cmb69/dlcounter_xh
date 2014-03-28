@@ -13,3 +13,4 @@
 * download confirmation: "Do you agree to the terms of license?" (suggested by oldnema)
 * add synopsis to plugin info
 * clean buttons (remove "frame")
+* i18n of Exceptions

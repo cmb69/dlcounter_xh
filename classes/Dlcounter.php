@@ -488,7 +488,11 @@ class Dlcounter_Domain
 
         $result = array();
         $filename = $this->dataFolder() . 'downloads.dat';
-        $lines = is_readable($filename) ? file($filename) : false;
+        if (is_readable($filename)) {
+            $lines = file($filename);
+        } else {
+            $lines = false;
+        }
         if ($lines !== false) {
             foreach ($lines as $line) {
                 $result[] = explode("\t", rtrim($line));
@@ -512,15 +516,11 @@ class Dlcounter_Domain
         $line = $timestamp . "\t" . basename($basename) . "\n";
         $filename = $this->dataFolder() . 'downloads.dat';
         if (!is_dir(dirname($filename))
-            || ($stream = fopen($filename, 'a')) === false
-            || fwrite($stream, $line) == false
+            || file_put_contents($filename, $line, FILE_APPEND) === false
         ) {
             throw new Dlcounter_WriteException(
                 sprintf('Can\'t write to "%s"', $filename)
             );
-        }
-        if (isset($stream) && $stream) {
-            fclose($stream);
         }
     }
 
