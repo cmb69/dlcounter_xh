@@ -115,7 +115,7 @@ class Dlcounter
             );
         }
         $size = $this->renderSize(filesize($ffn));
-        return '<form class="dlcounter" action="?' . $su . '" method="GET">'
+        return '<form class="dlcounter" action="?' . $su . '" method="post">'
             . tag('input type="hidden" name="dlcounter" value="' . $fn . '"')
             . tag(
                 'input type="image" src="' . $this->domain->imageFolder()

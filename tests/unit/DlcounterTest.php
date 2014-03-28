@@ -44,10 +44,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->model = $this->getMockBuilder('Dlcounter_Domain')->getMock();
-        $this->_subject = $this->getMockBuilder('DlCounter')
-            ->setConstructorArgs(array($this->model))
-            ->setMethods(array('includeJQuery'))
-            ->getMock();
+        $this->_subject = new Dlcounter($this->model);
         $this->records = array(
             array(111, 'foo'),
             array(222, 'bar'),
@@ -67,7 +64,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
             'tag' => 'form',
             'attributes' => array(
                 'class' => 'dlcounter',
-                'method' => 'GET'
+                'method' => 'post'
             )
         );
         $this->assertTag($matcher, $this->_subject->main('version.nfo'));
@@ -183,8 +180,11 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->model->expects($this->once())
             ->method('downloadFolder')
             ->will($this->returnValue('./'));
+        $this->expectOutputString(
+            'Dlcounter_XH,1alpha1,1alpha1,,,http://3-magi.net/?CMSimple_XH/'
+            . 'Dlcounter_XH,http://3-magi.net/downloads/versioninfo/dlcounter1.nfo'
+        );
         $this->_subject->download('version.nfo');
-        $this->expectOutputString('foobar');
     }
 
     public function testDownloadCantLog()

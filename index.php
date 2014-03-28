@@ -86,8 +86,8 @@ function Dlcounter_exit()
 /*
  * Handle the download request.
  */
-if (isset($_GET['dlcounter']) && $_GET['dlcounter'] !== '') {
-    $_Dlcounter->download(stsl($_GET['dlcounter']));
+if (isset($_POST['dlcounter']) && $_POST['dlcounter'] != '') {
+    $_Dlcounter->download(stsl($_POST['dlcounter']));
 }
 
 ?>
