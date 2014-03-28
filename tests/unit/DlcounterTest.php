@@ -99,8 +99,9 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
             ->method('downloadFolder')
             ->will($this->returnValue('./'));
         $this->expectOutputString(
-            'Dlcounter_XH,1alpha1,1alpha1,,,http://3-magi.net/?CMSimple_XH/'
-            . 'Dlcounter_XH,http://3-magi.net/downloads/versioninfo/dlcounter1.nfo'
+            'Dlcounter_XH,@DLCOUNTER_VERSION@,@DLCOUNTER_VERSION@,,'
+            . ',http://3-magi.net/?CMSimple_XH/Dlcounter_XH'
+            . ',http://3-magi.net/downloads/versioninfo/dlcounter1.nfo'
         );
         $this->subject->download('version.nfo');
     }
