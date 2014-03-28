@@ -49,12 +49,12 @@ class Dlcounter
      *
      * @return string (X)HTML.
      *
-     * @global string The URL of the current page.
+     * @global string The script name.
      * @global array  The localization of the plugins.
      */
     public function renderDownloadForm($basename)
     {
-        global $su, $plugin_tx;
+        global $sn, $plugin_tx;
 
         $ptx = $plugin_tx['dlcounter'];
         $filename = $this->domain->downloadFolder() . basename($basename);
@@ -64,7 +64,7 @@ class Dlcounter
             );
         }
         $size = $this->renderSize(filesize($filename));
-        return '<form class="dlcounter" action="?' . $su . '" method="post">'
+        return '<form class="dlcounter" action="' . $sn . '" method="post">'
             . tag('input type="hidden" name="dlcounter" value="' . $basename . '"')
             . '<button>'
             . tag(
