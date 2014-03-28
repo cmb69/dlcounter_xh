@@ -204,7 +204,7 @@ EOT;
 
         $ptx = $plugin_tx['dlcounter'];
         $result = "<h4>$ptx[syscheck_title]</h4>"
-            . '<ul class="pdeditor_system_check">';
+            . '<ul class="dlcounter_system_check">';
         foreach ($this->domain->systemChecks() as $check => $state) {
             $result .= $this->renderSystemCheckItem($check, $state);
         }

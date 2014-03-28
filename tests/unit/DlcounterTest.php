@@ -169,7 +169,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->assertTag($matcher, $actual);
         $matcher = array(
             'tag' => 'ul',
-            'attributes' => array('class' => 'pdeditor_system_check'),
+            'attributes' => array('class' => 'dlcounter_system_check'),
             'children' => array(
                 'only' => array('tag' => 'li'),
                 'count' => 1
