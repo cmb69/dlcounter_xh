@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- $Id$ -->
-
-<project name="Dlcounter" default="default">
-
-    <!-- Properties -->
-
-    <property name="styledir" value="C:\xampp\php\data\phing\etc"/>
-
-    <!-- Filesets -->
+<project name="Dlcounter" default="help">
 
     <fileset id="php-sources" dir=".">
         <include name="admin.php"/>
@@ -16,22 +8,24 @@
         <include name="classes/*.php"/>
     </fileset>
 
-    <!-- Checks -->
+    <target name="help" description="lists available targets">
+        <exec command="phing -l" outputProperty="help"/>
+        <echo>${help}</echo>
+    </target>
 
-    <target name="sniff">
+    <target name="sniff" description="checks adherence to PEAR CS">
         <phpcodesniffer standard="PEAR" format="full">
             <fileset refid="php-sources"/>
         </phpcodesniffer>
     </target>
 
-    <target name="compat">
+    <target name="compat"
+            description="checks compatibility with PHP_CompatInfo 2">
         <exec command="phpcompatinfo --configuration phpcompatinfo.xml print --exclude-pattern dlcounter ."
               logoutput="true"/>
     </target>
 
-    <!-- Tests -->
-
-    <target name="unit-tests">
+    <target name="unit-tests" description="runs all unit tests">
         <phpunit haltonerror="true" haltonfailure="true">
             <formatter type="plain" usefile="false"/>
             <batchtest>
@@ -42,7 +36,7 @@
         </phpunit>
     </target>
 
-<!--    <target name="attack-tests">
+    <!--<target name="attack-tests">
         <fail unless="env.CMSIMPLEDIR" message="CMSIMPLEDIR undefined!"/>
         <phpunit haltonerror="true" haltonfailure="true">
             <formatter type="plain" usefile="false"/>
@@ -52,15 +46,11 @@
                 </fileset>
             </batchtest>
         </phpunit>
-    </target>
--->
-    <!-- Code coverage -->
+    </target>-->
 
-    <target name="coverage">
+    <target name="coverage" description="generates coverage report">
         <exec command="phpunit --configuration coverage.xml" logoutput="true"/>
     </target>
-
-    <!-- Documentation -->
 
     <target name="php-doc">
         <phpdoc title="Dlcounter_XH Developer Documentation" destdir="doc/php"
@@ -74,15 +64,16 @@
         </phpdoc>
     </target>
 
-<!--    <target name="js-doc">
+    <!--<target name="js-doc">
         <exec command="jsdoc -destination doc/js pagemanager.js" checkreturn="true"/>
-    </target>
--->
-    <target name="doc" depends="php-doc"/>
+    </target>-->
+
+    <target name="doc" depends="php-doc"
+            description="generates the developer documentation"/>
 
     <!-- Build -->
 
-    <target name="build">
+    <target name="build" description="builds a distributable ZIP archive">
         <fail unless="version" message="version is not defined!"/>
         <svnexport revision="" repositoryurl="." todir="export"/>
         <move todir="dist">
@@ -107,9 +98,11 @@
             </fileset>
         </move>
         <delete dir="export"/>
-        <copy file="dist/config/config.php" tofile="dist/config/defaultconfig.php"/>
+        <copy file="dist/config/config.php"
+              tofile="dist/config/defaultconfig.php"/>
         <copy file="dist/languages/en.php" tofile="dist/languages/default.php"/>
-        <zip destfile="Dlcounter_XH-${version}.zip" basedir="dist" prefix="dlcounter/"/>
+        <zip destfile="Dlcounter_XH-${version}.zip" basedir="dist"
+             prefix="dlcounter/"/>
         <delete dir="dist"/>
     </target>
 
