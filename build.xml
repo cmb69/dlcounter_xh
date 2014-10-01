@@ -59,8 +59,8 @@
 
     <target name="php-doc">
         <phpdoc title="Dlcounter_XH Developer Documentation" destdir="doc/php"
-                output="HTML:frames:default" defaultpackagename="Dlcounter"
-                defaultcategoryname="CMSimple_XH">
+                output="HTML:Smarty:HandS" defaultpackagename="Dlcounter"
+                defaultcategoryname="CMSimple_XH" parseprivate="true">
             <fileset refid="php-sources"/>
             <projdocfileset dir=".">
                <include name="README"/>
