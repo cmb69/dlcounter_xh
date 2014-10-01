@@ -11,6 +11,7 @@
     <excludes>
         <exclude id="dlcounter">
             <directory name="test"/>
+            <directory name="vendor"/>
         </exclude>
     </excludes>
 </phpcompatinfo>
