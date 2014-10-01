@@ -70,7 +70,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'tag' => 'button'
             )
         );
-        $this->assertTag(
+        @$this->assertTag(
             $matcher,
             $this->subject->renderDownloadForm('version.nfo')
         );
@@ -84,7 +84,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'class' => 'cmsimplecore_warning'
             )
         );
-        $this->assertTag(
+        @$this->assertTag(
             $matcher,
             $this->subject->renderDownloadForm('foo')
         );
@@ -101,7 +101,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'class' => 'cmsimplecore_warning'
             )
         );
-        $this->assertTag(
+        @$this->assertTag(
             $matcher,
             $this->subject->renderDownloadForm('languages/en.php')
         );
@@ -139,7 +139,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
             'tag' => 'p',
             'attributes' => array('class' => 'cmsimplecore_warning')
         );
-        $this->assertTag($matcher, $o);
+        @$this->assertTag($matcher, $o);
     }
 
     /**
@@ -167,7 +167,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'count' => 1
             )
         );
-        $this->assertTag($matcher, $actual);
+        @$this->assertTag($matcher, $actual);
     }
 
     public function testRenderPluginInfoHasVersion()
@@ -180,7 +180,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
             'tag' => 'p',
             'content' => DLCOUNTER_VERSION
         );
-        $this->assertTag($matcher, $actual);
+        @$this->assertTag($matcher, $actual);
     }
 
     public function testRenderStatistics()
@@ -192,7 +192,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
             'tag' => 'div',
             'id' => 'dlcounter_stats'
         );
-        $this->assertTag($matcher, $this->subject->renderStatistics());
+        @$this->assertTag($matcher, $this->subject->renderStatistics());
     }
 
     public function testRenderStatisticsWhereDataFileCantBeRead()
@@ -204,7 +204,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
             'tag' => 'div',
             'id' => 'dlcounter_stats'
         );
-        $this->assertTag($matcher, $this->subject->renderStatistics());
+        @$this->assertTag($matcher, $this->subject->renderStatistics());
     }
 
     public function testRenderStatisticsHasSummaryTable()
@@ -223,7 +223,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'only' => array('tag' => 'tr')
             )
         );
-        $this->assertTag($matcher, $this->subject->renderStatistics());
+        @$this->assertTag($matcher, $this->subject->renderStatistics());
     }
 
     public function testRenderStatisticsHasDetailsTable()
@@ -242,7 +242,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
                 'only' => array('tag' => 'tr')
             )
         );
-        $this->assertTag($matcher, $this->subject->renderStatistics());
+        @$this->assertTag($matcher, $this->subject->renderStatistics());
     }
 }
 
