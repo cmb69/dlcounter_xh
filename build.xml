@@ -8,6 +8,10 @@
         <include name="classes/*.php"/>
     </fileset>
 
+    <fileset id="unit-tests" dir="tests/unit">
+        <include name="*Test.php"/>
+    </fileset>
+
     <target name="help" description="lists available targets">
         <exec command="phing -l" outputProperty="help"/>
         <echo>${help}</echo>
@@ -16,6 +20,7 @@
     <target name="sniff" description="checks adherence to PEAR CS">
         <phpcodesniffer standard="PEAR" format="full">
             <fileset refid="php-sources"/>
+            <fileset refid="unit-tests"/>
         </phpcodesniffer>
     </target>
 
@@ -34,9 +39,7 @@
         <phpunit haltonerror="true" haltonfailure="true">
             <formatter type="plain" usefile="false"/>
             <batchtest>
-                <fileset dir="tests/unit">
-                    <include name="*Test.php"/>
-                </fileset>
+                <fileset refid="unit-tests"/>
             </batchtest>
         </phpunit>
     </target>

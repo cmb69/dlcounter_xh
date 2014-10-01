@@ -1,3 +1,5 @@
+* document XH 1.5.4+ requirement
+
 * Download-Button per CSS and text instead of image (sugg. by svasti
   <53695E0D.5000006@frankziesing.de>)
 * show in front-end: "already downloaded x times"

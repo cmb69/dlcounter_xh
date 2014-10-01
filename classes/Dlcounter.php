@@ -131,7 +131,7 @@ class Dlcounter
         header('Content-Disposition: attachment; filename=' . basename($filename));
         header('Content-Length: ' . filesize($filename));
         readfile($filename);
-        Dlcounter_exit();
+        XH_exit();
     }
 
     /**

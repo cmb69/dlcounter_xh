@@ -1,12 +1,52 @@
 <?php
 
-require_once 'vfsStream/vfsStream.php';
+/**
+ * Testing the model.
+ *
+ * PHP version 5
+ *
+ * @category  Testing
+ * @package   Dlcounter
+ * @author    Christoph M. Becker <cmbecker69@gmx.de>
+ * @copyright 2012-2014 Christoph M. Becker <http://3-magi.net>
+ * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @version   SVN: $Id$
+ * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ */
+
+require_once './vendor/autoload.php';
 require_once './classes/Dlcounter.php';
 
+use org\bovigo\vfs\vfsStreamWrapper;
+use org\bovigo\vfs\vfsStreamDirectory;
+use org\bovigo\vfs\vfsStream;
+
+/**
+ * Testing the model.
+ *
+ * @category Testing
+ * @package  Dlcounter
+ * @author   Christoph M. Becker <cmbecker69@gmx.de>
+ * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
+ * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ */
 class DomainTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * The test subject.
+     *
+     * @var Dlcounter_Domain
+     */
     protected $subject;
 
+    /**
+     * Sets up the test fixture.
+     *
+     * @return void
+     *
+     * @global array The paths of system files and folders.
+     * @global array The configuration of the plugins.
+     */
     public function setUp()
     {
         global $pth, $plugin_cf;
@@ -28,6 +68,11 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $this->subject = new Dlcounter_Domain();
     }
 
+    /**
+     * Tests the download folder.
+     *
+     * @return void
+     */
     public function testDownloadFolder()
     {
         $this->assertEquals(
@@ -36,6 +81,11 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Tests the image folder.
+     *
+     * @return void
+     */
     public function testImageFolder()
     {
         $this->assertEquals(
@@ -44,6 +94,11 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Tests the logo path.
+     *
+     * @return void
+     */
     public function testLogoPath()
     {
         $this->assertEquals(
@@ -52,11 +107,21 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Tests reading an empty database.
+     *
+     * @return void
+     */
     public function testReadEmptyDb()
     {
         $this->assertEmpty($this->subject->readDb());
     }
 
+    /**
+     * Tests reading the database.
+     *
+     * @return void
+     */
     public function testReadDb()
     {
         $records = array(
@@ -71,6 +136,11 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($records, $this->subject->readDb());
     }
 
+    /**
+     * Tests logging.
+     *
+     * @return void
+     */
     public function testLog()
     {
         $folder = vfsStream::url('test/plugins/dlcounter/data/');
@@ -85,6 +155,10 @@ class DomainTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that failed logging throws exception.
+     *
+     * @return void
+     *
      * @expectedException Dlcounter_WriteException
      */
     public function testCantLog()
@@ -93,6 +167,13 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $this->subject->log(time(), 'foo');
     }
 
+    /**
+     * Tests logging in custom data folder.
+     *
+     * @return void
+     *
+     * @global array The configuration of the plugins.
+     */
     public function testLogInCustomDataFolder()
     {
         global $plugin_cf;
@@ -109,6 +190,11 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Tests the system checks.
+     *
+     * @return void
+     */
     public function testSystemChecks()
     {
         $this->assertCount(1, $this->subject->systemChecks());
