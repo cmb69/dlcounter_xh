@@ -15,6 +15,10 @@
 
 require_once '../../cmsimple/functions.php';
 
+use Dlcounter\Domain;
+use Dlcounter\Controller;
+use Dlcounter\WriteException;
+
 /**
  * Test dummy.
  *
@@ -69,7 +73,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     /**
      * The model.
      *
-     * @var Dlcounter_Domain
+     * @var Domain
      */
     protected $model;
 
@@ -110,8 +114,8 @@ class ControllerTest extends PHPUnit_Framework_TestCase
     {
         $this->defineConstant('XH_ADM', false);
         $this->defineConstant('DLCOUNTER_VERSION', 'foobar');
-        $this->model = $this->getMockBuilder('Dlcounter_Domain')->getMock();
-        $this->subject = new Dlcounter_Controller($this->model);
+        $this->model = $this->getMockBuilder('Dlcounter\Domain')->getMock();
+        $this->subject = new Controller($this->model);
         $this->records = array(
             array(111, 'foo'),
             array(222, 'bar'),
@@ -235,7 +239,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('./'));
         $this->model->expects($this->once())
             ->method('log')
-            ->will($this->throwException(new Dlcounter_WriteException()));
+            ->will($this->throwException(new WriteException()));
         $this->subject->download('version.nfo');
         $matcher = array(
             'tag' => 'p',

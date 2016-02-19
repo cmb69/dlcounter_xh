@@ -18,6 +18,7 @@ require_once './vendor/autoload.php';
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
+use Dlcounter\Domain;
 
 /**
  * Testing the model.
@@ -33,7 +34,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
     /**
      * The test subject.
      *
-     * @var Dlcounter_Domain
+     * @var Domain
      */
     protected $subject;
 
@@ -63,7 +64,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
-        $this->subject = new Dlcounter_Domain();
+        $this->subject = new Domain();
     }
 
     /**
@@ -157,7 +158,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      *
-     * @expectedException Dlcounter_WriteException
+     * @expectedException Dlcounter\WriteException
      */
     public function testCantLog()
     {

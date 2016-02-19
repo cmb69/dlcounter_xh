@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
  */
 
+namespace Dlcounter;
+
 /**
  * The base class of all plugin exceptions.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
  */
-class Dlcounter_Exception extends Exception
+class Exception extends \Exception
 {
     // pass
 }

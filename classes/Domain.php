@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
  */
 
+namespace Dlcounter;
+
 /**
  * The domain model.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
  */
-class Dlcounter_Domain
+class Domain
 {
     /**
      * Returns the path of the download folder.
@@ -102,7 +104,7 @@ class Dlcounter_Domain
      *
      * @return void
      *
-     * @throws Dlcounter_WriteException
+     * @throws WriteException
      *
      * @global array The localization of the plugins.
      */
@@ -115,7 +117,7 @@ class Dlcounter_Domain
         if (!is_dir(dirname($filename))
             || file_put_contents($filename, $line, FILE_APPEND | LOCK_EX) === false
         ) {
-            throw new Dlcounter_WriteException(
+            throw new WriteException(
                 sprintf($plugin_tx['dlcounter']['message_cantwrite'], $filename)
             );
         }

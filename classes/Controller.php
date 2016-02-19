@@ -13,6 +13,8 @@
  * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
  */
 
+namespace Dlcounter;
+
 /**
  * The controllers.
  *
@@ -22,7 +24,7 @@
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
  */
-class Dlcounter_Controller
+class Controller
 {
     /**
      * The domain object.
@@ -36,7 +38,7 @@ class Dlcounter_Controller
      *
      * @param Dlcounter_Domain $domain A domain model.
      */
-    public function __construct(Dlcounter_Domain $domain)
+    public function __construct(Domain $domain)
     {
         $this->domain = $domain;
     }
@@ -109,7 +111,7 @@ class Dlcounter_Controller
                     $this->domain->log(time(), $filename);
                 }
                 $this->deliverDownload($filename);
-            } catch (Dlcounter_Exception $ex) {
+            } catch (Exception $ex) {
                 $o .= $this->renderMessage('fail', $ex->getMessage());
             }
         } else {
