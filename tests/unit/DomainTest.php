@@ -162,7 +162,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
      */
     public function testCantLog()
     {
-        $folder = vfsStream::url('test/plugins/dlcounter/data/');
         $this->subject->log(time(), 'foo');
     }
 

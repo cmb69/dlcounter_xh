@@ -74,13 +74,9 @@ class Domain
      * Returns the content of the downloads database.
      *
      * @return array An array of records.
-     *
-     * @global array The paths of system files and folders.
      */
     public function readDb()
     {
-        global $pth;
-
         $result = array();
         $filename = $this->dataFolder() . 'downloads.dat';
         if (is_readable($filename)) {

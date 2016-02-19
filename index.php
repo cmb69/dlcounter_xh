@@ -55,11 +55,10 @@ function dlcounter($filename)
  * @return void
  *
  * @global array The paths of system files and folders.
- * @global array The configuration of the plugins.
  */
 function Dlcounter_includeJQuery()
 {
-    global $pth, $plugin_cf;
+    global $pth;
 
     include_once $pth['folder']['plugins'] . 'jquery/jquery.inc.php';
 }
