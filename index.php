@@ -22,11 +22,6 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 }
 
 /**
- * The plugin classes.
- */
-require_once $pth['folder']['plugin_classes'] . 'Dlcounter.php';
-
-/**
  * The plugin version.
  */
 define('DLCOUNTER_VERSION', '@DLCOUNTER_VERSION@');
@@ -36,7 +31,7 @@ define('DLCOUNTER_VERSION', '@DLCOUNTER_VERSION@');
  *
  * @var Dlcounter
  */
-$_Dlcounter = new Dlcounter(new Dlcounter_Domain());
+$_Dlcounter = new Dlcounter_Controller(new Dlcounter_Domain());
 
 /**
  * Returns the download form view.

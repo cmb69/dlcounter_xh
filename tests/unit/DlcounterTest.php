@@ -14,7 +14,6 @@
  */
 
 require_once '../../cmsimple/functions.php';
-require_once './classes/Dlcounter.php';
 
 /**
  * Test dummy.
@@ -58,7 +57,7 @@ function Include_jQueryPlugin($name, $filename)
  * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
  */
-class DlcounterTest extends PHPUnit_Framework_TestCase
+class ControllerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * The test subject.
@@ -112,7 +111,7 @@ class DlcounterTest extends PHPUnit_Framework_TestCase
         $this->defineConstant('XH_ADM', false);
         $this->defineConstant('DLCOUNTER_VERSION', 'foobar');
         $this->model = $this->getMockBuilder('Dlcounter_Domain')->getMock();
-        $this->subject = new Dlcounter($this->model);
+        $this->subject = new Dlcounter_Controller($this->model);
         $this->records = array(
             array(111, 'foo'),
             array(222, 'bar'),
