@@ -31,7 +31,7 @@ define('DLCOUNTER_VERSION', '@DLCOUNTER_VERSION@');
  *
  * @var Dlcounter
  */
-$_Dlcounter = new Dlcounter_Controller(new Dlcounter_Domain());
+$_Dlcounter = new Dlcounter\Controller(new Dlcounter\Domain());
 
 /**
  * Returns the download form view.

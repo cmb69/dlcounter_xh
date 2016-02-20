@@ -29,14 +29,14 @@ class Controller
     /**
      * The domain object.
      *
-     * @var Dlcounter_Domain
+     * @var Domain
      */
     protected $domain;
 
     /**
      * Initializes a new instance.
      *
-     * @param Dlcounter_Domain $domain A domain model.
+     * @param Domain $domain A domain model.
      */
     public function __construct(Domain $domain)
     {
