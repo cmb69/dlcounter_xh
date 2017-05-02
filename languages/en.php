@@ -25,7 +25,6 @@ $plugin_tx['dlcounter']['syscheck_writable']="Folder \"%s\" writable";
 $plugin_tx['dlcounter']['info_title']="Info";
 $plugin_tx['dlcounter']['info_about']="About Dlcounter_XH";
 
-$plugin_tx['dlcounter']['cf_folder_data']="The path of a folder relative to the CMSimple_XH root directory, where to store the plugin's data, e.g. \"userfiles/dlcounter/\". Leave empty to store in the plugin's data/ folder.";
 $plugin_tx['dlcounter']['cf_folder_downloads']="The path of a folder relative to the CMSimple_XH root directory, where the downloadable files are stored, e.g. \"userfiles/downloads/\".";
 
 ?>

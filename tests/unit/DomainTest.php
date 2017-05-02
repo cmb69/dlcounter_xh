@@ -40,17 +40,19 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $pth = array(
             'folder' => array(
                 'base' => vfsStream::url('test/'),
+                'content' => vfsStream::url('test/content/'),
                 'plugins' => vfsStream::url('test/plugins/')
             )
         );
         $plugin_cf = array(
             'dlcounter' => array(
-                'folder_data' => '',
                 'folder_downloads' => 'downloads/'
             )
         );
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
+        mkdir(vfsStream::url('test/content/'), 0777, true);
+        touch(vfsStream::url('test/content/dlcounter.dat'));
         $this->subject = new Domain();
     }
 
@@ -91,9 +93,8 @@ class DomainTest extends PHPUnit_Framework_TestCase
             array(333, 'foo')
         );
         $contents = "111\tfoo\n222\tbar\n333\tfoo\n";
-        $folder = vfsStream::url('test/plugins/dlcounter/data/');
-        mkdir($folder, 0777, true);
-        file_put_contents($folder . 'downloads.dat', $contents);
+        $folder = vfsStream::url('test/content/');
+        file_put_contents($folder . 'dlcounter.dat', $contents);
         $this->assertEquals($records, $this->subject->readDb());
     }
 
@@ -101,31 +102,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
     {
         $folder = vfsStream::url('test/plugins/dlcounter/data/');
         mkdir($folder, 0777, true);
-        file_put_contents($folder . 'downloads.dat', '');
-        $timestamp = time();
-        $this->subject->log($timestamp, 'foo');
-        $this->assertEquals(
-            array(array($timestamp, 'foo')),
-            $this->subject->readDb()
-        );
-    }
-
-    /**
-     * @expectedException Dlcounter\WriteException
-     */
-    public function testCantLog()
-    {
-        $this->subject->log(time(), 'foo');
-    }
-
-    public function testLogInCustomDataFolder()
-    {
-        global $plugin_cf;
-
-        $plugin_cf['dlcounter']['folder_data'] = 'userfiles';
-        $folder = vfsStream::url('test/userfiles/');
-        mkdir($folder, 0777, true);
-        file_put_contents($folder . 'downloads.dat', '');
+        file_put_contents($folder . 'dlcounter.dat', '');
         $timestamp = time();
         $this->subject->log($timestamp, 'foo');
         $this->assertEquals(

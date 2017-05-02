@@ -60,7 +60,7 @@ class Domain
     public function readDb()
     {
         $result = array();
-        $filename = $this->dataFolder() . 'downloads.dat';
+        $filename = $this->dataFolder() . 'dlcounter.dat';
         if (is_readable($filename)) {
             $lines = file($filename);
         } else {
@@ -85,7 +85,7 @@ class Domain
         global $plugin_tx;
 
         $line = $timestamp . "\t" . basename($basename) . "\n";
-        $filename = $this->dataFolder() . 'downloads.dat';
+        $filename = $this->dataFolder() . 'dlcounter.dat';
         if (!is_dir(dirname($filename))
             || file_put_contents($filename, $line, FILE_APPEND | LOCK_EX) === false
         ) {
@@ -120,7 +120,6 @@ class Domain
         foreach (array('config/', 'css/', 'languages/') as $folder) {
             $folders[] = $pth['folder']['plugins'] . 'dlcounter/' . $folder;
         }
-        $folders[] = $this->dataFolder();
         foreach ($folders as $folder) {
             $result[sprintf($ptx['syscheck_writable'], $folder)]
                 = is_writable($folder) ? 'ok' : 'warn';
@@ -133,17 +132,12 @@ class Domain
      */
     private function dataFolder()
     {
-        global $pth, $plugin_cf;
+        global $pth, $sl, $cf;
 
-        $pcf = $plugin_cf['dlcounter'];
-        if (trim($pcf['folder_data']) == '') {
-            $result = $pth['folder']['plugins'] . 'dlcounter/data/';
+        if ($sl === $cf['language']['default']) {
+            return $pth['folder']['content'];
         } else {
-            $result = $pth['folder']['base'] . $pcf['folder_data'];
-            if ($result[strlen($result) - 1] != '/') {
-                $result .= '/';
-            }
+            return dirname($pth['folder']['content']) . "/";
         }
-        return $result;
     }
 }

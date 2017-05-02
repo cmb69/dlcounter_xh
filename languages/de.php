@@ -25,7 +25,6 @@ $plugin_tx['dlcounter']['syscheck_writable']="Ordner \"%s\" beschreibbar";
 $plugin_tx['dlcounter']['info_title']="Info";
 $plugin_tx['dlcounter']['info_about']="Über Dlcounter_XH";
 
-$plugin_tx['dlcounter']['cf_folder_data']="Der Pfad eines Ordner relativ zum Installationsverzeichnis von CMSimple_XH, wo die Daten des Plugins gespeichert werden sollen, z.B. \"userfiles/dlcounter/\". Ist diese Option leer, dann wird im data/ Order des Plugin gespeichert.";
 $plugin_tx['dlcounter']['cf_folder_downloads']="Der Pfad eines Ordners relativ zum Installationsverzeichnis von CMSimple_XH, wo die herunter zu ladenden Dateien gespeichert werden, z.B. \"userfiles/downloads/\".";
 
 ?>
