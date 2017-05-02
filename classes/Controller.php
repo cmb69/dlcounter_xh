@@ -1,57 +1,41 @@
 <?php
 
 /**
- * The controllers.
+ * Copyright 2012-2017 Christoph M. Becker
  *
- * PHP version 5
+ * This file is part of Dlcounter_XH.
  *
- * @category  CMSimple_XH
- * @package   Dlcounter
- * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2012-2017 Christoph M. Becker <http://3-magi.net>
- * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ * Dlcounter_XH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fa_XH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Dlcounter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace Dlcounter;
 
-/**
- * The controllers.
- *
- * @category CMSimple_XH
- * @package  Dlcounter
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
- */
 class Controller
 {
     /**
-     * The domain object.
-     *
      * @var Domain
      */
-    protected $domain;
+    private $domain;
 
-    /**
-     * Initializes a new instance.
-     *
-     * @param Domain $domain A domain model.
-     */
     public function __construct(Domain $domain)
     {
         $this->domain = $domain;
     }
 
     /**
-     * Renders the download form.
-     *
-     * @param string $basename A filename.
-     *
-     * @return string (X)HTML.
-     *
-     * @global string The script name.
-     * @global array  The localization of the plugins.
+     * @param string $basename
+     * @return string
      */
     public function renderDownloadForm($basename)
     {
@@ -60,9 +44,7 @@ class Controller
         $ptx = $plugin_tx['dlcounter'];
         $filename = $this->domain->downloadFolder() . basename($basename);
         if (!is_readable($filename)) {
-            return $this->renderMessage(
-                'fail', sprintf($ptx['message_cantread'], $filename)
-            );
+            return $this->renderMessage('fail', sprintf($ptx['message_cantread'], $filename));
         }
         $size = $this->renderSize(filesize($filename));
         return '<form class="dlcounter" action="' . $sn . '" method="post">'
@@ -78,13 +60,10 @@ class Controller
     }
 
     /**
-     * Renders a filesize.
-     *
-     * @param int $filesize A filesize.
-     *
+     * @param int $filesize
      * @return string
      */
-    protected function renderSize($filesize)
+    private function renderSize($filesize)
     {
         $units = array('B', 'KB', 'MB', 'GB');
         $log = (int) log($filesize, 1024);
@@ -92,13 +71,8 @@ class Controller
     }
 
     /**
-     * Delivers the download.
-     *
-     * @param string $basename A basename.
-     *
+     * @param string $basename
      * @return void
-     *
-     * @global string The (X)HTML for the contents area.
      */
     public function download($basename)
     {
@@ -120,13 +94,9 @@ class Controller
     }
 
     /**
-     * Delivers a downloadable file.
-     *
-     * @param string $filename A filename.
-     *
-     * @return void
+     * @param string $filename
      */
-    protected function deliverDownload($filename)
+    private function deliverDownload($filename)
     {
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=' . basename($filename));
@@ -136,11 +106,7 @@ class Controller
     }
 
     /**
-     * Renders the plugin info.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @return string
      */
     public function renderPluginInfo()
     {
@@ -154,13 +120,9 @@ class Controller
     }
 
     /**
-     * Renders the plugin synopsis.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @return string
      */
-    protected function renderSynopsis()
+    private function renderSynopsis()
     {
         global $plugin_tx;
 
@@ -170,13 +132,9 @@ class Controller
     }
 
     /**
-     * Renders the system check.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @return string
      */
-    protected function renderSystemCheck()
+    private function renderSystemCheck()
     {
         global $plugin_tx;
 
@@ -191,14 +149,11 @@ class Controller
     }
 
     /**
-     * Renders a single system check item.
-     *
-     * @param string $check A label.
-     * @param string $state A state.
-     *
-     * @return string XHTML.
+     * @param string $check
+     * @param string $state
+     * @return string
      */
-    protected function renderSystemCheckItem($check, $state)
+    private function renderSystemCheckItem($check, $state)
     {
         $src = $this->domain->imageFolder() . $state . '.png';
         return '<li>'
@@ -207,13 +162,9 @@ class Controller
     }
 
     /**
-     * Renders the plugin version.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @return string
      */
-    protected function renderVersion()
+    private function renderVersion()
     {
         global $plugin_tx;
 
@@ -231,11 +182,9 @@ class Controller
     }
 
     /**
-     * Renders the license text.
-     *
-     * @return string (X)HTML.
+     * @return string
      */
-    protected function renderLicense()
+    private function renderLicense()
     {
         return <<<EOT
 <p class="dlcounter_license">
@@ -259,11 +208,7 @@ EOT;
     }
 
     /**
-     * Renders the statistics.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @return string
      */
     public function renderStatistics()
     {
@@ -283,15 +228,10 @@ EOT;
     }
 
     /**
-     * Renders the summary table.
-     *
-     * @param array $totals A map from filenames to download counts.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localiazation of the plugins.
+     * @param array $totals
+     * @return string
      */
-    protected function renderSummaryTable($totals)
+    private function renderSummaryTable($totals)
     {
         global $plugin_tx;
 
@@ -309,13 +249,9 @@ EOT;
     }
 
     /**
-     * Renders the head of the summary table.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @return string
      */
-    protected function renderSummaryTableHead()
+    private function renderSummaryTableHead()
     {
         global $plugin_tx;
 
@@ -326,28 +262,20 @@ EOT;
     }
 
     /**
-     * Renders a row of the summary table.
-     *
-     * @param string $filename A filename.
-     * @param int    $count    A download count.
-     *
-     * @return string (X)HTML.
+     * @param string $filename
+     * @param int $count
+     * @return string
      */
-    protected function renderSummaryTableRow($filename, $count)
+    private function renderSummaryTableRow($filename, $count)
     {
         return '<tr><td>' . $filename . '</td><td>' . $count . '</td></tr>';
     }
 
     /**
-     * Renders the detail table.
-     *
-     * @param array $data A list of records (timestamp, filename).
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @param array $data
+     * @return string
      */
-    protected function renderDetailsTable($data)
+    private function renderDetailsTable($data)
     {
         global $plugin_tx;
 
@@ -365,13 +293,9 @@ EOT;
     }
 
     /**
-     * Renders the head of the details table.
-     *
-     * @return string (X)HTML.
-     *
-     * @global array The localization of the plugins.
+     * @return string
      */
-    protected function renderDetailsTableHead()
+    private function renderDetailsTableHead()
     {
         global $plugin_tx;
 
@@ -382,28 +306,17 @@ EOT;
     }
 
     /**
-     * Renders a row of the details table.
-     *
-     * @param int    $timestamp A unix timestamp.
-     * @param string $filename  A filename.
-     *
-     * @return string (X)HTML.
+     * @param int $timestamp
+     * @param string $filename
+     * @return string
      */
-    protected function renderDetailsTableRow($timestamp, $filename)
+    private function renderDetailsTableRow($timestamp, $filename)
     {
         return '<tr><td>' . date('Y-m-d H:i:s', $timestamp) . '</td>'
             . '<td>' . $filename . '</td></tr>';
     }
 
-    /**
-     * Outputs the JS to initialize the tablesorter to <head>.
-     *
-     * @return void
-     *
-     * @global array  The paths of system files and folders.
-     * @global string The (X)HTML to insert into the head element.
-     */
-    protected function hjs()
+    private function hjs()
     {
         global $pth, $hjs;
 
@@ -426,14 +339,11 @@ SCRIPT;
     }
 
     /**
-     * Renders a message.
-     *
-     * @param string $type    A type ('success', 'info', 'warning' or 'fail').
-     * @param string $message A message.
-     *
-     * @return string (X)HTML.
+     * @param string $type
+     * @param string $message
+     * @return string
      */
-    protected function renderMessage($type, $message)
+    private function renderMessage($type, $message)
     {
         if (function_exists('XH_message')) {
             return XH_message($type, $message);
@@ -445,5 +355,3 @@ SCRIPT;
         }
     }
 }
-
-?>

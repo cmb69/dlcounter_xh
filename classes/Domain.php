@@ -1,38 +1,30 @@
 <?php
 
 /**
- * The domain model.
+ * Copyright 2012-2017 Christoph M. Becker
  *
- * PHP version 5
+ * This file is part of Dlcounter_XH.
  *
- * @category  CMSimple_XH
- * @package   Dlcounter
- * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2012-2017 Christoph M. Becker <http://3-magi.net>
- * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ * Dlcounter_XH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fa_XH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Dlcounter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace Dlcounter;
 
-/**
- * The domain model.
- *
- * @category CMSimple_XH
- * @package  Dlcounter
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
- */
 class Domain
 {
     /**
-     * Returns the path of the download folder.
-     *
      * @return string
-     *
-     * @global array The paths of system files and folders.
-     * @global array The configuration of the plugins.
      */
     public function downloadFolder()
     {
@@ -43,11 +35,7 @@ class Domain
     }
 
     /**
-     * Returns the path of the image folder.
-     *
      * @return string
-     *
-     * @global array The paths of system files and folders.
      */
     public function imageFolder()
     {
@@ -57,11 +45,7 @@ class Domain
     }
 
     /**
-     * Returns the path of the plugin logo.
-     *
      * @return string
-     *
-     * @global array The paths of system files and folders.
      */
     public function logoPath()
     {
@@ -71,9 +55,7 @@ class Domain
     }
 
     /**
-     * Returns the content of the downloads database.
-     *
-     * @return array An array of records.
+     * @return array
      */
     public function readDb()
     {
@@ -93,16 +75,10 @@ class Domain
     }
 
     /**
-     * Appends a log entry for the download.
-     *
-     * @param int    $timestamp A timestamp.
-     * @param string $basename  A basename.
-     *
+     * @param int $timestamp
+     * @param string $basename
      * @return void
-     *
      * @throws WriteException
-     *
-     * @global array The localization of the plugins.
      */
     public function log($timestamp, $basename)
     {
@@ -120,13 +96,7 @@ class Domain
     }
 
     /**
-     * Returns the system checks as map<string, status>.
-     *
      * @return array
-     *
-     * @global array The paths of system files and folders.
-     * @global array The localization of the core.
-     * @global array The localization of the plugins.
      */
     public function systemChecks()
     {
@@ -161,14 +131,9 @@ class Domain
     }
 
     /**
-     * Returns the path of the data folder.
-     *
      * @return string
-     *
-     * @global array The path of system files and folders.
-     * @global array The configuration of the plugins.
      */
-    protected function dataFolder()
+    private function dataFolder()
     {
         global $pth, $plugin_cf;
 
@@ -184,5 +149,3 @@ class Domain
         return $result;
     }
 }
-
-?>

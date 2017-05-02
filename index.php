@@ -1,16 +1,22 @@
 <?php
 
 /**
- * Front-end of Dlcounter_XH.
+ * Copyright 2012-2017 Christoph M. Becker
  *
- * PHP version 5
+ * This file is part of Dlcounter_XH.
  *
- * @category  CMSimple_XH
- * @package   Dlcounter
- * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2012-2017 Christoph M. Becker <http://3-magi.net>
- * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ * Dlcounter_XH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fa_XH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Dlcounter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
@@ -21,26 +27,16 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
     exit;
 }
 
-/**
- * The plugin version.
- */
 define('DLCOUNTER_VERSION', '@DLCOUNTER_VERSION@');
 
 /**
- * The plugin object.
- *
  * @var Dlcounter
  */
 $_Dlcounter = new Dlcounter\Controller(new Dlcounter\Domain());
 
 /**
- * Returns the download form view.
- *
- * @param string $filename A filename.
- *
- * @return string (X)HTML.
- *
- * @global Dlcounter The plugin object.
+ * @param string $filename
+ * @return string
  */
 function dlcounter($filename)
 {
@@ -49,13 +45,6 @@ function dlcounter($filename)
     return $_Dlcounter->renderDownloadForm($filename);
 }
 
-/**
- * Includes the jquery4cmsimple include file.
- *
- * @return void
- *
- * @global array The paths of system files and folders.
- */
 function Dlcounter_includeJQuery()
 {
     global $pth;
@@ -84,5 +73,3 @@ if (!function_exists('XH_exit')) {
 if (isset($_POST['dlcounter']) && $_POST['dlcounter'] != '') {
     $_Dlcounter->download(stsl($_POST['dlcounter']));
 }
-
-?>

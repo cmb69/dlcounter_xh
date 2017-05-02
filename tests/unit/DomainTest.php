@@ -1,50 +1,39 @@
 <?php
 
 /**
- * Testing the model.
+ * Copyright 2012-2017 Christoph M. Becker
  *
- * PHP version 5
+ * This file is part of Dlcounter_XH.
  *
- * @category  Testing
- * @package   Dlcounter
- * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2012-2017 Christoph M. Becker <http://3-magi.net>
- * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
+ * Dlcounter_XH is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fa_XH is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Dlcounter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Dlcounter;
+
+use PHPUnit_Framework_TestCase;
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
-use Dlcounter\Domain;
 
-/**
- * Testing the model.
- *
- * @category Testing
- * @package  Dlcounter
- * @author   Christoph M. Becker <cmbecker69@gmx.de>
- * @license  http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
- * @link     http://3-magi.net/?CMSimple_XH/Dlcounter_XH
- */
 class DomainTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * The test subject.
-     *
      * @var Domain
      */
-    protected $subject;
+    private $subject;
 
-    /**
-     * Sets up the test fixture.
-     *
-     * @return void
-     *
-     * @global array The paths of system files and folders.
-     * @global array The configuration of the plugins.
-     */
-    public function setUp()
+    protected function setUp()
     {
         global $pth, $plugin_cf;
 
@@ -65,11 +54,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $this->subject = new Domain();
     }
 
-    /**
-     * Tests the download folder.
-     *
-     * @return void
-     */
     public function testDownloadFolder()
     {
         $this->assertEquals(
@@ -78,11 +62,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Tests the image folder.
-     *
-     * @return void
-     */
     public function testImageFolder()
     {
         $this->assertEquals(
@@ -91,11 +70,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Tests the logo path.
-     *
-     * @return void
-     */
     public function testLogoPath()
     {
         $this->assertEquals(
@@ -104,21 +78,11 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Tests reading an empty database.
-     *
-     * @return void
-     */
     public function testReadEmptyDb()
     {
         $this->assertEmpty($this->subject->readDb());
     }
 
-    /**
-     * Tests reading the database.
-     *
-     * @return void
-     */
     public function testReadDb()
     {
         $records = array(
@@ -133,11 +97,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($records, $this->subject->readDb());
     }
 
-    /**
-     * Tests logging.
-     *
-     * @return void
-     */
     public function testLog()
     {
         $folder = vfsStream::url('test/plugins/dlcounter/data/');
@@ -152,10 +111,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that failed logging throws exception.
-     *
-     * @return void
-     *
      * @expectedException Dlcounter\WriteException
      */
     public function testCantLog()
@@ -163,13 +118,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $this->subject->log(time(), 'foo');
     }
 
-    /**
-     * Tests logging in custom data folder.
-     *
-     * @return void
-     *
-     * @global array The configuration of the plugins.
-     */
     public function testLogInCustomDataFolder()
     {
         global $plugin_cf;
@@ -186,15 +134,8 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Tests the system checks.
-     *
-     * @return void
-     */
     public function testSystemChecks()
     {
         $this->assertCount(1, $this->subject->systemChecks());
     }
 }
-
-?>
