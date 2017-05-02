@@ -8,7 +8,7 @@
  * @category  CMSimple_XH
  * @package   Dlcounter
  * @author    Christoph M. Becker <cmbecker69@gmx.de>
- * @copyright 2012-2016 Christoph M. Becker <http://3-magi.net>
+ * @copyright 2012-2017 Christoph M. Becker <http://3-magi.net>
  * @license   http://www.gnu.org/licenses/gpl-3.0.en.html GNU GPLv3
  * @link      http://3-magi.net/?CMSimple_XH/Dlcounter_XH
  */
@@ -225,7 +225,7 @@ class Controller
                 . ' height="128" alt="Plugin Icon"'
             )
             . '<p>Version: ' . DLCOUNTER_VERSION . '</p>'
-            . '<p>Copyright &copy; 2012-2016'
+            . '<p>Copyright &copy; 2012-2017'
             . ' <a href="http://3-magi.net">Christoph M. Becker</a></p>'
             . $this->renderLicense();
     }
