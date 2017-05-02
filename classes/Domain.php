@@ -103,7 +103,7 @@ class Domain
         global $pth, $tx, $plugin_tx;
 
         $ptx = $plugin_tx['dlcounter'];
-        $phpVersion = '5.3.0';
+        $phpVersion = '5.4.0';
         $result = array();
         $result[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
             = version_compare(PHP_VERSION, $phpVersion) >= 0
