@@ -43,7 +43,7 @@ class Controller
 
         $filename = $this->domain->downloadFolder() . basename($basename);
         if (!is_readable($filename)) {
-            return $this->renderMessage('fail', sprintf($plugin_tx['dlcounter']['message_cantread'], $filename));
+            return XH_message('fail', sprintf($plugin_tx['dlcounter']['message_cantread'], $filename));
         }
 
         $view = new View('download-form');
@@ -81,7 +81,7 @@ class Controller
                 }
                 $this->deliverDownload($filename);
             } catch (Exception $ex) {
-                $o .= $this->renderMessage('fail', $ex->getMessage());
+                $o .= XH_message('fail', $ex->getMessage());
             }
         } else {
             shead('404');
@@ -178,22 +178,5 @@ jQuery(function() {
 </script>
 
 SCRIPT;
-    }
-
-    /**
-     * @param string $type
-     * @param string $message
-     * @return string
-     */
-    private function renderMessage($type, $message)
-    {
-        if (function_exists('XH_message')) {
-            return XH_message($type, $message);
-        } else {
-            $class = in_array($type, array('warning', 'fail'))
-                ? 'cmsimplecore_warning'
-                : '';
-            return '<p class="' . $class . '">' . $message . '</p>';
-        }
     }
 }
