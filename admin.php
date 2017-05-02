@@ -24,7 +24,7 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
 /*
  * Handle the plugin administration.
  */
-if (isset($dlcounter) && $dlcounter === 'true') {
+if (XH_wantsPluginAdministration('dlcounter')) {
     $o .= print_plugin_admin('on');
 
     switch ($admin) {
