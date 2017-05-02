@@ -19,7 +19,6 @@ $plugin_tx['dlcounter']['syscheck_title']="System Check";
 $plugin_tx['dlcounter']['syscheck_phpversion']="PHP version &ge; %s";
 $plugin_tx['dlcounter']['syscheck_extension']="Extension \"%s\" loaded";
 $plugin_tx['dlcounter']['syscheck_encoding']="Encoding \"UTF-8\" configured";
-$plugin_tx['dlcounter']['syscheck_magic_quotes']="magic_quotes_runtime Off";
 $plugin_tx['dlcounter']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.org/wiki/doku.php/extend:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
 $plugin_tx['dlcounter']['syscheck_writable']="Folder \"%s\" writable";
 

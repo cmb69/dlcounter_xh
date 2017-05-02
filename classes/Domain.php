@@ -114,8 +114,6 @@ class Domain
         }
         $result[$ptx['syscheck_encoding']]
             = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
-        $result[$ptx['syscheck_magic_quotes']]
-            = !get_magic_quotes_runtime() ? 'ok' : 'warn';
         $result[$ptx['syscheck_jquery']]
             = file_exists($pth['folder']['plugins'] . 'jquery/jquery.inc.php')
                 ? 'ok' : 'fail';
