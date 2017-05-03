@@ -17,6 +17,7 @@ $plugin_tx['dlcounter']['alt_logo']="Download Processor";
 $plugin_tx['dlcounter']['synopsis_title']="Synopsis";
 $plugin_tx['dlcounter']['synopsis_filename']="FILENAME";
 
+$plugin_tx['dlcounter']['syscheck_extension']="the PHP extension '%s' is loaded";
 $plugin_tx['dlcounter']['syscheck_fail']="failure";
 $plugin_tx['dlcounter']['syscheck_message']="Checking that %1\$s … %2\$s";
 $plugin_tx['dlcounter']['syscheck_phpversion']="PHP version ≥ %s";

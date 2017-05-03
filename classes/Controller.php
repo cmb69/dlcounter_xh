@@ -95,7 +95,8 @@ class Controller
     {
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $basename = urlencode(basename($filename));
-        header('Content-Type: application/octet-stream');
+        $mimeType = mime_content_type($filename);
+        header("Content-Type: $mimeType");
         header("Content-Disposition: attachment; filename=file.$extension; filename*=UTF-8''$basename");
         header('Content-Length: ' . filesize($filename));
         while (ob_get_level()) {

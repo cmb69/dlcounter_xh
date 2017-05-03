@@ -17,6 +17,7 @@ $plugin_tx['dlcounter']['alt_logo']="Download-Verarbeitung";
 $plugin_tx['dlcounter']['synopsis_title']="Kurzfassung";
 $plugin_tx['dlcounter']['synopsis_filename']="DATEINAME";
 
+$plugin_tx['dlcounter']['syscheck_extension']="die PHP-Erweiterung '%s' geladen ist";
 $plugin_tx['dlcounter']['syscheck_fail']="Fehler";
 $plugin_tx['dlcounter']['syscheck_message']="Prüfe, dass %1\$s … %2\$s";
 $plugin_tx['dlcounter']['syscheck_phpversion']="die PHP-Version ≥ %s";

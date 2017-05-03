@@ -54,6 +54,7 @@ class SystemCheckService
     {
         return array(
             $this->checkPhpVersion('5.4.0'),
+            $this->checkExtension('fileinfo'),
             $this->checkXhVersion('1.6.3'),
             $this->checkPlugin('jquery'),
             $this->checkWritability("$this->pluginFolder/css/"),
@@ -70,6 +71,19 @@ class SystemCheckService
     {
         $state = version_compare(PHP_VERSION, $version, 'ge') ? 'success' : 'fail';
         $label = sprintf($this->lang['syscheck_phpversion'], $version);
+        $stateLabel = $this->lang["syscheck_$state"];
+        return (object) compact('state', 'label', 'stateLabel');
+    }
+
+    /**
+     * @param string $extension
+     * @param bool $isMandatory
+     * @return object
+     */
+    private function checkExtension($extension, $isMandatory = true)
+    {
+        $state = extension_loaded($extension) ? 'success' : ($isMandatory ? 'fail' : 'warning');
+        $label = sprintf($this->lang['syscheck_extension'], $extension);
         $stateLabel = $this->lang["syscheck_$state"];
         return (object) compact('state', 'label', 'stateLabel');
     }
