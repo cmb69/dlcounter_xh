@@ -29,9 +29,9 @@ class MainController
     private $basename;
 
     /**
-     * @var Domain
+     * @var DbService
      */
-    private $model;
+    private $dbService;
 
     /**
      * @var array
@@ -46,7 +46,7 @@ class MainController
         global $plugin_tx;
 
         $this->basename = $basename;
-        $this->model = new Domain;
+        $this->dbService = new DbService;
         $this->lang = $plugin_tx['dlcounter'];
     }
 
@@ -64,7 +64,7 @@ class MainController
         $view->actionUrl = "$sn?$su";
         $view->basename = $this->basename;
         $view->size = $this->determineSize($filename);
-        $view->times = $this->model->getDownloadCountOf($this->basename);
+        $view->times = $this->dbService->getDownloadCountOf($this->basename);
         $view->render();
     }
 
@@ -86,7 +86,7 @@ class MainController
         $filename = $downloadService->downloadFolder() . basename($this->basename);
         if (is_readable($filename)) {
             if (!XH_ADM) {
-                if (!$this->model->log(time(), $filename)) {
+                if (!$this->dbService->log(time(), $filename)) {
                     echo XH_message('fail', $this->lang['message_cantwrite'], $filename);
                     return;
                 }

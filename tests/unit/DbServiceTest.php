@@ -26,10 +26,10 @@ use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
 
-class DomainTest extends PHPUnit_Framework_TestCase
+class DbServiceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Domain
+     * @var DbService
      */
     private $subject;
 
@@ -54,7 +54,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
         mkdir(vfsStream::url('test/content/'), 0777, true);
         touch(vfsStream::url('test/content/dlcounter.csv'));
-        $this->subject = new Domain();
+        $this->subject = new DbService;
     }
 
     public function testReadEmptyDb()

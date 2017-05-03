@@ -21,7 +21,7 @@
 
 namespace Dlcounter;
 
-class Domain
+class DbService
 {
     /**
      * @return array

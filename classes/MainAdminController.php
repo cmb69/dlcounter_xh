@@ -24,19 +24,19 @@ namespace Dlcounter;
 class MainAdminController
 {
     /**
-     * @var Domain
+     * @var DbService
      */
-    private $model;
+    private $dbService;
 
     public function __construct()
     {
-        $this->model = new Domain;
+        $this->dbService = new DbService;
     }
 
     public function defaultAction()
     {
         $this->emitScripts();
-        $data = $this->model->readDb();
+        $data = $this->dbService->readDb();
         $totals = array_count_values(
             array_map(function ($elt) {
                 return $elt[1];
