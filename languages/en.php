@@ -12,6 +12,8 @@ $plugin_tx['dlcounter']['message_cantwrite']="Can't write to file \"%s\"!";
 
 $plugin_tx['dlcounter']['menu_main']="Statistics";
 
+$plugin_tx['dlcounter']['alt_logo']="Download Processor";
+
 $plugin_tx['dlcounter']['synopsis_title']="Synopsis";
 $plugin_tx['dlcounter']['synopsis_filename']="FILENAME";
 
@@ -24,9 +26,6 @@ $plugin_tx['dlcounter']['syscheck_title']="System check";
 $plugin_tx['dlcounter']['syscheck_warning']="warning";
 $plugin_tx['dlcounter']['syscheck_writable']="'%s' is writable";
 $plugin_tx['dlcounter']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
-
-$plugin_tx['dlcounter']['info_title']="Info";
-$plugin_tx['dlcounter']['info_about']="About Dlcounter_XH";
 
 $plugin_tx['dlcounter']['cf_folder_downloads']="The path of a folder relative to the CMSimple_XH root directory, where the downloadable files are stored, e.g. \"userfiles/downloads/\".";
 

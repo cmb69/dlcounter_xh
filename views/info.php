@@ -1,14 +1,5 @@
-<h1>Dlcounter – <?=$this->text('info_title')?></h1>
-<h4><?=$this->text('synopsis_title')?></h4>
-<pre>{{{PLUGIN:dlcounter('<?=$this->text('synopsis_filename')?>');}}}</pre>
-<div class="dlcounter_syscheck">
-    <h4><?php echo $this->text('syscheck_title')?></h4>
-<?php foreach ($this->checks as $check):?>
-    <p class="xh_<?php echo $this->escape($check->state)?>"><?php echo $this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
-<?php endforeach?>
-</div>
-<h4><?=$this->text('info_about')?></h4>
-<img class="dlcounter_plugin_icon" src="<?=$this->logo()?>" width="128" height="128" alt="Plugin Icon">
+<h1>Dlcounter</h1>
+<img class="dlcounter_logo" src="<?=$this->logo()?>" alt="<?=$this->text('alt_logo')?>">
 <p>Version: <?=$this->version()?></p>
 <p>Copyright &copy; 2012-2017 Christoph M. Becker</p>
 <p class="dlcounter_license">
@@ -28,3 +19,13 @@
     this program. If not, see <a
     href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
 </p>
+<div>
+    <h2><?=$this->text('synopsis_title')?></h2>
+    <pre>{{{dlcounter('<?=$this->text('synopsis_filename')?>')}}}</pre>
+</div>
+<div class="dlcounter_syscheck">
+    <h2><?php echo $this->text('syscheck_title')?></h2>
+<?php foreach ($this->checks as $check):?>
+    <p class="xh_<?php echo $this->escape($check->state)?>"><?php echo $this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
+<?php endforeach?>
+</div>

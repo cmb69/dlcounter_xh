@@ -12,6 +12,8 @@ $plugin_tx['dlcounter']['message_cantwrite']="Datei \"%s\" nicht schreibbar!";
 
 $plugin_tx['dlcounter']['menu_main']="Statistiken";
 
+$plugin_tx['dlcounter']['alt_logo']="Download-Verarbeitung";
+
 $plugin_tx['dlcounter']['synopsis_title']="Kurzfassung";
 $plugin_tx['dlcounter']['synopsis_filename']="DATEINAME";
 
@@ -24,9 +26,6 @@ $plugin_tx['dlcounter']['syscheck_title']="System-Prüfung";
 $plugin_tx['dlcounter']['syscheck_warning']="Warnung";
 $plugin_tx['dlcounter']['syscheck_writable']="'%s' schreibbar ist";
 $plugin_tx['dlcounter']['syscheck_xhversion']="die CMSimple_XH-Version ≥ %s";
-
-$plugin_tx['dlcounter']['info_title']="Info";
-$plugin_tx['dlcounter']['info_about']="Über Dlcounter_XH";
 
 $plugin_tx['dlcounter']['cf_folder_downloads']="Der Pfad eines Ordners relativ zum Installationsverzeichnis von CMSimple_XH, wo die herunter zu ladenden Dateien gespeichert werden, z.B. \"userfiles/downloads/\".";
 
