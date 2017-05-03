@@ -106,40 +106,10 @@ class Controller
     public function renderPluginInfo()
     {
         $view = new View('info');
-        $view->systemCheck = new HtmlString($this->renderSystemCheck());
         $view->logo = $this->domain->logoPath();
         $view->version = DLCOUNTER_VERSION;
+        $view->checks = (new SystemCheckService)->getChecks();
         return (string) $view;
-    }
-
-    /**
-     * @return string
-     */
-    private function renderSystemCheck()
-    {
-        global $plugin_tx;
-
-        $ptx = $plugin_tx['dlcounter'];
-        $result = "<h4>$ptx[syscheck_title]</h4>"
-            . '<ul class="dlcounter_system_check">';
-        foreach ($this->domain->systemChecks() as $check => $state) {
-            $result .= $this->renderSystemCheckItem($check, $state);
-        }
-        $result .= '</ul>';
-        return $result;
-    }
-
-    /**
-     * @param string $check
-     * @param string $state
-     * @return string
-     */
-    private function renderSystemCheckItem($check, $state)
-    {
-        $src = $this->domain->imageFolder() . $state . '.png';
-        return '<li>'
-            . tag("img src=\"$src\" alt=\"$state\"") . " $check"
-            . '</li>';
     }
 
     /**

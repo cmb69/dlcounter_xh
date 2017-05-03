@@ -15,12 +15,15 @@ $plugin_tx['dlcounter']['menu_main']="Statistics";
 $plugin_tx['dlcounter']['synopsis_title']="Synopsis";
 $plugin_tx['dlcounter']['synopsis_filename']="FILENAME";
 
-$plugin_tx['dlcounter']['syscheck_title']="System Check";
-$plugin_tx['dlcounter']['syscheck_phpversion']="PHP version &ge; %s";
-$plugin_tx['dlcounter']['syscheck_extension']="Extension \"%s\" loaded";
-$plugin_tx['dlcounter']['syscheck_encoding']="Encoding \"UTF-8\" configured";
-$plugin_tx['dlcounter']['syscheck_jquery']="<a href=\"http://www.cmsimple-xh.org/wiki/doku.php/extend:jquery4cmsimple\">jQuery4CMSimple plugin</a> installed";
-$plugin_tx['dlcounter']['syscheck_writable']="Folder \"%s\" writable";
+$plugin_tx['dlcounter']['syscheck_fail']="failure";
+$plugin_tx['dlcounter']['syscheck_message']="Checking that %1\$s … %2\$s";
+$plugin_tx['dlcounter']['syscheck_phpversion']="PHP version ≥ %s";
+$plugin_tx['dlcounter']['syscheck_plugin']="the CMSimple_XH plugin '%s' is installed";
+$plugin_tx['dlcounter']['syscheck_success']="okay";
+$plugin_tx['dlcounter']['syscheck_title']="System check";
+$plugin_tx['dlcounter']['syscheck_warning']="warning";
+$plugin_tx['dlcounter']['syscheck_writable']="'%s' is writable";
+$plugin_tx['dlcounter']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
 
 $plugin_tx['dlcounter']['info_title']="Info";
 $plugin_tx['dlcounter']['info_about']="About Dlcounter_XH";

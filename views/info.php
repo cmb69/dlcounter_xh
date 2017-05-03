@@ -1,7 +1,12 @@
 <h1>Dlcounter – <?=$this->text('info_title')?></h1>
 <h4><?=$this->text('synopsis_title')?></h4>
 <pre>{{{PLUGIN:dlcounter('<?=$this->text('synopsis_filename')?>');}}}</pre>
-<?=$this->systemCheck()?>
+<div class="dlcounter_syscheck">
+    <h4><?php echo $this->text('syscheck_title')?></h4>
+<?php foreach ($this->checks as $check):?>
+    <p class="xh_<?php echo $this->escape($check->state)?>"><?php echo $this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
+<?php endforeach?>
+</div>
 <h4><?=$this->text('info_about')?></h4>
 <img class="dlcounter_plugin_icon" src="<?=$this->logo()?>" width="128" height="128" alt="Plugin Icon">
 <p>Version: <?=$this->version()?></p>
