@@ -27,6 +27,8 @@ if (!defined('CMSIMPLE_XH_VERSION')) {
     exit;
 }
 
+XH_registerStandardPluginMenuItems(true);
+
 /*
  * Handle the plugin administration.
  */
