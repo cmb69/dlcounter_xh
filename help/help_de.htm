@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Dlcounter_XH – Handbuch</title>
+<link rel="stylesheet" type="text/css" href="./stylesheet.css">
+</head>
+
+<body>
+
+<article>
+<h1>Dlcounter_XH – Handbuch</h1>
+<img src="../dlcounter.png" class="logo" alt="Download-Verarbeitung">
+<p>
+    Dlcounter_XH ist ein einfacher Downloadzähler für CMSimple_XH. Anstelle
+    eines Links zur herunter zu ladenden Datei wird der Download als
+    HTML-Formular angeboten, das von Bots ignoriert werden sollte, so dass der
+    Downloadzähler etwas akkurater sein sollte. Bitte beachten Sie, dass absolut
+    akkurate Downloadzahlen mit Dlcounter_XH nicht erzielt werden können (und
+    vermutlich auch nicht mit anderen Downloadzählern), da beispielsweise
+    abgebrochene Downloads oder mehrfache Downloads, die von Download-Managern
+    angestoßen werden, nicht besonders berücksichtigt werden.
+</p>
+<p>
+    Download-Statistiken können im Plugin-Backend eingesehen werden.
+</p>
+
+<nav id="nav">
+<h2>Inhaltsverzeichnis</h2>
+<ul>
+<li><a href="#notice">Wichtiger Hinweis</a></li>
+<li><a href="#requirements">Voraussetzungen</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#settings">Einstellungen</a></li>
+<li><a href="#usage">Verwendung</a></li>
+<!--<li><a href="#limitations">Limitations</a></li>-->
+<li><a href="#license">Lizenz</a></li>
+<li><a href="#credits">Danksagung</a></li>
+</ul>
+</nav>
+
+<section id="notice">
+<h2>Wichtiger Hinweis</h2>
+<p class="important">
+    Dlcounter_XH konnte bisher nicht in diversen Umgebungen getestet werden. Es
+    ist eine so genannte Beta-Version. Vorsicht bei der Verwendung!
+</p>
+</section>
+
+<section id="requirements">
+<h2>Voraussetzungen</h2>
+<p>
+    Dlcounter_XH erfodert CMSimple_XH ≥ 1.6.3 und PHP ≥ 5.4.0 mit der Fileinfo
+    Extension.
+</p>
+</section>
+
+<section id="installation">
+<h2>Installation</h2>
+<p>
+    Die Installation erfolgt wie bei vielen anderen CMSimple_XH-Plugins auch. Im
+    <a href="http://www.cmsimple-xh.org/wiki/doku.php/de:installation">
+    CMSimple_XH Wiki</a> finden sie ausführliche Hinweise.
+</p>
+<ol>
+<li class="important">
+    Sichern Sie die Daten auf Ihrem Server.
+</li>
+<li>
+    Entpacken Sie die ZIP-Datei auf Ihrem Computer.
+</li>
+<li>
+    Laden Sie das gesamte Verzeichnis <code>dlcounter/</code> auf Ihren Server
+    in das <code>plugins/</code> Verzeichnis von CMSimple_XH hoch.
+</li>
+<li>
+    Vergeben Sie Schreibrechte für die Unterverzeichnisse <code>css/</code>,
+    <code>config/</code> und <code>languages/</code>.
+</li>
+<li class="important">
+    Navigieren Sie zu <i>Plugins</i> → <i>Dlcounter</i>, und prüfen Sie, ob alle
+    Voraussetzungen für den Betrieb erfüllt sind.
+</li>
+</ol>
+</section>
+
+<section id="settings">
+<h2>Settings</h2>
+<p>
+    Die Konfiguration des Plugins erfolgt wie bei vielen anderen
+    CMSimple_XH-Plugins auch im Administrationsbereich der Homepage. Wählen Sie
+    unter <i>Plugins</i> → <i>Dlcounter</i> aus.
+</p>
+<p>
+    Sie können die Original-Einstellungen von Dlcounter_XH in der
+    <i>Konfiguration</i> ändern. Beim Überfahren der Hilfe-Icons mit der Maus
+    werden Hinweise zu den Einstellungen angezeigt.
+</p>
+<p>
+    Die Lokalisierung wird unter <i>Sprache</i> vorgenommen. Sie können die
+    Zeichenketten in Ihre eigene Sprache übersetzen, falls keine entsprechende
+    Sprachdatei zur Verfügung steht, oder sie entsprechend Ihren Anforderungen
+    anpassen.
+</p>
+<p>
+    Das Aussehen von Dlcounter_XH kann unter <i>Stylesheet</i> angepasst werden.
+</p>
+</section>
+
+<section id="usage">
+<h2>Verwendung</h2>
+<p>
+    Alle Downloads, die gezählt werden sollen, müssen direkt im konfigurierten
+    Downloadordner (siehe <i>Konfiguration</i> → <i>Folder</i> →
+    <i>Downloads</i>) gespeichert werden. Um das Downloadformular für die Datei
+    <code>download.pdf</code> auf einer Seite anzuzeigen, geben Sie folgendes
+    ein:
+</p>
+<pre>{{{PLUGIN:dlcounter('download.pdf')}}}</pre>
+<p>
+    Sie können unbesorgt prüfen, ob der Download wie gewünscht funktioniert,
+    indem Sie den Download auslösen während Sie als Administration angemeldet
+    sind; diese Downloads werden nicht gezählt.
+</p>
+<p class="important">
+    Um das direkte herunter laden der Dateien zu verhindern (jemand könnte die
+    URL einer Datei erraten), müssen sie den konfigurierten Downloadordner auf
+    eine Weise schützen, die Ihr Server unterstützt (für Apache Server können
+    sie normalerweise eine Kopie von <code>cmsimple/.htaccess</code> verwenden).
+</p>
+<p>
+    Um die Download-Statistiken zu sehen, navigieren Sie zu <i>Plugins</i> →
+    <i>Dlcounter</i> → <i>Statistics</i>. Die Tabellen können durch Klick auf
+    die entsprechende Spaltenüberschrift sortiert werden.
+</p>
+</section>
+
+<!--
+<section id="limitations">
+<h2>Limitations</h2>
+</section>
+-->
+
+<section id="license">
+<h2>Lizenz</h2>
+<p>
+    Dlcounter_XH kann unter Einhaltung der <a
+    href="http://www.gnu.org/licenses/gpl.html">GPLv3</a> verwendet werden.
+</p>
+<p>&copy; 2012-2017 Christoph M. Becker</p>
+<p>
+    Estnische Übersetzung &copy; 2012 Alo Tanavots<br>
+    Russische Übersetzung &copy; 2012 Lybomyr Kydray<br>
+    Slovakische Übersetzung &copy; 2015 Dr. Martin Sereday
+</p>
+</section>
+
+<section id="credits">
+<h2>Danksagung</h2>
+<p>
+    Dlcounter_XH verwendet das <a href="http://tablesorter.com/">jQuery
+    Tablesorter Plugin</a>. Vielen Dank an Christian Bach für die
+    Veröffentlichung unter GPL.
+</p>
+<p>
+    Das Plugin-Logo wurde von <a href="http://yellowicon.com/">YellowIcon</a>
+    gestaltet. Vielen Dank für die Veröffentlichung dieses Icons unter GPL.
+</p>
+<p>
+    Vielen Dank an die Gemeinschaft im <a
+    href="http://www.cmsimpleforum.com/">CMSimple_XH-Forum</a> für Tipps,
+    Anregungen und das Testen.
+</p>
+<p>
+    Zu guter Letzt vielen Dank an <a href="http://harteg.dk/">Peter Harteg</a>,
+    den "Vater" von CMSimple, und allen Entwicklern von <a
+    href="http://www.cmsimple-xh.org/">CMSimple_XH</a>, ohne die dieses
+    fantastische CMS nicht existieren würde.
+</p>
+</section>
+
+</article>
+
+</body>
+
+</html>
