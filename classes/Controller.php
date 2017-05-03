@@ -51,6 +51,7 @@ class Controller
         $view->basename = $basename;
         $view->downloadImage = $this->domain->imageFolder() . 'download-button.png';
         $view->size = $this->renderSize(filesize($filename));
+        $view->times = $this->domain->getDownloadCountOf($basename);
         return (string) $view;
     }
 

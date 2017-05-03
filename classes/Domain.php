@@ -74,6 +74,18 @@ class Domain
         return $result;
     }
 
+    public function getDownloadCountOf($basename)
+    {
+        $result = 0;
+        $downloads = $this->readDb();
+        foreach ($downloads as $download) {
+            if ($download[1] === $basename) {
+                $result++;
+            }
+        }
+        return $result;
+    }
+
     /**
      * @param int $timestamp
      * @param string $basename

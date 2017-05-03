@@ -5,7 +5,11 @@ $plugin_tx['dlcounter']['label_individual']="Einzelne Downloads";
 $plugin_tx['dlcounter']['label_date']="Datum";
 $plugin_tx['dlcounter']['label_file']="Datei";
 $plugin_tx['dlcounter']['label_count']="Anzahl";
-$plugin_tx['dlcounter']['label_download']="«%1\$s» herunter laden";
+$plugin_tx['dlcounter']['label_download']="%1\$s (%2\$s)";
+$plugin_tx['dlcounter']['label_dlcount_0']="noch nicht herunter geladen";
+$plugin_tx['dlcounter']['label_dlcount_1']="%d mal herunter geladen";
+$plugin_tx['dlcounter']['label_dlcount_2_4']="%d mal herunter geladen";
+$plugin_tx['dlcounter']['label_dlcount_5']="%d mal herunter geladen";
 
 $plugin_tx['dlcounter']['message_cantread']="Datei \"%s\" nicht lesbar!";
 $plugin_tx['dlcounter']['message_cantwrite']="Datei \"%s\" nicht schreibbar!";

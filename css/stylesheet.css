@@ -5,6 +5,9 @@
     text-align: center;
 }
 .dlcounter_button {}
+.dlcounter_count {
+    display: block;
+}
 
 /*
  * statistics
