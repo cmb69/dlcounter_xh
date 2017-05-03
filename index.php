@@ -43,7 +43,7 @@ function dlcounter($filename)
     global $_Dlcounter;
 
     if (isset($_POST['dlcounter']) && $_POST['dlcounter'] === $filename) {
-        $_Dlcounter->download(stsl($_POST['dlcounter']));
+        $_Dlcounter->download($_POST['dlcounter']);
     } else {
         return $_Dlcounter->renderDownloadForm($filename);
     }
