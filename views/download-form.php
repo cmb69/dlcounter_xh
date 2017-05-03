@@ -1,7 +1,4 @@
 <form class="dlcounter" action="<?=$this->actionUrl()?>" method="post">
     <input type="hidden" name="dlcounter" value="<?=$this->basename()?>">
-    <button>
-        <img src="<?=$this->downloadImage()?>" alt="<?=$this->text('label_download')?>"
-             title="<?=$this->basename()?> – <?=$this->size()?>">
-    </button>
+    <button class="dlcounter_button"><?=$this->text('label_download', $this->basename, $this->size)?></button>
 </form>

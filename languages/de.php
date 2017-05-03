@@ -5,7 +5,7 @@ $plugin_tx['dlcounter']['label_individual']="Einzelne Downloads";
 $plugin_tx['dlcounter']['label_date']="Datum";
 $plugin_tx['dlcounter']['label_file']="Datei";
 $plugin_tx['dlcounter']['label_count']="Anzahl";
-$plugin_tx['dlcounter']['label_download']="Download";
+$plugin_tx['dlcounter']['label_download']="«%1\$s» herunter laden";
 
 $plugin_tx['dlcounter']['message_cantread']="Datei \"%s\" nicht lesbar!";
 $plugin_tx['dlcounter']['message_cantwrite']="Datei \"%s\" nicht schreibbar!";

@@ -26,7 +26,6 @@ $plugin_tx['dlcounter']['label_individual']="Отдельные скачиван
 $plugin_tx['dlcounter']['label_date']="Дата";
 $plugin_tx['dlcounter']['label_file']="Файл";
 $plugin_tx['dlcounter']['label_count']="Количество";
-$plugin_tx['dlcounter']['label_download']="Скачано";
 $plugin_tx['dlcounter']['cf_folder_data']="Путь к папке, где хранятся файлы данных, относительно корневого каталога CMSimple. Например, \"userfiles/dlcounter/\". Оставьте поле пустым для хранения данных в папке по умолчанию (каталог <b>data/</b> в директории плагина).";
 $plugin_tx['dlcounter']['cf_folder_downloads']="Путь к папке, где хранятся файлы для скачивания, относительно корневого каталога CMSimple. Например, \"userfiles/downloads/\".";
 
