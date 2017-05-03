@@ -98,6 +98,9 @@ class Controller
         header('Content-Type: application/octet-stream');
         header("Content-Disposition: attachment; filename=file.$extension; filename*=UTF-8''$basename");
         header('Content-Length: ' . filesize($filename));
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
         readfile($filename);
         XH_exit();
     }
