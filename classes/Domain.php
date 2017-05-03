@@ -60,7 +60,7 @@ class Domain
     public function readDb()
     {
         $result = array();
-        $filename = $this->dataFolder() . 'dlcounter.dat';
+        $filename = $this->dataFolder() . 'dlcounter.csv';
         if (is_readable($filename)) {
             $lines = file($filename);
         } else {
@@ -85,7 +85,7 @@ class Domain
         global $plugin_tx;
 
         $line = $timestamp . "\t" . basename($basename) . "\n";
-        $filename = $this->dataFolder() . 'dlcounter.dat';
+        $filename = $this->dataFolder() . 'dlcounter.csv';
         if (!is_dir(dirname($filename))
             || file_put_contents($filename, $line, FILE_APPEND | LOCK_EX) === false
         ) {

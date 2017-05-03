@@ -52,7 +52,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
         mkdir(vfsStream::url('test/content/'), 0777, true);
-        touch(vfsStream::url('test/content/dlcounter.dat'));
+        touch(vfsStream::url('test/content/dlcounter.csv'));
         $this->subject = new Domain();
     }
 
@@ -94,7 +94,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
         $contents = "111\tfoo\n222\tbar\n333\tfoo\n";
         $folder = vfsStream::url('test/content/');
-        file_put_contents($folder . 'dlcounter.dat', $contents);
+        file_put_contents($folder . 'dlcounter.csv', $contents);
         $this->assertEquals($records, $this->subject->readDb());
     }
 
@@ -102,7 +102,7 @@ class DomainTest extends PHPUnit_Framework_TestCase
     {
         $folder = vfsStream::url('test/plugins/dlcounter/data/');
         mkdir($folder, 0777, true);
-        file_put_contents($folder . 'dlcounter.dat', '');
+        file_put_contents($folder . 'dlcounter.csv', '');
         $timestamp = time();
         $this->subject->log($timestamp, 'foo');
         $this->assertEquals(
