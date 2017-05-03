@@ -38,16 +38,6 @@ class Domain
     }
 
     /**
-     * @return string
-     */
-    public function imageFolder()
-    {
-        global $pth;
-
-        return $pth['folder']['plugins'] . 'dlcounter/images/';
-    }
-
-    /**
      * @return array
      */
     public function readDb()

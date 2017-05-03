@@ -63,7 +63,6 @@ class MainController
         $view = new View('download-form');
         $view->actionUrl = "$sn?$su";
         $view->basename = $this->basename;
-        $view->downloadImage = $this->model->imageFolder() . 'download-button.png';
         $view->size = $this->determineSize($filename);
         $view->times = $this->model->getDownloadCountOf($this->basename);
         $view->render();

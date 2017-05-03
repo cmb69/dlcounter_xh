@@ -65,14 +65,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testImageFolder()
-    {
-        $this->assertEquals(
-            vfsStream::url('test/plugins/dlcounter/images/'),
-            $this->subject->imageFolder()
-        );
-    }
-
     public function testReadEmptyDb()
     {
         $this->assertEmpty($this->subject->readDb());
