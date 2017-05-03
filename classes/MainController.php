@@ -85,14 +85,13 @@ class MainController
     {
         $filename = $this->model->downloadFolder() . basename($this->basename);
         if (is_readable($filename)) {
-            try {
-                if (!XH_ADM) {
-                    $this->model->log(time(), $filename);
+            if (!XH_ADM) {
+                if (!$this->model->log(time(), $filename)) {
+                    echo XH_message('fail', $this->lang['message_cantwrite'], $filename);
+                    return;
                 }
-                $this->deliverDownload($filename);
-            } catch (Exception $ex) {
-                echo XH_message('fail', $ex->getMessage());
             }
+            $this->deliverDownload($filename);
         } else {
             shead('404');
         }

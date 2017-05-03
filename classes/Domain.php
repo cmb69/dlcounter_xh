@@ -82,22 +82,14 @@ class Domain
     /**
      * @param int $timestamp
      * @param string $basename
-     * @return void
-     * @throws WriteException
+     * @return bool
      */
     public function log($timestamp, $basename)
     {
-        global $plugin_tx;
-
         $line = $timestamp . "\t" . basename($basename) . "\n";
         $filename = $this->dataFolder() . 'dlcounter.csv';
-        if (!is_dir(dirname($filename))
-            || file_put_contents($filename, $line, FILE_APPEND | LOCK_EX) === false
-        ) {
-            throw new WriteException(
-                sprintf($plugin_tx['dlcounter']['message_cantwrite'], $filename)
-            );
-        }
+        return is_dir(dirname($filename))
+            && file_put_contents($filename, $line, FILE_APPEND | LOCK_EX) !== false;
     }
 
     /**
