@@ -96,38 +96,6 @@ class Domain
     }
 
     /**
-     * @return array
-     */
-    public function systemChecks()
-    {
-        global $pth, $tx, $plugin_tx;
-
-        $ptx = $plugin_tx['dlcounter'];
-        $phpVersion = '5.4.0';
-        $result = array();
-        $result[sprintf($ptx['syscheck_phpversion'], $phpVersion)]
-            = version_compare(PHP_VERSION, $phpVersion) >= 0
-                ? 'ok' : 'fail';
-        foreach (array() as $ext) {
-            $result[sprintf($ptx['syscheck_extension'], $ext)]
-                = extension_loaded($ext) ? 'ok' : 'fail';
-        }
-        $result[$ptx['syscheck_encoding']]
-            = strtoupper($tx['meta']['codepage']) == 'UTF-8' ? 'ok' : 'warn';
-        $result[$ptx['syscheck_jquery']]
-            = file_exists($pth['folder']['plugins'] . 'jquery/jquery.inc.php')
-                ? 'ok' : 'fail';
-        foreach (array('config/', 'css/', 'languages/') as $folder) {
-            $folders[] = $pth['folder']['plugins'] . 'dlcounter/' . $folder;
-        }
-        foreach ($folders as $folder) {
-            $result[sprintf($ptx['syscheck_writable'], $folder)]
-                = is_writable($folder) ? 'ok' : 'warn';
-        }
-        return $result;
-    }
-
-    /**
      * @return string
      */
     private function dataFolder()

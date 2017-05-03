@@ -110,9 +110,4 @@ class DomainTest extends PHPUnit_Framework_TestCase
             $this->subject->readDb()
         );
     }
-
-    public function testSystemChecks()
-    {
-        $this->assertCount(1, $this->subject->systemChecks());
-    }
 }
