@@ -1,6 +1,6 @@
 <h1>Dlcounter – <?=$this->text('menu_main')?></h1>
 <div id="dlcounter_stats">
-    <h4 onclick="jQuery(this).next().toggle()"><?=$this->text('label_totals')?></h4>
+    <h4><?=$this->text('label_totals')?></h4>
     <table id="dlcounter_summary_table" class="tablesorter">
         <thead>
             <tr>
@@ -17,7 +17,7 @@
 <?php endforeach?>
         </tbody>
     </table>
-    <h4 onclick="jQuery(this).next().toggle()"><?=$this->text('label_individual')?></h4>
+    <h4><?=$this->text('label_individual')?></h4>
     <table id="dlcounter_details_table" class="tablesorter">
         <thead>
             <tr>

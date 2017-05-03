@@ -124,7 +124,7 @@ class Controller
      */
     public function renderStatistics()
     {
-        $this->hjs();
+        $this->emitScripts();
         $data = $this->domain->readDb();
         $totals = array_count_values(
             array_map(function ($elt) {
@@ -137,25 +137,17 @@ class Controller
         return (string) $view;
     }
 
-    private function hjs()
+    private function emitScripts()
     {
-        global $pth, $hjs;
+        global $pth, $bjs;
 
-        Dlcounter_includeJQuery();
+        $pluginFolder = $pth['folder']['plugins'];
+        include_once "{$pluginFolder}jquery/jquery.inc.php";
         include_jQuery();
         include_jQueryPlugin(
             'tablesorter',
-            $pth['folder']['plugins'] . 'dlcounter/lib/jquery.tablesorter.js'
+            "{$pluginFolder}dlcounter/lib/jquery.tablesorter.js"
         );
-        $hjs .= <<<SCRIPT
-<script type="text/javascript">
-/* <![CDATA[ */
-jQuery(function() {
-    jQuery('table.tablesorter').tablesorter();
-})
-/* ]]> */
-</script>
-
-SCRIPT;
+        $bjs .= "<script src=\"{$pluginFolder}dlcounter/admin.min.js\"></script>";
     }
 }
