@@ -89,6 +89,7 @@
             <fileset dir="export">
                 <exclude name="tests/**"/>
                 <exclude name="build.xml"/>
+                <exclude name="composer.*"/>
                 <exclude name="coverage.xml"/>
                 <exclude name="pax_global_header"/>
                 <exclude name="phpcompatinfo.json"/>
