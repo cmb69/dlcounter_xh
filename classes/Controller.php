@@ -126,7 +126,9 @@ class Controller
         $this->hjs();
         $data = $this->domain->readDb();
         $totals = array_count_values(
-            array_map(create_function('$elt', 'return $elt[1];'), $data)
+            array_map(function ($elt) {
+                return $elt[1];
+            }, $data)
         );
         $view = new View('stats');
         $view->totals = $totals;
