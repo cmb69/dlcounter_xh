@@ -24,20 +24,6 @@ namespace Dlcounter;
 class Domain
 {
     /**
-     * @return string
-     */
-    public function downloadFolder()
-    {
-        global $pth, $plugin_cf;
-
-        $folder = $pth['folder']['userfiles'] . $plugin_cf['dlcounter']['folder_downloads'];
-        if ($folder[strlen($folder) - 1] !== '/') {
-            $folder .= '/';
-        }
-        return $folder;
-    }
-
-    /**
      * @return array
      */
     public function readDb()

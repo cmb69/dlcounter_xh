@@ -57,14 +57,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
         $this->subject = new Domain();
     }
 
-    public function testDownloadFolder()
-    {
-        $this->assertEquals(
-            vfsStream::url('test/downloads/'),
-            $this->subject->downloadFolder()
-        );
-    }
-
     public function testReadEmptyDb()
     {
         $this->assertEmpty($this->subject->readDb());

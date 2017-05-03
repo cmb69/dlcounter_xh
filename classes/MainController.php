@@ -54,7 +54,7 @@ class MainController
     {
         global $sn, $su;
 
-        $filename = $this->model->downloadFolder() . basename($this->basename);
+        $filename = (new DownloadService)->downloadFolder() . basename($this->basename);
         if (!is_readable($filename)) {
             echo XH_message('fail', sprintf($this->lang['message_cantread'], $filename));
             return;
@@ -82,7 +82,8 @@ class MainController
 
     public function downloadAction()
     {
-        $filename = $this->model->downloadFolder() . basename($this->basename);
+        $downloadService = new DownloadService;
+        $filename = $downloadService->downloadFolder() . basename($this->basename);
         if (is_readable($filename)) {
             if (!XH_ADM) {
                 if (!$this->model->log(time(), $filename)) {
@@ -90,27 +91,9 @@ class MainController
                     return;
                 }
             }
-            $this->deliverDownload($filename);
+            $downloadService->deliverDownload($filename);
         } else {
             shead('404');
         }
-    }
-
-    /**
-     * @param string $filename
-     */
-    private function deliverDownload($filename)
-    {
-        $extension = pathinfo($filename, PATHINFO_EXTENSION);
-        $basename = urlencode(basename($filename));
-        $mimeType = mime_content_type($filename);
-        header("Content-Type: $mimeType");
-        header("Content-Disposition: attachment; filename=file.$extension; filename*=UTF-8''$basename");
-        header('Content-Length: ' . filesize($filename));
-        while (ob_get_level()) {
-            ob_end_clean();
-        }
-        readfile($filename);
-        XH_exit();
     }
 }
