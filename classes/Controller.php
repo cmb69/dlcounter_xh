@@ -93,8 +93,10 @@ class Controller
      */
     private function deliverDownload($filename)
     {
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $basename = urlencode(basename($filename));
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=' . basename($filename));
+        header("Content-Disposition: attachment; filename=file.$extension; filename*=UTF-8''$basename");
         header('Content-Length: ' . filesize($filename));
         readfile($filename);
         XH_exit();
