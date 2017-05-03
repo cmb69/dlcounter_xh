@@ -55,18 +55,3 @@ function Dlcounter_includeJQuery()
 
     include_once $pth['folder']['plugins'] . 'jquery/jquery.inc.php';
 }
-
-if (!function_exists('XH_exit')) {
-    /**
-     * Exits the script.
-     *
-     * We can't call exit directly, because that breaks unit tests,
-     * so we use this workaround.
-     *
-     * @return void
-     */
-    function XH_exit()
-    {
-        exit;
-    }
-}
