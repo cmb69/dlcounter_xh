@@ -13,7 +13,5 @@
 	$plugin_tx['dlcounter']['label_date']="Kuupäev";
 	$plugin_tx['dlcounter']['label_file']="Fail";
 	$plugin_tx['dlcounter']['label_count']="Arv";
-	$plugin_tx['dlcounter']['cf_folder_data']="CMSimple juurkataloogile vastav kaust, kuhu lisade andmed salvestatakse, näit \"userfiles/dlcounter/\". Tühjaks jättes salvestatakse lisade data/ kausta.";
-	$plugin_tx['dlcounter']['cf_folder_downloads']="CMSimple juurkataloogile vastav kaust, kus allalaaditavad failid asuvad, näit \"userfiles/downloads/\".";
 
 ?>

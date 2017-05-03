@@ -32,6 +32,6 @@ $plugin_tx['dlcounter']['syscheck_warning']="warning";
 $plugin_tx['dlcounter']['syscheck_writable']="'%s' is writable";
 $plugin_tx['dlcounter']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
 
-$plugin_tx['dlcounter']['cf_folder_downloads']="The path of a folder relative to the CMSimple_XH root directory, where the downloadable files are stored, e.g. \"userfiles/downloads/\".";
+$plugin_tx['dlcounter']['cf_folder_downloads']="The path of a folder relative to the userfiles/ folder of CMSimple_XH, where the downloadable files are stored, e.g. \"downloads/\".";
 
 ?>

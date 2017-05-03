@@ -17,7 +17,4 @@ $plugin_tx['dlcounter']['label_file']="Súbor";
 $plugin_tx['dlcounter']['label_count']="Počet";
 $plugin_tx['dlcounter']['label_downloaded_times']="krát";
 
-$plugin_tx['dlcounter']['cf_folder_data']="Cesta k adresáru relatívna ku koreňovému adresáru CMSimple, kam sa uložia dáta pluginu, napr. \"userfiles/dlcounter/\". Ak necháte prázdne, dáta sa uložia do adresára data/ pluginu.";
-$plugin_tx['dlcounter']['cf_folder_downloads']="Cesta k adresáru relatívna ku koreňovému adresáru CMSimple, kam sa uložia súbory určené na stiahnutie, napr. \"userfiles/downloads/\".";
-
 ?>

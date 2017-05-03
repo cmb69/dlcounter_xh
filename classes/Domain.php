@@ -30,8 +30,11 @@ class Domain
     {
         global $pth, $plugin_cf;
 
-        return $pth['folder']['base']
-            . $plugin_cf['dlcounter']['folder_downloads'];
+        $folder = $pth['folder']['userfiles'] . $plugin_cf['dlcounter']['folder_downloads'];
+        if ($folder[strlen($folder) - 1] !== '/') {
+            $folder .= '/';
+        }
+        return $folder;
     }
 
     /**

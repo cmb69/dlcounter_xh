@@ -32,6 +32,6 @@ $plugin_tx['dlcounter']['syscheck_warning']="Warnung";
 $plugin_tx['dlcounter']['syscheck_writable']="'%s' schreibbar ist";
 $plugin_tx['dlcounter']['syscheck_xhversion']="die CMSimple_XH-Version ≥ %s";
 
-$plugin_tx['dlcounter']['cf_folder_downloads']="Der Pfad eines Ordners relativ zum Installationsverzeichnis von CMSimple_XH, wo die herunter zu ladenden Dateien gespeichert werden, z.B. \"userfiles/downloads/\".";
+$plugin_tx['dlcounter']['cf_folder_downloads']="Der Pfad eines Ordners relativ zum userfiles/ Ordner von CMSimple_XH, wo die herunter zu ladenden Dateien gespeichert sind, z.B. \"downloads/\".";
 
 ?>

@@ -41,7 +41,8 @@ class DomainTest extends PHPUnit_Framework_TestCase
             'folder' => array(
                 'base' => vfsStream::url('test/'),
                 'content' => vfsStream::url('test/content/'),
-                'plugins' => vfsStream::url('test/plugins/')
+                'plugins' => vfsStream::url('test/plugins/'),
+                'userfiles' => vfsStream::url('test/')
             )
         );
         $plugin_cf = array(
