@@ -19,21 +19,6 @@
  * along with Dlcounter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Prevent direct access.
- */
-if (!defined('CMSIMPLE_XH_VERSION')) {
-    header('HTTP/1.0 403 Forbidden');
-    exit;
-}
-
-define('DLCOUNTER_VERSION', '@DLCOUNTER_VERSION@');
-
-/**
- * @var Dlcounter
- */
-$_Dlcounter = new Dlcounter\Controller(new Dlcounter\Domain());
-
 /**
  * @param string $filename
  * @return string
@@ -50,3 +35,5 @@ function dlcounter($filename)
     $controller->{$action}();
     return ob_get_clean();
 }
+
+(new Dlcounter\Plugin)->run();

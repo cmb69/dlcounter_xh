@@ -21,22 +21,41 @@
 
 namespace Dlcounter;
 
-class Controller
+class Plugin
 {
-    /**
-     * @var Domain
-     */
-    private $domain;
+    const VERSION = '@DLCOUNTER_VERSION@';
 
-    public function __construct(Domain $domain)
+    public function run()
     {
-        $this->domain = $domain;
+        if (XH_ADM) {
+            XH_registerStandardPluginMenuItems(true);
+            if (XH_wantsPluginAdministration('dlcounter')) {
+                $this->handleAdministration();
+            }
+        }
+    }
+
+    private function handleAdministration()
+    {
+        global $o, $admin, $action;
+
+        $o .= print_plugin_admin('on');
+        switch ($admin) {
+            case '':
+                $o .= $this->renderPluginInfo();
+                break;
+            case 'plugin_main':
+                $o .= $this->renderStatistics();
+                break;
+            default:
+                $o .= plugin_admin_common($action, $admin, 'dlcounter');
+        }
     }
 
     /**
      * @return string
      */
-    public function renderPluginInfo()
+    private function renderPluginInfo()
     {
         ob_start();
         (new InfoController)->defaultAction();
@@ -46,7 +65,7 @@ class Controller
     /**
      * @return string
      */
-    public function renderStatistics()
+    private function renderStatistics()
     {
         ob_start();
         (new MainAdminController)->defaultAction();
