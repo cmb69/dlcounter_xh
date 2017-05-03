@@ -42,7 +42,11 @@ function dlcounter($filename)
 {
     global $_Dlcounter;
 
-    return $_Dlcounter->renderDownloadForm($filename);
+    if (isset($_POST['dlcounter']) && $_POST['dlcounter'] === $filename) {
+        $_Dlcounter->download(stsl($_POST['dlcounter']));
+    } else {
+        return $_Dlcounter->renderDownloadForm($filename);
+    }
 }
 
 function Dlcounter_includeJQuery()
@@ -65,11 +69,4 @@ if (!function_exists('XH_exit')) {
     {
         exit;
     }
-}
-
-/*
- * Handle the download request.
- */
-if (isset($_POST['dlcounter']) && $_POST['dlcounter'] != '') {
-    $_Dlcounter->download(stsl($_POST['dlcounter']));
 }

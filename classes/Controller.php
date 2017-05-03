@@ -39,7 +39,7 @@ class Controller
      */
     public function renderDownloadForm($basename)
     {
-        global $sn, $plugin_tx;
+        global $sn, $su, $plugin_tx;
 
         $filename = $this->domain->downloadFolder() . basename($basename);
         if (!is_readable($filename)) {
@@ -47,7 +47,7 @@ class Controller
         }
 
         $view = new View('download-form');
-        $view->actionUrl = $sn;
+        $view->actionUrl = "$sn?$su";
         $view->basename = $basename;
         $view->downloadImage = $this->domain->imageFolder() . 'download-button.png';
         $view->size = $this->renderSize(filesize($filename));
