@@ -10,7 +10,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Fa_XH is distributed in the hope that it will be useful,
+ * Dlcounter_XH is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -21,35 +21,26 @@
 
 namespace Dlcounter;
 
-class Controller
+class InfoController
 {
     /**
-     * @var Domain
+     * @var string
      */
-    private $domain;
+    private $pluginFolder;
 
-    public function __construct(Domain $domain)
+    public function __construct()
     {
-        $this->domain = $domain;
+        global $pth;
+
+        $this->pluginFolder = "{$pth['folder']['plugins']}dlcounter/";
     }
 
-    /**
-     * @return string
-     */
-    public function renderPluginInfo()
+    public function defaultAction()
     {
-        ob_start();
-        (new InfoController)->defaultAction();
-        return ob_get_clean();
-    }
-
-    /**
-     * @return string
-     */
-    public function renderStatistics()
-    {
-        ob_start();
-        (new MainAdminController)->defaultAction();
-        return ob_get_clean();
+        $view = new View('info');
+        $view->logo = "{$this->pluginFolder}dlcounter.png";
+        $view->version = DLCOUNTER_VERSION;
+        $view->checks = (new SystemCheckService)->getChecks();
+        $view->render();
     }
 }

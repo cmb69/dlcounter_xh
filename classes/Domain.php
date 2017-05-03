@@ -48,16 +48,6 @@ class Domain
     }
 
     /**
-     * @return string
-     */
-    public function logoPath()
-    {
-        global $pth;
-
-        return $pth['folder']['plugins'] . 'dlcounter/dlcounter.png';
-    }
-
-    /**
      * @return array
      */
     public function readDb()

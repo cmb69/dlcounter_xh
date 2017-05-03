@@ -40,11 +40,13 @@ $_Dlcounter = new Dlcounter\Controller(new Dlcounter\Domain());
  */
 function dlcounter($filename)
 {
-    global $_Dlcounter;
-
+    $controller = new Dlcounter\MainController($filename);
     if (isset($_POST['dlcounter']) && $_POST['dlcounter'] === $filename) {
-        $_Dlcounter->download($_POST['dlcounter']);
+        $action = 'downloadAction';
     } else {
-        return $_Dlcounter->renderDownloadForm($filename);
+        $action = 'defaultAction';
     }
+    ob_start();
+    $controller->{$action}();
+    return ob_get_clean();
 }

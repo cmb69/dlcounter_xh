@@ -73,14 +73,6 @@ class DomainTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testLogoPath()
-    {
-        $this->assertEquals(
-            vfsStream::url('test/plugins/dlcounter/dlcounter.png'),
-            $this->subject->logoPath()
-        );
-    }
-
     public function testReadEmptyDb()
     {
         $this->assertEmpty($this->subject->readDb());
