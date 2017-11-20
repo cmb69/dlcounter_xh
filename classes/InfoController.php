@@ -47,7 +47,7 @@ class InfoController
                 'version' => Plugin::VERSION,
                 'checks' => (new SystemCheckService)
                     ->minPhpVersion('5.4.0')
-                    ->extension('fileinfo')
+                    ->extension('fileinfo', false)
                     ->minXhVersion('1.6.3')
                     ->plugin('jquery')
                     ->writable("{$this->pluginFolder}config/")

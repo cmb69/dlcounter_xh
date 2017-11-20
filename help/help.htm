@@ -33,7 +33,7 @@
 <li><a href="#installation">Installation</a></li>
 <li><a href="#settings">Settings</a></li>
 <li><a href="#usage">Usage</a></li>
-<!--<li><a href="#limitations">Limitations</a></li>-->
+<li><a href="#limitations">Limitations</a></li>
 <li><a href="#license">License</a></li>
 <li><a href="#credits">Credits</a></li>
 </ul>
@@ -52,7 +52,7 @@
 <p>
     Dlcounter_XH requires CMSimple_XH ≥ 1.6.3, <a
     href="http://3-magi.net/?CMSimple_XH/Pfw_XH">Pfw_XH</a> ≥ 0.2.0 and PHP ≥
-    5.4.0 with the Fileinfo extension.
+    5.4.0.
 </p>
 </section>
 
@@ -133,11 +133,15 @@
 </p>
 </section>
 
-<!--
 <section id="limitations">
 <h2>Limitations</h2>
+<p>
+    If the Fileinfo PHP extension is not available, the downloads will be sent
+    with the generic MIME type <i>application/octet-stream</i>.  This
+    <em>may</em> result in imperfect behavior of some browsers, but is usually
+    nothing you have to be concerned with.
+</p>
 </section>
--->
 
 <section id="license">
 <h2>License</h2>

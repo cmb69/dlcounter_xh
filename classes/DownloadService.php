@@ -30,7 +30,9 @@ class DownloadService
     {
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $basename = urlencode(basename($filename));
-        $mimeType = mime_content_type($filename);
+        $mimeType = function_exists('mime_content_type')
+            ? mime_content_type($filename)
+            : 'application/octet-stream';
         header("Content-Type: $mimeType");
         header("Content-Disposition: attachment; filename=file.$extension; filename*=UTF-8''$basename");
         header('Content-Length: ' . filesize($filename));
