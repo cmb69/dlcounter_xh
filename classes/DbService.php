@@ -24,7 +24,7 @@ namespace Dlcounter;
 class DbService
 {
     /**
-     * @return array
+     * @return object[]
      */
     public function readDb()
     {
@@ -37,7 +37,8 @@ class DbService
         }
         if ($lines !== false) {
             foreach ($lines as $line) {
-                $result[] = explode("\t", rtrim($line));
+                list($time, $name) = explode("\t", rtrim($line), 2);
+                $result[] = (object) compact('name', 'time');
             }
         }
         return $result;
@@ -48,7 +49,7 @@ class DbService
         $result = 0;
         $downloads = $this->readDb();
         foreach ($downloads as $download) {
-            if ($download[1] === $basename) {
+            if ($download->name === $basename) {
                 $result++;
             }
         }

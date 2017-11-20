@@ -1,7 +1,7 @@
-<form class="dlcounter" action="<?=$this->actionUrl()?>" method="post">
-    <input type="hidden" name="dlcounter" value="<?=$this->basename()?>">
+<form class="dlcounter" action="<?=$actionUrl?>" method="post">
+    <input type="hidden" name="dlcounter" value="<?=$basename?>">
     <button class="dlcounter_button">
-        <span><?=$this->text('label_download', $this->basename, $this->size)?></span>
-        <span class="dlcounter_count"><?=$this->plural('label_dlcount', $this->times)?></span>
+        <span><?=$this->text('label_download', $basename, $size)?></span>
+        <span class="dlcounter_count"><?=$this->plural('label_dlcount', $times)?></span>
     </button>
 </form>

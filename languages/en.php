@@ -6,10 +6,8 @@ $plugin_tx['dlcounter']['label_date']="Date";
 $plugin_tx['dlcounter']['label_file']="File";
 $plugin_tx['dlcounter']['label_count']="Count";
 $plugin_tx['dlcounter']['label_download']="%1\$s (%2\$s)";
-$plugin_tx['dlcounter']['label_dlcount_0']="not yet downloaded";
-$plugin_tx['dlcounter']['label_dlcount_1']="downloaded %d time";
-$plugin_tx['dlcounter']['label_dlcount_2_4']="downloaded %d times";
-$plugin_tx['dlcounter']['label_dlcount_5']="downloaded %d times";
+$plugin_tx['dlcounter']['label_dlcount#0']="downloaded %s time";
+$plugin_tx['dlcounter']['label_dlcount#1']="downloaded %s times";
 
 $plugin_tx['dlcounter']['message_cantread']="Can't read file \"%s\"!";
 $plugin_tx['dlcounter']['message_cantwrite']="Can't write to file \"%s\"!";

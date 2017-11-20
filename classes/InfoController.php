@@ -21,6 +21,8 @@
 
 namespace Dlcounter;
 
+use Pfw\View\View;
+
 class InfoController
 {
     /**
@@ -37,10 +39,13 @@ class InfoController
 
     public function defaultAction()
     {
-        $view = new View('info');
-        $view->logo = "{$this->pluginFolder}dlcounter.png";
-        $view->version = Plugin::VERSION;
-        $view->checks = (new SystemCheckService)->getChecks();
-        $view->render();
+        (new View('dlcounter'))
+            ->template('info')
+            ->data([
+                'logo' => "{$this->pluginFolder}dlcounter.png",
+                'version' => Plugin::VERSION,
+                'checks' => (new SystemCheckService)->getChecks()
+            ])
+            ->render();
     }
 }

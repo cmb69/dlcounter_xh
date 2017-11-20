@@ -21,6 +21,8 @@
 
 namespace Dlcounter;
 
+use Pfw\View\View;
+
 class MainController
 {
     /**
@@ -60,12 +62,15 @@ class MainController
             return;
         }
 
-        $view = new View('download-form');
-        $view->actionUrl = "$sn?$su";
-        $view->basename = $this->basename;
-        $view->size = $this->determineSize($filename);
-        $view->times = $this->dbService->getDownloadCountOf($this->basename);
-        $view->render();
+        (new View('dlcounter'))
+            ->template('download-form')
+            ->data([
+                'actionUrl' => "$sn?$su",
+                'basename' => $this->basename,
+                'size' => $this->determineSize($filename),
+                'times' => $this->dbService->getDownloadCountOf($this->basename)
+            ])
+            ->render();
     }
 
     /**

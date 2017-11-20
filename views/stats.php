@@ -9,10 +9,10 @@
             </tr>
         </thead>
         <tbody>
-<?php foreach ($this->totals as $filename => $count):?>
+<?php foreach ($totals as $filename => $count):?>
             <tr>
-                <td><?=$this->escape($filename)?></td>
-                <td><?=$this->escape($count)?></td>
+                <td><?=$filename?></td>
+                <td><?=$count?></td>
             </tr>
 <?php endforeach?>
         </tbody>
@@ -26,10 +26,10 @@
             </tr>
         </thead>
         <tbody>
-<?php foreach ($this->details as $rec):?>
+<?php foreach ($details as $rec):?>
             <tr>
-                <td><?=date('Y-m-d H:i:s', $rec[0])?></td>
-                <td><?=$this->escape($rec[1])?></td>
+                <td><?=date('Y-m-d H:i:s', (string) $rec->time)?></td>
+                <td><?=$rec->name?></td>
             </tr>
 <?php endforeach?>
         </tbody>

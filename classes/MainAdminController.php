@@ -21,6 +21,8 @@
 
 namespace Dlcounter;
 
+use Pfw\View\View;
+
 class MainAdminController
 {
     /**
@@ -39,13 +41,16 @@ class MainAdminController
         $data = $this->dbService->readDb();
         $totals = array_count_values(
             array_map(function ($elt) {
-                return $elt[1];
+                return $elt->name;
             }, $data)
         );
-        $view = new View('stats');
-        $view->totals = $totals;
-        $view->details = $data;
-        $view->render();
+        (new View('dlcounter'))
+            ->template('stats')
+            ->data([
+                'totals' => $totals,
+                'details' => $data
+            ])
+            ->render();
     }
 
     private function emitScripts()

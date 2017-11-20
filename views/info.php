@@ -1,6 +1,6 @@
 <h1>Dlcounter</h1>
-<img class="dlcounter_logo" src="<?=$this->logo()?>" alt="<?=$this->text('alt_logo')?>">
-<p>Version: <?=$this->version()?></p>
+<img class="dlcounter_logo" src="<?=$logo?>" alt="<?=$this->text('alt_logo')?>">
+<p>Version: <?=$version?></p>
 <p>Copyright &copy; 2012-2017 Christoph M. Becker</p>
 <p class="dlcounter_license">
     This program is free software: you can redistribute it and/or modify it
@@ -25,7 +25,7 @@
 </div>
 <div class="dlcounter_syscheck">
     <h2><?php echo $this->text('syscheck_title')?></h2>
-<?php foreach ($this->checks as $check):?>
-    <p class="xh_<?php echo $this->escape($check->state)?>"><?php echo $this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
+<?php foreach ($checks as $check):?>
+    <p class="xh_<?php echo $check->state?>"><?php echo $this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
 <?php endforeach?>
 </div>

@@ -65,9 +65,9 @@ class DbServiceTest extends PHPUnit_Framework_TestCase
     public function testReadDb()
     {
         $records = array(
-            array(111, 'foo'),
-            array(222, 'bar'),
-            array(333, 'foo')
+            (object) ['time' => 111, 'name' => 'foo'],
+            (object) ['time' => 222, 'name' => 'bar'],
+            (object) ['time' => 333, 'name' => 'foo']
         );
         $contents = "111\tfoo\n222\tbar\n333\tfoo\n";
         $folder = vfsStream::url('test/content/');
@@ -83,7 +83,7 @@ class DbServiceTest extends PHPUnit_Framework_TestCase
         $timestamp = time();
         $this->subject->log($timestamp, 'foo');
         $this->assertEquals(
-            array(array($timestamp, 'foo')),
+            array((object) ['time' => $timestamp, 'name' => 'foo']),
             $this->subject->readDb()
         );
     }
