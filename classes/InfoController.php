@@ -39,7 +39,7 @@ class InfoController
     {
         $view = new View('info');
         $view->logo = "{$this->pluginFolder}dlcounter.png";
-        $view->version = DLCOUNTER_VERSION;
+        $view->version = Plugin::VERSION;
         $view->checks = (new SystemCheckService)->getChecks();
         $view->render();
     }
