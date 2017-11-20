@@ -21,6 +21,7 @@
 
 namespace Dlcounter;
 
+use Pfw\SystemCheckService;
 use Pfw\View\View;
 
 class InfoController
@@ -44,7 +45,15 @@ class InfoController
             ->data([
                 'logo' => "{$this->pluginFolder}dlcounter.png",
                 'version' => Plugin::VERSION,
-                'checks' => (new SystemCheckService)->getChecks()
+                'checks' => (new SystemCheckService)
+                    ->minPhpVersion('5.4.0')
+                    ->extension('fileinfo')
+                    ->minXhVersion('1.6.3')
+                    ->plugin('jquery')
+                    ->writable("{$this->pluginFolder}config/")
+                    ->writable("{$this->pluginFolder}css/")
+                    ->writable("{$this->pluginFolder}languages/")
+                    ->getChecks()
             ])
             ->render();
     }

@@ -26,6 +26,6 @@
 <div class="dlcounter_syscheck">
     <h2><?php echo $this->text('syscheck_title')?></h2>
 <?php foreach ($checks as $check):?>
-    <p class="xh_<?php echo $check->state?>"><?php echo $this->text('syscheck_message', $check->label, $check->stateLabel)?></p>
+    <p class="xh_<?php echo $check->getState()?>"><?php echo $this->text('syscheck_message', $check->getLabel(), $check->getStateLabel())?></p>
 <?php endforeach?>
 </div>

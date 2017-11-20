@@ -19,17 +19,6 @@ $plugin_tx['dlcounter']['alt_logo']="Download-Verarbeitung";
 $plugin_tx['dlcounter']['synopsis_title']="Kurzfassung";
 $plugin_tx['dlcounter']['synopsis_filename']="DATEINAME";
 
-$plugin_tx['dlcounter']['syscheck_extension']="die PHP-Erweiterung '%s' geladen ist";
-$plugin_tx['dlcounter']['syscheck_fail']="Fehler";
-$plugin_tx['dlcounter']['syscheck_message']="Prüfe, dass %1\$s … %2\$s";
-$plugin_tx['dlcounter']['syscheck_phpversion']="die PHP-Version ≥ %s";
-$plugin_tx['dlcounter']['syscheck_plugin']="das CMSIMPLE_XH Plugin '%s' installiert ist";
-$plugin_tx['dlcounter']['syscheck_success']="OK";
-$plugin_tx['dlcounter']['syscheck_title']="System-Prüfung";
-$plugin_tx['dlcounter']['syscheck_warning']="Warnung";
-$plugin_tx['dlcounter']['syscheck_writable']="'%s' schreibbar ist";
-$plugin_tx['dlcounter']['syscheck_xhversion']="die CMSimple_XH-Version ≥ %s";
-
 $plugin_tx['dlcounter']['cf_folder_downloads']="Der Pfad eines Ordners relativ zum userfiles/ Ordner von CMSimple_XH, wo die herunter zu ladenden Dateien gespeichert sind, z.B. \"downloads/\".";
 
 ?>

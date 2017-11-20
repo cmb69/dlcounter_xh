@@ -19,17 +19,6 @@ $plugin_tx['dlcounter']['alt_logo']="Download Processor";
 $plugin_tx['dlcounter']['synopsis_title']="Synopsis";
 $plugin_tx['dlcounter']['synopsis_filename']="FILENAME";
 
-$plugin_tx['dlcounter']['syscheck_extension']="the PHP extension '%s' is loaded";
-$plugin_tx['dlcounter']['syscheck_fail']="failure";
-$plugin_tx['dlcounter']['syscheck_message']="Checking that %1\$s … %2\$s";
-$plugin_tx['dlcounter']['syscheck_phpversion']="PHP version ≥ %s";
-$plugin_tx['dlcounter']['syscheck_plugin']="the CMSimple_XH plugin '%s' is installed";
-$plugin_tx['dlcounter']['syscheck_success']="okay";
-$plugin_tx['dlcounter']['syscheck_title']="System check";
-$plugin_tx['dlcounter']['syscheck_warning']="warning";
-$plugin_tx['dlcounter']['syscheck_writable']="'%s' is writable";
-$plugin_tx['dlcounter']['syscheck_xhversion']="CMSimple_XH version ≥ %s";
-
 $plugin_tx['dlcounter']['cf_folder_downloads']="The path of a folder relative to the userfiles/ folder of CMSimple_XH, where the downloadable files are stored, e.g. \"downloads/\".";
 
 ?>

@@ -14,13 +14,6 @@ $plugin_tx['dlcounter']['menu_config']="Конфигурация";
 $plugin_tx['dlcounter']['menu_language']="Язык";
 $plugin_tx['dlcounter']['menu_help']="Помощь";
 /* /added*/
-$plugin_tx['dlcounter']['syscheck_title']="Проверка системы";
-$plugin_tx['dlcounter']['syscheck_phpversion']="Версия PHP &ge; %s";
-$plugin_tx['dlcounter']['syscheck_extension']="Расширение '%s' загружено";
-$plugin_tx['dlcounter']['syscheck_encoding']="Кодировка 'UTF-8' установлена";
-$plugin_tx['dlcounter']['syscheck_magic_quotes']="Экранирование спецсимволов (\"magic_quotes_runtime\") отключено";
-$plugin_tx['dlcounter']['syscheck_jquery']="Плагин <a href=\"http://www.cmsimple-xh.com/wiki/doku.php/plugins:jquery4cmsimple\">jQuery4CMSimple</a> установлен";
-$plugin_tx['dlcounter']['syscheck_writable']="Папка '%s' доступна для записи";
 $plugin_tx['dlcounter']['label_totals']="Всего";
 $plugin_tx['dlcounter']['label_individual']="Отдельные скачивания";
 $plugin_tx['dlcounter']['label_date']="Дата";
