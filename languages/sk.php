@@ -8,5 +8,3 @@ $plugin_tx['dlcounter']['label_date']="Dátum";
 $plugin_tx['dlcounter']['label_file']="Súbor";
 $plugin_tx['dlcounter']['label_count']="Počet";
 $plugin_tx['dlcounter']['label_downloaded_times']="krát";
-
-?>

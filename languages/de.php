@@ -20,5 +20,3 @@ $plugin_tx['dlcounter']['synopsis_title']="Kurzfassung";
 $plugin_tx['dlcounter']['synopsis_filename']="DATEINAME";
 
 $plugin_tx['dlcounter']['cf_folder_downloads']="Der Pfad eines Ordners relativ zum userfiles/ Ordner von CMSimple_XH, wo die herunter zu ladenden Dateien gespeichert sind, z.B. \"downloads/\".";
-
-?>

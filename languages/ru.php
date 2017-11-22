@@ -19,5 +19,3 @@ $plugin_tx['dlcounter']['label_individual']="Отдельные скачиван
 $plugin_tx['dlcounter']['label_date']="Дата";
 $plugin_tx['dlcounter']['label_file']="Файл";
 $plugin_tx['dlcounter']['label_count']="Количество";
-
-?>
