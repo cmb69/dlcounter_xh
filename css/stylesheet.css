@@ -56,14 +56,3 @@
 #dlcounter_stats table.tablesorter thead tr .headerSortUp {
     background-color: #8bd;
 }
-
-/*
- * plugin info
- */
-.dlcounter_logo {
-    float: left;
-    margin: 0 1.5em 0.5em 0;
-}
-.dlcounter_license {
-    text-align: justify;
-}
