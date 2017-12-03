@@ -64,6 +64,10 @@ class MainAdminController
             'tablesorter',
             "{$pluginFolder}dlcounter/lib/jquery.tablesorter.js"
         );
-        $bjs .= "<script src=\"{$pluginFolder}dlcounter/admin.min.js\"></script>";
+        $filename = "{$pluginFolder}dlcounter/admin.min.js";
+        if (!file_exists($filename)) {
+            $filename = "{$pluginFolder}dlcounter/admin.js";
+        }
+        $bjs .= "<script src=\"$filename\"></script>";
     }
 }
