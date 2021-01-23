@@ -23,7 +23,7 @@ namespace Dlcounter;
 
 class Plugin
 {
-    const VERSION = '@PLUGIN_VERSION@';
+    const VERSION = '1.0beta2';
 
     public function run()
     {
