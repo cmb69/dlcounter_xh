@@ -88,10 +88,18 @@ class MainController
                     return Response::create($this->view->message("fail", "message_cantwrite", $filename));
                 }
             }
-            $this->downloadService->deliverDownload($filename);
+            $this->downloadService->deliverDownload($filename, $this->mimeType($filename));
             return Response::create();
         } else {
             return Response::error(404);
         }
+    }
+
+    protected function mimeType(string $filename): string
+    {
+        if (function_exists("mime_content_type")) {
+            $mimeType = mime_content_type($filename);
+        }
+        return isset($mimeType) && is_string($mimeType) ? $mimeType : "application/octet-stream";
     }
 }
