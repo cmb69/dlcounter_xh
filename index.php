@@ -19,13 +19,24 @@
  * along with Dlcounter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Dlcounter\DbService;
+use Dlcounter\DownloadService;
+use Plib\View;
+
 /**
  * @param string $filename
  * @return string
  */
 function dlcounter($filename)
 {
-    $controller = new Dlcounter\MainController($filename);
+    global $pth, $plugin_tx;
+
+    $controller = new Dlcounter\MainController(
+        new DbService(),
+        new DownloadService(),
+        new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"]),
+        $filename
+    );
     if (isset($_POST['dlcounter']) && $_POST['dlcounter'] === $filename) {
         $action = 'downloadAction';
     } else {

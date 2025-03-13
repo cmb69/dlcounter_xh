@@ -37,22 +37,19 @@ class InfoController
     /** @var View */
     private $view;
 
-    public function __construct()
+    public function __construct(SystemChecker $systemChecker, View $view)
     {
         global $pth, $plugin_tx;
 
         $this->pluginFolder = "{$pth['folder']['plugins']}dlcounter/";
-        $this->systemChecker = new SystemChecker();
-        $this->view = new View("{$this->pluginFolder}views/", $plugin_tx["dlcounter"]);
+        $this->systemChecker = $systemChecker;
+        $this->view = $view;
     }
 
     /** @return void */
     public function defaultAction()
     {
-        global $plugin_tx;
-
-        $view = new View("{$this->pluginFolder}views/", $plugin_tx["dlcounter"]);
-        echo $view->render("info", [
+        echo $this->view->render("info", [
             'logo' => "{$this->pluginFolder}dlcounter.png",
             'version' => Plugin::VERSION,
             'checks' => [

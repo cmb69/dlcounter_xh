@@ -35,34 +35,41 @@ class MainController
      */
     private $dbService;
 
+    /** @var DownloadService */
+    private $downloadService;
+
+    /** @var View */
+    private $view;
+
     /** @var array<string,string> */
     private $lang;
 
     /**
      * @param string $basename
      */
-    public function __construct($basename)
+    public function __construct(DbService $dbService, DownloadService $downloadService, View $view, $basename)
     {
         global $plugin_tx;
 
         $this->basename = $basename;
-        $this->dbService = new DbService;
+        $this->dbService = $dbService;
+        $this->downloadService = $downloadService;
+        $this->view = $view;
         $this->lang = $plugin_tx['dlcounter'];
     }
 
     /** @return void */
     public function defaultAction()
     {
-        global $pth, $sn, $su;
+        global $sn, $su;
 
-        $filename = (new DownloadService)->downloadFolder() . basename($this->basename);
+        $filename = $this->downloadService->downloadFolder() . basename($this->basename);
         if (!is_readable($filename)) {
             echo XH_message('fail', sprintf($this->lang['message_cantread'], $filename));
             return;
         }
 
-        $view = new View("{$pth["folder"]["plugins"]}dlcounter/views/", $this->lang);
-        echo $view->render("download-form", [
+        echo $this->view->render("download-form", [
             'actionUrl' => "$sn?$su",
             'basename' => $this->basename,
             'size' => $this->determineSize($filename),
@@ -85,8 +92,7 @@ class MainController
     /** @return void */
     public function downloadAction()
     {
-        $downloadService = new DownloadService;
-        $filename = $downloadService->downloadFolder() . basename($this->basename);
+        $filename = $this->downloadService->downloadFolder() . basename($this->basename);
         if (is_readable($filename)) {
             if (!XH_ADM) { // @phpstan-ignore-line
                 if (!$this->dbService->log(time(), $filename)) {
@@ -94,7 +100,7 @@ class MainController
                     return;
                 }
             }
-            $downloadService->deliverDownload($filename);
+            $this->downloadService->deliverDownload($filename);
         } else {
             shead(404);
         }

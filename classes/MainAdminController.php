@@ -30,16 +30,18 @@ class MainAdminController
      */
     private $dbService;
 
-    public function __construct()
+    /** @var View */
+    private $view;
+
+    public function __construct(DbService $dbService, View $view)
     {
-        $this->dbService = new DbService;
+        $this->dbService = $dbService;
+        $this->view = $view;
     }
 
     /** @return void */
     public function defaultAction()
     {
-        global $pth, $plugin_tx;
-
         $this->emitScripts();
         $data = $this->dbService->readDb();
         $totals = array_count_values(
@@ -47,8 +49,7 @@ class MainAdminController
                 return $elt->name;
             }, $data)
         );
-        $view = new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"]);
-        echo $view->render("stats", [
+        echo $this->view->render("stats", [
             'totals' => $totals,
             'details' => $data
         ]);

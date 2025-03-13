@@ -21,6 +21,9 @@
 
 namespace Dlcounter;
 
+use Plib\SystemChecker;
+use Plib\View;
+
 class Plugin
 {
     const VERSION = '1.0beta2';
@@ -39,7 +42,7 @@ class Plugin
     /** @return void */
     private function handleAdministration()
     {
-        global $o, $admin, $action;
+        global $o, $admin;
 
         $o .= print_plugin_admin('on');
         switch ($admin) {
@@ -59,8 +62,14 @@ class Plugin
      */
     private function renderPluginInfo()
     {
+        global $pth, $plugin_tx;
+
         ob_start();
-        (new InfoController)->defaultAction();
+        $controller = new InfoController(
+            new SystemChecker(),
+            new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"])
+        );
+        $controller->defaultAction();
         return (string) ob_get_clean();
     }
 
@@ -69,8 +78,14 @@ class Plugin
      */
     private function renderStatistics()
     {
+        global $pth, $plugin_tx;
+
         ob_start();
-        (new MainAdminController)->defaultAction();
+        $controller = new MainAdminController(
+            new DbService(),
+            new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"])
+        );
+        $controller->defaultAction();
         return (string) ob_get_clean();
     }
 }
