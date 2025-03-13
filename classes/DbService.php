@@ -88,4 +88,9 @@ class DbService
     {
         return $this->dataFolder;
     }
+
+    public function isReadable(string $filename): bool
+    {
+        return is_readable($filename);
+    }
 }

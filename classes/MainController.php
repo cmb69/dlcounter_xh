@@ -53,7 +53,7 @@ class MainController
     public function defaultAction(Request $request, string $basename): string
     {
         $filename = $this->downloadService->downloadFolder() . basename($basename);
-        if (!is_readable($filename)) {
+        if (!$this->dbService->isReadable($filename)) {
             return XH_message('fail', sprintf($this->lang['message_cantread'], $filename));
         }
 
@@ -80,7 +80,7 @@ class MainController
     public function downloadAction(Request $request, string $basename): string
     {
         $filename = $this->downloadService->downloadFolder() . basename($basename);
-        if (is_readable($filename)) {
+        if ($this->dbService->isReadable($filename)) {
             if (!$request->admin()) {
                 if (!$this->dbService->log(time(), $filename)) {
                     return XH_message('fail', $this->lang['message_cantwrite'], $filename);
