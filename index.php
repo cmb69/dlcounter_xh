@@ -21,6 +21,8 @@
 
 use Dlcounter\Dic;
 
+const DLCOUNTER_VERSION = "1.0beta2";
+
 /**
  * @param string $filename
  * @return string
@@ -35,5 +37,3 @@ function dlcounter($filename)
     }
     return $controller->{$action}($filename);
 }
-
-(new Dlcounter\Plugin)->run();

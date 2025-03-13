@@ -46,7 +46,7 @@ class InfoController
     {
         return $this->view->render("info", [
             'logo' => "{$this->pluginFolder}dlcounter.png",
-            'version' => Plugin::VERSION,
+            'version' => DLCOUNTER_VERSION,
             'checks' => [
                 $this->checkPhpVersion('7.1.0'),
                 $this->checkExtension('fileinfo'),

@@ -78,20 +78,19 @@ class MainController
         return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
     }
 
-    /** @return void */
-    public function downloadAction(string $basename)
+    public function downloadAction(string $basename): string
     {
         $filename = $this->downloadService->downloadFolder() . basename($basename);
         if (is_readable($filename)) {
             if (!XH_ADM) { // @phpstan-ignore-line
                 if (!$this->dbService->log(time(), $filename)) {
-                    echo XH_message('fail', $this->lang['message_cantwrite'], $filename);
-                    return;
+                    return XH_message('fail', $this->lang['message_cantwrite'], $filename);
                 }
             }
             $this->downloadService->deliverDownload($filename);
         } else {
             shead(404);
         }
+        return "";
     }
 }
