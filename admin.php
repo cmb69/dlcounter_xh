@@ -37,10 +37,10 @@ if (XH_wantsPluginAdministration("dlcounter")) {
     $o .= print_plugin_admin("on");
     switch ($admin) {
         case "":
-            $o .= Dic::infoController()->defaultAction(Request::current());
+            $o .= Dic::infoController()->defaultAction(Request::current())();
             break;
         case "plugin_main":
-            $o .= Dic::mainAdminController()->defaultAction(Request::current());
+            $o .= Dic::mainAdminController()->defaultAction(Request::current())();
             break;
         default:
             $o .= plugin_admin_common();

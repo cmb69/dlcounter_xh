@@ -22,6 +22,7 @@
 namespace Dlcounter;
 
 use Plib\Request;
+use Plib\Response;
 use Plib\View;
 
 class MainController
@@ -44,19 +45,18 @@ class MainController
         $this->view = $view;
     }
 
-    public function defaultAction(Request $request, string $basename): string
+    public function defaultAction(Request $request, string $basename): Response
     {
         $filename = $this->downloadService->downloadFolder() . basename($basename);
         if (!$this->dbService->isReadable($filename)) {
-            return $this->view->message("fail", "message_cantread", $filename);
+            return Response::create($this->view->message("fail", "message_cantread", $filename));
         }
-
-        return $this->view->render("download-form", [
+        return Response::create($this->view->render("download-form", [
             'actionUrl' => $request->url()->relative(),
             'basename' => $basename,
             'size' => $this->determineSize($filename),
             'times' => $this->dbService->getDownloadCountOf($basename)
-        ]);
+        ]));
     }
 
     /**
@@ -71,19 +71,19 @@ class MainController
         return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
     }
 
-    public function downloadAction(Request $request, string $basename): string
+    public function downloadAction(Request $request, string $basename): Response
     {
         $filename = $this->downloadService->downloadFolder() . basename($basename);
         if ($this->dbService->isReadable($filename)) {
             if (!$request->admin()) {
                 if (!$this->dbService->log($request->time(), $filename)) {
-                    return $this->view->message("fail", "message_cantwrite", $filename);
+                    return Response::create($this->view->message("fail", "message_cantwrite", $filename));
                 }
             }
             $this->downloadService->deliverDownload($filename);
         } else {
             shead(404);
         }
-        return "";
+        return Response::create();
     }
 }

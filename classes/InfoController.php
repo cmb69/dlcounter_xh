@@ -22,6 +22,7 @@
 namespace Dlcounter;
 
 use Plib\Request;
+use Plib\Response;
 use Plib\SystemChecker;
 use Plib\View;
 
@@ -43,9 +44,9 @@ class InfoController
         $this->view = $view;
     }
 
-    public function defaultAction(Request $request): string
+    public function defaultAction(Request $request): Response
     {
-        return $this->view->render("info", [
+        return Response::create($this->view->render("info", [
             'logo' => "{$this->pluginFolder}dlcounter.png",
             'version' => DLCOUNTER_VERSION,
             'checks' => [
@@ -57,7 +58,7 @@ class InfoController
                 $this->checkWritability("{$this->pluginFolder}css/"),
                 $this->checkWritability("{$this->pluginFolder}languages/"),
             ],
-        ]);
+        ]));
     }
 
     /** @return array{class:string,label:string,stateLabel:string} */

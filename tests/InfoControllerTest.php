@@ -17,6 +17,6 @@ class InfoControllerTest extends TestCase
             new FakeSystemChecker(),
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["dlcounter"])
         );
-        Approvals::verifyHtml($sut->defaultAction(new FakeRequest()));
+        Approvals::verifyHtml($sut->defaultAction(new FakeRequest())->output());
     }
 }

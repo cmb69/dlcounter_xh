@@ -23,6 +23,7 @@ namespace Dlcounter;
 
 use Plib\Jquery;
 use Plib\Request;
+use Plib\Response;
 use Plib\View;
 
 class MainAdminController
@@ -47,7 +48,7 @@ class MainAdminController
         $this->view = $view;
     }
 
-    public function defaultAction(Request $request): string
+    public function defaultAction(Request $request): Response
     {
         $this->jquery->include();
         $this->jquery->includePlugin("tablesorter", "{$this->pluginsFolder}dlcounter/lib/jquery.tablesorter.js");
@@ -57,9 +58,9 @@ class MainAdminController
                 return $elt->name;
             }, $data)
         );
-        return $this->view->render("stats", [
+        return Response::create($this->view->render("stats", [
             'totals' => $totals,
             'details' => $data
-        ]);
+        ]));
     }
 }

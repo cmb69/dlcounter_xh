@@ -20,7 +20,7 @@ class MainAdminControllerTest extends TestCase
             $this->createStub(Jquery::class),
             $this->view()
         );
-        Approvals::verifyHtml($sut->defaultAction(new FakeRequest()));
+        Approvals::verifyHtml($sut->defaultAction(new FakeRequest())->output());
     }
 
     private function downloads(): array

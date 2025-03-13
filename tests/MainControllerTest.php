@@ -16,7 +16,7 @@ class MainControllerTest extends TestCase
             $this->downloadService(),
             $this->view()
         );
-        Approvals::verifyHtml($sut->defaultAction(new FakeRequest(), "test.txt"));
+        Approvals::verifyHtml($sut->defaultAction(new FakeRequest(), "test.txt")->output());
     }
 
     public function testReportsUnreadableDownload(): void
@@ -28,7 +28,7 @@ class MainControllerTest extends TestCase
         );
         $this->assertStringContainsString(
             "Can't read file &quot;test.txt&quot;!",
-            $sut->defaultAction(new FakeRequest(), "test.txt")
+            $sut->defaultAction(new FakeRequest(), "test.txt")->output()
         );
     }
 
@@ -67,7 +67,7 @@ class MainControllerTest extends TestCase
         );
         $this->assertStringContainsString(
             "Can't write to file &quot;test.txt&quot;!",
-            $sut->downloadAction(new FakeRequest(["time" => 1234567]), "test.txt")
+            $sut->downloadAction(new FakeRequest(["time" => 1234567]), "test.txt")->output()
         );
     }
 
