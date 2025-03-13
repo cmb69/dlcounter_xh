@@ -51,7 +51,7 @@ class Dic
         global $pth;
 
         return new MainAdminController(
-            "{$pth['folder']['plugins']}dlcounter/",
+            $pth["folder"]["plugins"],
             self::dbService(),
             self::view()
         );
