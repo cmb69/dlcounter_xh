@@ -1,0 +1,49 @@
+<h1>Dlcounter – Statistics</h1>
+<div id="dlcounter_stats">
+    <h4>Totals</h4>
+    <table id="dlcounter_summary_table" class="tablesorter">
+        <thead>
+            <tr>
+                <th>File</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>foo.txt</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>bar.txt</td>
+                <td>1</td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Individual Downloads</h4>
+    <table id="dlcounter_details_table" class="tablesorter">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>File</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1970-05-23 21:21:18</td>
+                <td>foo.txt</td>
+            </tr>
+            <tr>
+                <td>1970-09-29 11:46:29</td>
+                <td>bar.txt</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    jQuery(function($) {
+        $("#dlcounter_stats h4").click(function () {
+            $(this).next().toggle();
+        });
+        $("#dlcounter_stats .tablesorter").tablesorter();
+    });
+</script>

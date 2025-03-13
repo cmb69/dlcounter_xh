@@ -21,6 +21,7 @@
 
 namespace Dlcounter;
 
+use Plib\Jquery;
 use Plib\Request;
 use Plib\View;
 
@@ -32,19 +33,24 @@ class MainAdminController
     /** @var DbService */
     private $dbService;
 
+    /** @var Jquery */
+    private $jquery;
+
     /** @var View */
     private $view;
 
-    public function __construct(string $pluginsFolder, DbService $dbService, View $view)
+    public function __construct(string $pluginsFolder, DbService $dbService, Jquery $jquery, View $view)
     {
         $this->pluginsFolder = $pluginsFolder;
         $this->dbService = $dbService;
+        $this->jquery = $jquery;
         $this->view = $view;
     }
 
     public function defaultAction(Request $request): string
     {
-        $this->emitScripts();
+        $this->jquery->include();
+        $this->jquery->includePlugin("tablesorter", "{$this->pluginsFolder}dlcounter/lib/jquery.tablesorter.js");
         $data = $this->dbService->readDb();
         $totals = array_count_values(
             array_map(function ($elt) {
@@ -55,16 +61,5 @@ class MainAdminController
             'totals' => $totals,
             'details' => $data
         ]);
-    }
-
-    /** @return void */
-    private function emitScripts()
-    {
-        include_once "{$this->pluginsFolder}jquery/jquery.inc.php";
-        include_jQuery();
-        include_jQueryPlugin(
-            'tablesorter',
-            "{$this->pluginsFolder}dlcounter/lib/jquery.tablesorter.js"
-        );
     }
 }

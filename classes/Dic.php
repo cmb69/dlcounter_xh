@@ -21,6 +21,7 @@
 
 namespace Dlcounter;
 
+use Plib\Jquery;
 use Plib\SystemChecker;
 use Plib\View;
 
@@ -53,6 +54,7 @@ class Dic
         return new MainAdminController(
             $pth["folder"]["plugins"],
             self::dbService(),
+            self::jquery(),
             self::view()
         );
     }
@@ -78,6 +80,13 @@ class Dic
             $folder .= "/";
         }
         return new DownloadService($folder);
+    }
+
+    private static function jquery(): Jquery
+    {
+        global $pth;
+
+        return new Jquery("{$pth["folder"]["plugins"]}jquery/");
     }
 
     private static function view(): View
