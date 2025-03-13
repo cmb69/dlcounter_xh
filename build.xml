@@ -25,7 +25,7 @@
 
   <target name="test" description="runs all developer tests">
     <exec executable="phpunit" passthru="true" checkreturn="true">
-      <arg line="--bootstrap=tests/unit/bootstrap.php tests/unit"/>
+      <arg line="--bootstrap=tests/bootstrap.php tests"/>
     </exec>
   </target>
 
