@@ -35,6 +35,7 @@ class MainAdminController
         $this->dbService = new DbService;
     }
 
+    /** @return void */
     public function defaultAction()
     {
         global $pth, $plugin_tx;
@@ -53,6 +54,7 @@ class MainAdminController
         ]);
     }
 
+    /** @return void */
     private function emitScripts()
     {
         global $pth, $bjs;

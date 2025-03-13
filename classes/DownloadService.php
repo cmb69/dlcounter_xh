@@ -25,6 +25,7 @@ class DownloadService
 {
     /**
      * @param string $filename
+     * @return void
      */
     public function deliverDownload($filename)
     {

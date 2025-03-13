@@ -24,7 +24,7 @@ namespace Dlcounter;
 class DbService
 {
     /**
-     * @return object[]
+     * @return list<object{name:string,time:string}>
      */
     public function readDb()
     {
@@ -44,6 +44,10 @@ class DbService
         return $result;
     }
 
+    /**
+     * @param string $basename
+     * @return int
+     */
     public function getDownloadCountOf($basename)
     {
         $result = 0;

@@ -35,9 +35,7 @@ class MainController
      */
     private $dbService;
 
-    /**
-     * @var array
-     */
+    /** @var array<string,string> */
     private $lang;
 
     /**
@@ -52,6 +50,7 @@ class MainController
         $this->lang = $plugin_tx['dlcounter'];
     }
 
+    /** @return void */
     public function defaultAction()
     {
         global $pth, $sn, $su;
@@ -79,16 +78,17 @@ class MainController
     {
         $filesize = filesize($filename);
         $units = array('B', 'KB', 'MB', 'GB');
-        $log = (int) log($filesize, 1024);
+        $log = (int) log((float) $filesize, 1024);
         return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
     }
 
+    /** @return void */
     public function downloadAction()
     {
         $downloadService = new DownloadService;
         $filename = $downloadService->downloadFolder() . basename($this->basename);
         if (is_readable($filename)) {
-            if (!XH_ADM) {
+            if (!XH_ADM) { // @phpstan-ignore-line
                 if (!$this->dbService->log(time(), $filename)) {
                     echo XH_message('fail', $this->lang['message_cantwrite'], $filename);
                     return;
@@ -96,7 +96,7 @@ class MainController
             }
             $downloadService->deliverDownload($filename);
         } else {
-            shead('404');
+            shead(404);
         }
     }
 }

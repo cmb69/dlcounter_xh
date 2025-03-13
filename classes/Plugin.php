@@ -25,9 +25,10 @@ class Plugin
 {
     const VERSION = '1.0beta2';
 
+    /** @return void */
     public function run()
     {
-        if (XH_ADM) {
+        if (XH_ADM) { // @phpstan-ignore-line
             XH_registerStandardPluginMenuItems(true);
             if (XH_wantsPluginAdministration('dlcounter')) {
                 $this->handleAdministration();
@@ -35,6 +36,7 @@ class Plugin
         }
     }
 
+    /** @return void */
     private function handleAdministration()
     {
         global $o, $admin, $action;
@@ -48,7 +50,7 @@ class Plugin
                 $o .= $this->renderStatistics();
                 break;
             default:
-                $o .= plugin_admin_common($action, $admin, 'dlcounter');
+                $o .= plugin_admin_common();
         }
     }
 
@@ -59,7 +61,7 @@ class Plugin
     {
         ob_start();
         (new InfoController)->defaultAction();
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
 
     /**
@@ -69,6 +71,6 @@ class Plugin
     {
         ob_start();
         (new MainAdminController)->defaultAction();
-        return ob_get_clean();
+        return (string) ob_get_clean();
     }
 }

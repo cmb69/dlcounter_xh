@@ -19,10 +19,16 @@
     </exec>
   </target>
 
+  <target name="stan" description="runs static analyzer">
+    <exec executable="phpstan" passthru="true" checkreturn="true"/>
+  </target>
+
   <target name="test" description="runs all developer tests">
     <exec executable="phpunit" passthru="true" checkreturn="true">
       <arg line="--bootstrap=tests/unit/bootstrap.php tests/unit"/>
     </exec>
   </target>
+
+  <target name="check" description="runs all checks" depends="sniff,stan,test"/>
 
 </project>

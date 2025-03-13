@@ -46,6 +46,7 @@ class InfoController
         $this->view = new View("{$this->pluginFolder}views/", $plugin_tx["dlcounter"]);
     }
 
+    /** @return void */
     public function defaultAction()
     {
         global $plugin_tx;
