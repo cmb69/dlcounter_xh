@@ -40,14 +40,13 @@ class MainController
     /** @var array<string,string> */
     private $lang;
 
-    public function __construct(DbService $dbService, DownloadService $downloadService, View $view)
+    /** @param array<string,string> $lang */
+    public function __construct(DbService $dbService, DownloadService $downloadService, View $view, array $lang)
     {
-        global $plugin_tx;
-
         $this->dbService = $dbService;
         $this->downloadService = $downloadService;
         $this->view = $view;
-        $this->lang = $plugin_tx['dlcounter'];
+        $this->lang = $lang;
     }
 
     public function defaultAction(Request $request, string $basename): string
