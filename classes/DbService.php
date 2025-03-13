@@ -93,4 +93,9 @@ class DbService
     {
         return is_readable($filename);
     }
+
+    public function fileSize(string $filename): int
+    {
+        return (int) filesize($filename);
+    }
 }

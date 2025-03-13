@@ -71,7 +71,7 @@ class MainController
      */
     private function determineSize($filename)
     {
-        $filesize = filesize($filename);
+        $filesize = $this->dbService->fileSize($filename);
         $units = array('B', 'KB', 'MB', 'GB');
         $log = (int) log((float) $filesize, 1024);
         return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
