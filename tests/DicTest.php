@@ -10,7 +10,7 @@ class DicTest extends TestCase
     {
         global $pth, $plugin_tx;
 
-        $pth = ["folder" => ["plugins" => ""]];
+        $pth = ["folder" => ["content" => "", "plugins" => "", "userfiles" => ""]];
         $plugin_tx = ["dlcounter" => []];
     }
 

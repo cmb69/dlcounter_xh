@@ -23,6 +23,14 @@ namespace Dlcounter;
 
 class DbService
 {
+    /** @var string */
+    private $dataFolder;
+
+    public function __construct(string $dataFolder)
+    {
+        $this->dataFolder = $dataFolder;
+    }
+
     /**
      * @return list<object{name:string,time:string}>
      */
@@ -78,12 +86,6 @@ class DbService
      */
     private function dataFolder()
     {
-        global $pth, $sl, $cf;
-
-        if ($sl === $cf['language']['default']) {
-            return $pth['folder']['content'];
-        } else {
-            return dirname($pth['folder']['content']) . "/";
-        }
+        return $this->dataFolder;
     }
 }

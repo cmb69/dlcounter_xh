@@ -23,6 +23,14 @@ namespace Dlcounter;
 
 class DownloadService
 {
+    /** @var string */
+    private $downloadFolder;
+
+    public function __construct(string $downloadFolder)
+    {
+        $this->downloadFolder = $downloadFolder;
+    }
+
     /**
      * @param string $filename
      * @return void
@@ -49,12 +57,6 @@ class DownloadService
      */
     public function downloadFolder()
     {
-        global $pth, $plugin_cf;
-
-        $folder = $pth['folder']['userfiles'] . $plugin_cf['dlcounter']['folder_downloads'];
-        if ($folder[strlen($folder) - 1] !== '/') {
-            $folder .= '/';
-        }
-        return $folder;
+        return $this->downloadFolder;
     }
 }

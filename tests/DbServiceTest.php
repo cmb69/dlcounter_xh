@@ -35,12 +35,11 @@ class DbServiceTest extends TestCase
 
     protected function setUp(): void
     {
-        global $pth, $cf, $plugin_cf, $sl;
+        global $pth, $cf, $plugin_cf;
 
         $pth = array(
             'folder' => array(
                 'base' => vfsStream::url('test/'),
-                'content' => vfsStream::url('test/content/'),
                 'plugins' => vfsStream::url('test/plugins/'),
                 'userfiles' => vfsStream::url('test/')
             )
@@ -51,12 +50,11 @@ class DbServiceTest extends TestCase
                 'folder_downloads' => 'downloads/'
             )
         );
-        $sl = "en";
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
         mkdir(vfsStream::url('test/content/'), 0777, true);
         touch(vfsStream::url('test/content/dlcounter.csv'));
-        $this->subject = new DbService;
+        $this->subject = new DbService(vfsStream::url('test/content/'));
     }
 
     public function testReadEmptyDb()

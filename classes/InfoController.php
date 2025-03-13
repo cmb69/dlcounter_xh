@@ -26,9 +26,7 @@ use Plib\View;
 
 class InfoController
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $pluginFolder;
 
     /** @var SystemChecker */
@@ -37,11 +35,9 @@ class InfoController
     /** @var View */
     private $view;
 
-    public function __construct(SystemChecker $systemChecker, View $view)
+    public function __construct(string $pluginFolder, SystemChecker $systemChecker, View $view)
     {
-        global $pth, $plugin_tx;
-
-        $this->pluginFolder = "{$pth['folder']['plugins']}dlcounter/";
+        $this->pluginFolder = $pluginFolder;
         $this->systemChecker = $systemChecker;
         $this->view = $view;
     }

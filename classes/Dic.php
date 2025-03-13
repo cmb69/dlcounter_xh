@@ -29,15 +29,18 @@ class Dic
     public static function mainController(): MainController
     {
         return new MainController(
-            new DbService(),
-            new DownloadService(),
+            self::dbService(),
+            self::downloadService(),
             self::view()
         );
     }
 
     public static function infoController(): InfoController
     {
+        global $pth;
+
         return new InfoController(
+            "{$pth['folder']['plugins']}dlcounter/",
             new SystemChecker(),
             self::view()
         );
@@ -45,10 +48,36 @@ class Dic
 
     public static function mainAdminController(): MainAdminController
     {
+        global $pth;
+
         return new MainAdminController(
-            new DbService(),
+            "{$pth['folder']['plugins']}dlcounter/",
+            self::dbService(),
             self::view()
         );
+    }
+
+    private static function dbService(): DbService
+    {
+        global $pth, $sl, $cf;
+
+        if ($sl === $cf["language"]["default"]) {
+            $dataFolder = $pth["folder"]["content"];
+        } else {
+            $dataFolder = dirname($pth["folder"]["content"]) . "/";
+        }
+        return new DbService($dataFolder);
+    }
+
+    private static function downloadService(): DownloadService
+    {
+        global $pth, $plugin_cf;
+
+        $folder = $pth["folder"]["userfiles"] . $plugin_cf["dlcounter"]["folder_downloads"];
+        if ($folder[strlen($folder) - 1] !== "/") {
+            $folder .= "/";
+        }
+        return new DownloadService($folder);
     }
 
     private static function view(): View

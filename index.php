@@ -27,8 +27,6 @@ use Dlcounter\Dic;
  */
 function dlcounter($filename)
 {
-    global $pth, $plugin_tx;
-
     $controller = Dic::mainController();
     if (isset($_POST['dlcounter']) && $_POST['dlcounter'] === $filename) {
         $action = 'downloadAction';

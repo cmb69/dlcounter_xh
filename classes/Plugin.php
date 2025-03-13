@@ -62,8 +62,6 @@ class Plugin
      */
     private function renderPluginInfo()
     {
-        global $pth, $plugin_tx;
-
         ob_start();
         $controller = Dic::infoController();
         $controller->defaultAction();
@@ -75,8 +73,6 @@ class Plugin
      */
     private function renderStatistics()
     {
-        global $pth, $plugin_tx;
-
         ob_start();
         $controller = Dic::mainAdminController();
         $controller->defaultAction();

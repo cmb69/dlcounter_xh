@@ -25,16 +25,18 @@ use Plib\View;
 
 class MainAdminController
 {
-    /**
-     * @var DbService
-     */
+    /** @var string */
+    private $pluginFolder;
+
+    /** @var DbService */
     private $dbService;
 
     /** @var View */
     private $view;
 
-    public function __construct(DbService $dbService, View $view)
+    public function __construct(string $pluginFolder, DbService $dbService, View $view)
     {
+        $this->pluginFolder = $pluginFolder;
         $this->dbService = $dbService;
         $this->view = $view;
     }
@@ -58,18 +60,17 @@ class MainAdminController
     /** @return void */
     private function emitScripts()
     {
-        global $pth, $bjs;
+        global $bjs;
 
-        $pluginFolder = $pth['folder']['plugins'];
-        include_once "{$pluginFolder}jquery/jquery.inc.php";
+        include_once "{$this->pluginFolder}jquery/jquery.inc.php";
         include_jQuery();
         include_jQueryPlugin(
             'tablesorter',
-            "{$pluginFolder}dlcounter/lib/jquery.tablesorter.js"
+            "{$this->pluginFolder}dlcounter/lib/jquery.tablesorter.js"
         );
-        $filename = "{$pluginFolder}dlcounter/admin.min.js";
+        $filename = "{$this->pluginFolder}dlcounter/admin.min.js";
         if (!file_exists($filename)) {
-            $filename = "{$pluginFolder}dlcounter/admin.js";
+            $filename = "{$this->pluginFolder}dlcounter/admin.js";
         }
         $bjs .= "<script src=\"$filename\"></script>";
     }
