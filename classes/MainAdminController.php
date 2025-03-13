@@ -21,7 +21,7 @@
 
 namespace Dlcounter;
 
-use Pfw\View\View;
+use Plib\View;
 
 class MainAdminController
 {
@@ -37,6 +37,8 @@ class MainAdminController
 
     public function defaultAction()
     {
+        global $pth, $plugin_tx;
+
         $this->emitScripts();
         $data = $this->dbService->readDb();
         $totals = array_count_values(
@@ -44,13 +46,11 @@ class MainAdminController
                 return $elt->name;
             }, $data)
         );
-        (new View('dlcounter'))
-            ->template('stats')
-            ->data([
-                'totals' => $totals,
-                'details' => $data
-            ])
-            ->render();
+        $view = new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"]);
+        echo $view->render("stats", [
+            'totals' => $totals,
+            'details' => $data
+        ]);
     }
 
     private function emitScripts()

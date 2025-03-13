@@ -21,7 +21,7 @@
 
 namespace Dlcounter;
 
-use Pfw\View\View;
+use Plib\View;
 
 class MainController
 {
@@ -54,7 +54,7 @@ class MainController
 
     public function defaultAction()
     {
-        global $sn, $su;
+        global $pth, $sn, $su;
 
         $filename = (new DownloadService)->downloadFolder() . basename($this->basename);
         if (!is_readable($filename)) {
@@ -62,15 +62,13 @@ class MainController
             return;
         }
 
-        (new View('dlcounter'))
-            ->template('download-form')
-            ->data([
-                'actionUrl' => "$sn?$su",
-                'basename' => $this->basename,
-                'size' => $this->determineSize($filename),
-                'times' => $this->dbService->getDownloadCountOf($this->basename)
-            ])
-            ->render();
+        $view = new View("{$pth["folder"]["plugins"]}dlcounter/views/", $this->lang);
+        echo $view->render("download-form", [
+            'actionUrl' => "$sn?$su",
+            'basename' => $this->basename,
+            'size' => $this->determineSize($filename),
+            'times' => $this->dbService->getDownloadCountOf($this->basename)
+        ]);
     }
 
     /**

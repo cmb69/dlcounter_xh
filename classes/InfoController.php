@@ -22,7 +22,7 @@
 namespace Dlcounter;
 
 use Pfw\SystemCheckService;
-use Pfw\View\View;
+use Plib\View;
 
 class InfoController
 {
@@ -40,21 +40,21 @@ class InfoController
 
     public function defaultAction()
     {
-        (new View('dlcounter'))
-            ->template('info')
-            ->data([
-                'logo' => "{$this->pluginFolder}dlcounter.png",
-                'version' => Plugin::VERSION,
-                'checks' => (new SystemCheckService)
-                    ->minPhpVersion('5.4.0')
-                    ->extension('fileinfo', false)
-                    ->minXhVersion('1.6.3')
-                    ->plugin('jquery')
-                    ->writable("{$this->pluginFolder}config/")
-                    ->writable("{$this->pluginFolder}css/")
-                    ->writable("{$this->pluginFolder}languages/")
-                    ->getChecks()
-            ])
-            ->render();
+        global $plugin_tx;
+
+        $view = new View("{$this->pluginFolder}views/", $plugin_tx["dlcounter"]);
+        echo $view->render("info", [
+            'logo' => "{$this->pluginFolder}dlcounter.png",
+            'version' => Plugin::VERSION,
+            'checks' => (new SystemCheckService)
+                ->minPhpVersion('5.4.0')
+                ->extension('fileinfo', false)
+                ->minXhVersion('1.6.3')
+                ->plugin('jquery')
+                ->writable("{$this->pluginFolder}config/")
+                ->writable("{$this->pluginFolder}css/")
+                ->writable("{$this->pluginFolder}languages/")
+                ->getChecks()
+        ]);
     }
 }
