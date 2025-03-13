@@ -46,7 +46,7 @@ class MainControllerTest extends TestCase
         $dbService->method("isReadable")->willReturn(true);
         $dbService->method("fileSize")->willReturn(12345);
         $dbService->method("getDownloadCountOf")->willReturn(123);
-        $dbService->expects($this->once())->method("log")->willReturn(true);
+        $dbService->expects($this->once())->method("log")->with(1234567, "test.txt")->willReturn(true);
         $downloadService = $this->createMock(DownloadService::class);
         $sut = new MainController(
             $dbService,

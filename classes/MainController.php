@@ -82,7 +82,7 @@ class MainController
         $filename = $this->downloadService->downloadFolder() . basename($basename);
         if ($this->dbService->isReadable($filename)) {
             if (!$request->admin()) {
-                if (!$this->dbService->log(time(), $filename)) {
+                if (!$this->dbService->log($request->time(), $filename)) {
                     return XH_message('fail', $this->lang['message_cantwrite'], $filename);
                 }
             }
