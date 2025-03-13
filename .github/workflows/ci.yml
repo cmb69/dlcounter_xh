@@ -1,0 +1,50 @@
+name: checks
+on: 
+  pull_request:
+  push:
+  schedule:
+    - cron: '08 14 * * *'
+  workflow_dispatch:
+jobs:
+  checks:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{matrix.php}}
+          ini-values: short_open_tag=1
+          tools: composer,phive
+      - name: Install CMSimple_XH
+        run: |
+          curl -fsSL -o CMSimple_XH-1.8.zip https://github.com/cmsimple-xh/cmsimple-xh/releases/download/1.8.0/CMSimple_XH-1.8.zip
+          unzip -q CMSimple_XH-1.8.zip
+      - name: Checkout Dlcounter
+        uses: actions/checkout@v4
+        with:
+          path: cmsimplexh/plugins/dlcounter
+      - name: Checkout Plib_XH
+        uses: actions/checkout@v4
+        with:
+          repository: cmb69/plib_xh
+          path: cmsimplexh/plugins/plib
+      - name: Cache tools
+        id: cache-tools
+        uses: actions/cache@v4
+        with:
+          path: cmsimplexh/plugins/dlcounter/tools
+          key: tools-${{hashFiles('cmsimplexh/plugins/dlcounter/.phive')}}
+      - if: ${{steps.cache-tools.outputs.cache-hit != 'true'}}
+        name: phive install
+        run: cd cmsimplexh/plugins/dlcounter && phive --no-progress install --copy --trust-gpg-keys 0F9684B8B16B7AB0,31C7E470E2138192,51C67305FFC2E5C0,6DA3ACC4991FFAE5,9093F8B32E4815AA,A978220305CD5C32,CF1A108D0E7AE720,D5F0CB76E2DD74F8
+      - name: composer install
+        run: cd cmsimplexh/plugins/dlcounter && composer install
+      - name: phing sniff
+        run: cd cmsimplexh/plugins/dlcounter && PATH=tools:vendor/bin:$PATH phing sniff
+#      - name: phing stan
+#        run: cd cmsimplexh/plugins/dlcounter && PATH=tools:vendor/bin:$PATH phing stan
+      - name: phing test
+        run: cd cmsimplexh/plugins/dlcounter && PATH=tools:vendor/bin:$PATH phing test
