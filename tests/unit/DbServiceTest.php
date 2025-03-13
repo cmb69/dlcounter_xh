@@ -21,19 +21,19 @@
 
 namespace Dlcounter;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStream;
 
-class DbServiceTest extends PHPUnit_Framework_TestCase
+class DbServiceTest extends TestCase
 {
     /**
      * @var DbService
      */
     private $subject;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         global $pth, $cf, $plugin_cf, $sl;
 
