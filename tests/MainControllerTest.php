@@ -71,6 +71,16 @@ class MainControllerTest extends TestCase
         );
     }
 
+    public function testRespondsWith404ForUnreadableDownload(): void
+    {
+        $sut = new MainController(
+            $this->dbService(false),
+            $this->downloadService(),
+            $this->view()
+        );
+        $this->assertSame(404, $sut->downloadAction(new FakeRequest(), "text.txt")->status());
+    }
+
     /** @return DbService&MockObject */
     private function dbService(bool $readable = true)
     {

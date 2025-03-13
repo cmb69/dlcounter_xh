@@ -81,9 +81,9 @@ class MainController
                 }
             }
             $this->downloadService->deliverDownload($filename);
+            return Response::create();
         } else {
-            shead(404);
+            return Response::error(404);
         }
-        return Response::create();
     }
 }
