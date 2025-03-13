@@ -19,9 +19,7 @@
  * along with Dlcounter_XH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use Dlcounter\DbService;
-use Dlcounter\DownloadService;
-use Plib\View;
+use Dlcounter\Dic;
 
 /**
  * @param string $filename
@@ -31,11 +29,7 @@ function dlcounter($filename)
 {
     global $pth, $plugin_tx;
 
-    $controller = new Dlcounter\MainController(
-        new DbService(),
-        new DownloadService(),
-        new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"])
-    );
+    $controller = Dic::mainController();
     if (isset($_POST['dlcounter']) && $_POST['dlcounter'] === $filename) {
         $action = 'downloadAction';
     } else {

@@ -65,10 +65,7 @@ class Plugin
         global $pth, $plugin_tx;
 
         ob_start();
-        $controller = new InfoController(
-            new SystemChecker(),
-            new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"])
-        );
+        $controller = Dic::infoController();
         $controller->defaultAction();
         return (string) ob_get_clean();
     }
@@ -81,10 +78,7 @@ class Plugin
         global $pth, $plugin_tx;
 
         ob_start();
-        $controller = new MainAdminController(
-            new DbService(),
-            new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"])
-        );
+        $controller = Dic::mainAdminController();
         $controller->defaultAction();
         return (string) ob_get_clean();
     }
