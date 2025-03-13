@@ -29,7 +29,14 @@ class Dic
 {
     public static function mainController(): MainController
     {
+        global $pth, $plugin_cf;
+
+        $folder = $pth["folder"]["userfiles"] . $plugin_cf["dlcounter"]["folder_downloads"];
+        if ($folder[strlen($folder) - 1] !== "/") {
+            $folder .= "/";
+        }
         return new MainController(
+            $folder,
             self::dbService(),
             self::downloadService(),
             self::view()
@@ -73,13 +80,7 @@ class Dic
 
     private static function downloadService(): DownloadService
     {
-        global $pth, $plugin_cf;
-
-        $folder = $pth["folder"]["userfiles"] . $plugin_cf["dlcounter"]["folder_downloads"];
-        if ($folder[strlen($folder) - 1] !== "/") {
-            $folder .= "/";
-        }
-        return new DownloadService($folder);
+        return new DownloadService();
     }
 
     private static function jquery(): Jquery

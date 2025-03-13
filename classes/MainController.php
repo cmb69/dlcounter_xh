@@ -27,6 +27,9 @@ use Plib\View;
 
 class MainController
 {
+    /** @var string */
+    private $downloadFolder;
+
     /**
      * @var DbService
      */
@@ -38,8 +41,13 @@ class MainController
     /** @var View */
     private $view;
 
-    public function __construct(DbService $dbService, DownloadService $downloadService, View $view)
-    {
+    public function __construct(
+        string $downloadFolder,
+        DbService $dbService,
+        DownloadService $downloadService,
+        View $view
+    ) {
+        $this->downloadFolder = $downloadFolder;
         $this->dbService = $dbService;
         $this->downloadService = $downloadService;
         $this->view = $view;
@@ -47,7 +55,7 @@ class MainController
 
     public function defaultAction(Request $request, string $basename): Response
     {
-        $filename = $this->downloadService->downloadFolder() . basename($basename);
+        $filename = $this->downloadFolder . basename($basename);
         if (!$this->dbService->isReadable($filename)) {
             return Response::create($this->view->message("fail", "message_cantread", $filename));
         }
@@ -73,7 +81,7 @@ class MainController
 
     public function downloadAction(Request $request, string $basename): Response
     {
-        $filename = $this->downloadService->downloadFolder() . basename($basename);
+        $filename = $this->downloadFolder . basename($basename);
         if ($this->dbService->isReadable($filename)) {
             if (!$request->admin()) {
                 if (!$this->dbService->log($request->time(), $filename)) {

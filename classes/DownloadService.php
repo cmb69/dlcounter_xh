@@ -23,14 +23,6 @@ namespace Dlcounter;
 
 class DownloadService
 {
-    /** @var string */
-    private $downloadFolder;
-
-    public function __construct(string $downloadFolder)
-    {
-        $this->downloadFolder = $downloadFolder;
-    }
-
     /**
      * @param string $filename
      * @return void
@@ -50,13 +42,5 @@ class DownloadService
         }
         readfile($filename);
         XH_exit();
-    }
-
-    /**
-     * @return string
-     */
-    public function downloadFolder()
-    {
-        return $this->downloadFolder;
     }
 }

@@ -12,6 +12,7 @@ class MainControllerTest extends TestCase
     public function testRendersDownloadForm(): void
     {
         $sut = new MainController(
+            "",
             $this->dbService(),
             $this->downloadService(),
             $this->view()
@@ -22,6 +23,7 @@ class MainControllerTest extends TestCase
     public function testReportsUnreadableDownload(): void
     {
         $sut = new MainController(
+            "",
             $this->dbService(false),
             $this->downloadService(),
             $this->view()
@@ -37,6 +39,7 @@ class MainControllerTest extends TestCase
         $downloadService = $this->downloadService();
         $downloadService->expects($this->once())->method("deliverDownload")->with("test.txt");
         $sut = new MainController(
+            "",
             $this->dbService(),
             $downloadService,
             $this->view()
@@ -49,6 +52,7 @@ class MainControllerTest extends TestCase
         $dbService = $this->dbService();
         $dbService->expects($this->once())->method("log")->with(1234567, "test.txt")->willReturn(true);
         $sut = new MainController(
+            "",
             $dbService,
             $this->downloadService(),
             $this->view()
@@ -61,6 +65,7 @@ class MainControllerTest extends TestCase
         $dbService = $this->dbService();
         $dbService->expects($this->once())->method("log")->willReturn(false);
         $sut = new MainController(
+            "",
             $dbService,
             $this->downloadService(),
             $this->view()
@@ -74,6 +79,7 @@ class MainControllerTest extends TestCase
     public function testRespondsWith404ForUnreadableDownload(): void
     {
         $sut = new MainController(
+            "",
             $this->dbService(false),
             $this->downloadService(),
             $this->view()
