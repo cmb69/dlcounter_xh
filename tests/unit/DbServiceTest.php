@@ -35,7 +35,7 @@ class DbServiceTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        global $pth, $plugin_cf;
+        global $pth, $cf, $plugin_cf, $sl;
 
         $pth = array(
             'folder' => array(
@@ -45,11 +45,13 @@ class DbServiceTest extends PHPUnit_Framework_TestCase
                 'userfiles' => vfsStream::url('test/')
             )
         );
+        $cf = ['language' => ['default' => "en"]];
         $plugin_cf = array(
             'dlcounter' => array(
                 'folder_downloads' => 'downloads/'
             )
         );
+        $sl = "en";
         vfsStreamWrapper::register();
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
         mkdir(vfsStream::url('test/content/'), 0777, true);
