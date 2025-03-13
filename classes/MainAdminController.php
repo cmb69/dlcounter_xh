@@ -60,18 +60,11 @@ class MainAdminController
     /** @return void */
     private function emitScripts()
     {
-        global $bjs;
-
         include_once "{$this->pluginsFolder}jquery/jquery.inc.php";
         include_jQuery();
         include_jQueryPlugin(
             'tablesorter',
             "{$this->pluginsFolder}dlcounter/lib/jquery.tablesorter.js"
         );
-        $filename = "{$this->pluginsFolder}dlcounter/admin.min.js";
-        if (!file_exists($filename)) {
-            $filename = "{$this->pluginsFolder}dlcounter/admin.js";
-        }
-        $bjs .= "<script src=\"$filename\"></script>";
     }
 }

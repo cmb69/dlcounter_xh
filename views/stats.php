@@ -35,3 +35,11 @@
         </tbody>
     </table>
 </div>
+<script>
+    jQuery(function($) {
+        $("#dlcounter_stats h4").click(function () {
+            $(this).next().toggle();
+        });
+        $("#dlcounter_stats .tablesorter").tablesorter();
+    });
+</script>
