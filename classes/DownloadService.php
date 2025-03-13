@@ -31,10 +31,8 @@ class DownloadService
     {
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $basename = urlencode(basename($filename));
-        $mimeType = function_exists('mime_content_type')
-            ? mime_content_type($filename)
-            : 'application/octet-stream';
-        header("Content-Type: $mimeType");
+        $mimeType = $this->mimeType($filename);
+        header("Content-Type: {$mimeType}");
         header("Content-Disposition: attachment; filename=file.$extension; filename*=UTF-8''$basename");
         header('Content-Length: ' . filesize($filename));
         while (ob_get_level()) {
@@ -42,5 +40,13 @@ class DownloadService
         }
         readfile($filename);
         XH_exit();
+    }
+
+    private function mimeType(string $filename): string
+    {
+        if (function_exists("mime_content_type")) {
+            $mimeType = mime_content_type($filename);
+        }
+        return isset($mimeType) && is_string($mimeType) ? $mimeType : "application/octet-stream";
     }
 }
