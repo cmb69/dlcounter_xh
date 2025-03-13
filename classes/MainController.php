@@ -37,23 +37,18 @@ class MainController
     /** @var View */
     private $view;
 
-    /** @var array<string,string> */
-    private $lang;
-
-    /** @param array<string,string> $lang */
-    public function __construct(DbService $dbService, DownloadService $downloadService, View $view, array $lang)
+    public function __construct(DbService $dbService, DownloadService $downloadService, View $view)
     {
         $this->dbService = $dbService;
         $this->downloadService = $downloadService;
         $this->view = $view;
-        $this->lang = $lang;
     }
 
     public function defaultAction(Request $request, string $basename): string
     {
         $filename = $this->downloadService->downloadFolder() . basename($basename);
         if (!$this->dbService->isReadable($filename)) {
-            return XH_message('fail', sprintf($this->lang['message_cantread'], $filename));
+            return $this->view->message("fail", "message_cantread", $filename);
         }
 
         return $this->view->render("download-form", [
@@ -82,7 +77,7 @@ class MainController
         if ($this->dbService->isReadable($filename)) {
             if (!$request->admin()) {
                 if (!$this->dbService->log($request->time(), $filename)) {
-                    return XH_message('fail', $this->lang['message_cantwrite'], $filename);
+                    return $this->view->message("fail", "message_cantwrite", $filename);
                 }
             }
             $this->downloadService->deliverDownload($filename);

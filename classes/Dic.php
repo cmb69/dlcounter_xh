@@ -28,13 +28,10 @@ class Dic
 {
     public static function mainController(): MainController
     {
-        global $plugin_tx;
-
         return new MainController(
             self::dbService(),
             self::downloadService(),
-            self::view(),
-            $plugin_tx["dlcounter"]
+            self::view()
         );
     }
 
