@@ -55,7 +55,7 @@ class InfoController
             'logo' => "{$this->pluginFolder}dlcounter.png",
             'version' => Plugin::VERSION,
             'checks' => [
-                $this->checkPhpVersion('5.4.0'),
+                $this->checkPhpVersion('7.1.0'),
                 $this->checkExtension('fileinfo'),
                 $this->checkXhVersion('1.6.3'),
                 $this->checkJQuery(),
