@@ -49,18 +49,16 @@ class MainController
         $this->lang = $plugin_tx['dlcounter'];
     }
 
-    /** @return void */
-    public function defaultAction(string $basename)
+    public function defaultAction(string $basename): string
     {
         global $sn, $su;
 
         $filename = $this->downloadService->downloadFolder() . basename($basename);
         if (!is_readable($filename)) {
-            echo XH_message('fail', sprintf($this->lang['message_cantread'], $filename));
-            return;
+            return XH_message('fail', sprintf($this->lang['message_cantread'], $filename));
         }
 
-        echo $this->view->render("download-form", [
+        return $this->view->render("download-form", [
             'actionUrl' => "$sn?$su",
             'basename' => $basename,
             'size' => $this->determineSize($filename),

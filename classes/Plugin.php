@@ -47,35 +47,13 @@ class Plugin
         $o .= print_plugin_admin('on');
         switch ($admin) {
             case '':
-                $o .= $this->renderPluginInfo();
+                $o .= Dic::infoController()->defaultAction();
                 break;
             case 'plugin_main':
-                $o .= $this->renderStatistics();
+                $o .= Dic::mainAdminController()->defaultAction();
                 break;
             default:
                 $o .= plugin_admin_common();
         }
-    }
-
-    /**
-     * @return string
-     */
-    private function renderPluginInfo()
-    {
-        ob_start();
-        $controller = Dic::infoController();
-        $controller->defaultAction();
-        return (string) ob_get_clean();
-    }
-
-    /**
-     * @return string
-     */
-    private function renderStatistics()
-    {
-        ob_start();
-        $controller = Dic::mainAdminController();
-        $controller->defaultAction();
-        return (string) ob_get_clean();
     }
 }

@@ -41,8 +41,7 @@ class MainAdminController
         $this->view = $view;
     }
 
-    /** @return void */
-    public function defaultAction()
+    public function defaultAction(): string
     {
         $this->emitScripts();
         $data = $this->dbService->readDb();
@@ -51,7 +50,7 @@ class MainAdminController
                 return $elt->name;
             }, $data)
         );
-        echo $this->view->render("stats", [
+        return $this->view->render("stats", [
             'totals' => $totals,
             'details' => $data
         ]);

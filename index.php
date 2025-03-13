@@ -33,9 +33,7 @@ function dlcounter($filename)
     } else {
         $action = 'defaultAction';
     }
-    ob_start();
-    $controller->{$action}($filename);
-    return (string) ob_get_clean();
+    return $controller->{$action}($filename);
 }
 
 (new Dlcounter\Plugin)->run();

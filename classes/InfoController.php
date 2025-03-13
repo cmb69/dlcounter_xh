@@ -42,10 +42,9 @@ class InfoController
         $this->view = $view;
     }
 
-    /** @return void */
-    public function defaultAction()
+    public function defaultAction(): string
     {
-        echo $this->view->render("info", [
+        return $this->view->render("info", [
             'logo' => "{$this->pluginFolder}dlcounter.png",
             'version' => Plugin::VERSION,
             'checks' => [
