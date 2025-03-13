@@ -34,8 +34,7 @@ function dlcounter($filename)
     $controller = new Dlcounter\MainController(
         new DbService(),
         new DownloadService(),
-        new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"]),
-        $filename
+        new View("{$pth["folder"]["plugins"]}dlcounter/views/", $plugin_tx["dlcounter"])
     );
     if (isset($_POST['dlcounter']) && $_POST['dlcounter'] === $filename) {
         $action = 'downloadAction';
@@ -43,7 +42,7 @@ function dlcounter($filename)
         $action = 'defaultAction';
     }
     ob_start();
-    $controller->{$action}();
+    $controller->{$action}($filename);
     return (string) ob_get_clean();
 }
 

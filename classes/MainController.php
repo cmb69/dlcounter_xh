@@ -26,11 +26,6 @@ use Plib\View;
 class MainController
 {
     /**
-     * @var string
-     */
-    private $basename;
-
-    /**
      * @var DbService
      */
     private $dbService;
@@ -44,14 +39,10 @@ class MainController
     /** @var array<string,string> */
     private $lang;
 
-    /**
-     * @param string $basename
-     */
-    public function __construct(DbService $dbService, DownloadService $downloadService, View $view, $basename)
+    public function __construct(DbService $dbService, DownloadService $downloadService, View $view)
     {
         global $plugin_tx;
 
-        $this->basename = $basename;
         $this->dbService = $dbService;
         $this->downloadService = $downloadService;
         $this->view = $view;
@@ -59,11 +50,11 @@ class MainController
     }
 
     /** @return void */
-    public function defaultAction()
+    public function defaultAction(string $basename)
     {
         global $sn, $su;
 
-        $filename = $this->downloadService->downloadFolder() . basename($this->basename);
+        $filename = $this->downloadService->downloadFolder() . basename($basename);
         if (!is_readable($filename)) {
             echo XH_message('fail', sprintf($this->lang['message_cantread'], $filename));
             return;
@@ -71,9 +62,9 @@ class MainController
 
         echo $this->view->render("download-form", [
             'actionUrl' => "$sn?$su",
-            'basename' => $this->basename,
+            'basename' => $basename,
             'size' => $this->determineSize($filename),
-            'times' => $this->dbService->getDownloadCountOf($this->basename)
+            'times' => $this->dbService->getDownloadCountOf($basename)
         ]);
     }
 
@@ -90,9 +81,9 @@ class MainController
     }
 
     /** @return void */
-    public function downloadAction()
+    public function downloadAction(string $basename)
     {
-        $filename = $this->downloadService->downloadFolder() . basename($this->basename);
+        $filename = $this->downloadService->downloadFolder() . basename($basename);
         if (is_readable($filename)) {
             if (!XH_ADM) { // @phpstan-ignore-line
                 if (!$this->dbService->log(time(), $filename)) {
