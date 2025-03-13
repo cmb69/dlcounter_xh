@@ -5,3 +5,4 @@ vendor
 /admin.min.js
 /README.htm
 /tools
+/composer.lock
