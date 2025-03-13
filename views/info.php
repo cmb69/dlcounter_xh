@@ -26,6 +26,6 @@
 <div class="pfw_syscheck">
     <h2><?php echo $this->text('syscheck_title')?></h2>
 <?php foreach ($checks as $check):?>
-    <p class="xh_<?php echo $check->getState()?>"><?php echo $this->text('syscheck_message', $check->getLabel(), $check->getStateLabel())?></p>
+    <p class="<?php echo $this->esc($check['class'])?>"><?php echo $this->text('syscheck_message', $check['label'], $check['stateLabel'])?></p>
 <?php endforeach?>
 </div>
