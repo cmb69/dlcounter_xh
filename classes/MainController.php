@@ -21,6 +21,7 @@
 
 namespace Dlcounter;
 
+use Plib\Request;
 use Plib\View;
 
 class MainController
@@ -49,17 +50,15 @@ class MainController
         $this->lang = $plugin_tx['dlcounter'];
     }
 
-    public function defaultAction(string $basename): string
+    public function defaultAction(Request $request, string $basename): string
     {
-        global $sn, $su;
-
         $filename = $this->downloadService->downloadFolder() . basename($basename);
         if (!is_readable($filename)) {
             return XH_message('fail', sprintf($this->lang['message_cantread'], $filename));
         }
 
         return $this->view->render("download-form", [
-            'actionUrl' => "$sn?$su",
+            'actionUrl' => $request->url()->relative(),
             'basename' => $basename,
             'size' => $this->determineSize($filename),
             'times' => $this->dbService->getDownloadCountOf($basename)
@@ -78,11 +77,11 @@ class MainController
         return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
     }
 
-    public function downloadAction(string $basename): string
+    public function downloadAction(Request $request, string $basename): string
     {
         $filename = $this->downloadService->downloadFolder() . basename($basename);
         if (is_readable($filename)) {
-            if (!XH_ADM) { // @phpstan-ignore-line
+            if (!$request->admin()) {
                 if (!$this->dbService->log(time(), $filename)) {
                     return XH_message('fail', $this->lang['message_cantwrite'], $filename);
                 }

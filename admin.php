@@ -20,6 +20,7 @@
  */
 
 use Dlcounter\Dic;
+use Plib\Request;
 
 if (!defined("CMSIMPLE_XH_VERSION")) {
     http_response_code(403);
@@ -36,10 +37,10 @@ if (XH_wantsPluginAdministration("dlcounter")) {
     $o .= print_plugin_admin("on");
     switch ($admin) {
         case "":
-            $o .= Dic::infoController()->defaultAction();
+            $o .= Dic::infoController()->defaultAction(Request::current());
             break;
         case "plugin_main":
-            $o .= Dic::mainAdminController()->defaultAction();
+            $o .= Dic::mainAdminController()->defaultAction(Request::current());
             break;
         default:
             $o .= plugin_admin_common();

@@ -20,6 +20,7 @@
  */
 
 use Dlcounter\Dic;
+use Plib\Request;
 
 const DLCOUNTER_VERSION = "1.0beta2";
 
@@ -35,5 +36,5 @@ function dlcounter($filename)
     } else {
         $action = 'defaultAction';
     }
-    return $controller->{$action}($filename);
+    return $controller->{$action}(Request::current(), $filename);
 }

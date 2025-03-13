@@ -21,6 +21,7 @@
 
 namespace Dlcounter;
 
+use Plib\Request;
 use Plib\View;
 
 class MainAdminController
@@ -41,7 +42,7 @@ class MainAdminController
         $this->view = $view;
     }
 
-    public function defaultAction(): string
+    public function defaultAction(Request $request): string
     {
         $this->emitScripts();
         $data = $this->dbService->readDb();

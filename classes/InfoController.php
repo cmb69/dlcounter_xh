@@ -21,6 +21,7 @@
 
 namespace Dlcounter;
 
+use Plib\Request;
 use Plib\SystemChecker;
 use Plib\View;
 
@@ -42,7 +43,7 @@ class InfoController
         $this->view = $view;
     }
 
-    public function defaultAction(): string
+    public function defaultAction(Request $request): string
     {
         return $this->view->render("info", [
             'logo' => "{$this->pluginFolder}dlcounter.png",

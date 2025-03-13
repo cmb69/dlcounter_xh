@@ -4,6 +4,7 @@ namespace Dlcounter;
 
 use ApprovalTests\Approvals;
 use PHPUnit\Framework\TestCase;
+use Plib\FakeRequest;
 use Plib\FakeSystemChecker;
 use Plib\View;
 
@@ -16,6 +17,6 @@ class InfoControllerTest extends TestCase
             new FakeSystemChecker(),
             new View("./views/", XH_includeVar("./languages/en.php", "plugin_tx")["dlcounter"])
         );
-        Approvals::verifyHtml($sut->defaultAction());
+        Approvals::verifyHtml($sut->defaultAction(new FakeRequest()));
     }
 }
