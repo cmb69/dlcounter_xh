@@ -21,6 +21,7 @@
 
 namespace Dlcounter;
 
+use Dlcounter\Infra\TsvFile;
 use Plib\Jquery;
 use Plib\SystemChecker;
 use Plib\View;
@@ -75,7 +76,7 @@ class Dic
         } else {
             $dataFolder = dirname($pth["folder"]["content"]) . "/";
         }
-        return new DbService($dataFolder);
+        return new DbService($dataFolder, new TsvFile());
     }
 
     private static function downloadService(): DownloadService

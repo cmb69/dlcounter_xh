@@ -21,14 +21,20 @@
 
 namespace Dlcounter;
 
+use Dlcounter\Infra\TsvFile;
+
 class DbService
 {
     /** @var string */
     private $dataFolder;
 
-    public function __construct(string $dataFolder)
+    /** @var TsvFile */
+    private $tsvFile;
+
+    public function __construct(string $dataFolder, TsvFile $tsvFile)
     {
         $this->dataFolder = $dataFolder;
+        $this->tsvFile = $tsvFile;
     }
 
     /**
@@ -36,17 +42,13 @@ class DbService
      */
     public function readDb()
     {
-        $result = array();
-        $filename = $this->dataFolder() . 'dlcounter.csv';
-        if (is_readable($filename)) {
-            $lines = file($filename);
-        } else {
-            $lines = false;
-        }
-        if ($lines !== false) {
-            foreach ($lines as $line) {
-                list($time, $name) = explode("\t", rtrim($line), 2);
-                $result[] = (object) compact('name', 'time');
+        $result = [];
+        foreach ($this->tsvFile->records($this->dataFolder() . 'dlcounter.csv') as $record) {
+            if (count($record) === 2) {
+                $result[] = (object) [
+                    "time" => $record[0],
+                    "name" => $record[1],
+                ];
             }
         }
         return $result;
@@ -59,9 +61,8 @@ class DbService
     public function getDownloadCountOf($basename)
     {
         $result = 0;
-        $downloads = $this->readDb();
-        foreach ($downloads as $download) {
-            if ($download->name === $basename) {
+        foreach ($this->tsvFile->records($this->dataFolder() . 'dlcounter.csv') as $record) {
+            if (count($record) === 2 && $record[1] === $basename) {
                 $result++;
             }
         }
@@ -75,10 +76,10 @@ class DbService
      */
     public function log($timestamp, $basename)
     {
-        $line = $timestamp . "\t" . basename($basename) . "\n";
-        $filename = $this->dataFolder() . 'dlcounter.csv';
-        return is_dir(dirname($filename))
-            && file_put_contents($filename, $line, FILE_APPEND | LOCK_EX) !== false;
+        return $this->tsvFile->append($this->dataFolder() . 'dlcounter.csv', [
+            (string) $timestamp,
+            basename($basename)
+        ]);
     }
 
     /**

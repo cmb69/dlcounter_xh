@@ -21,6 +21,7 @@
 
 namespace Dlcounter;
 
+use Dlcounter\Infra\TsvFile;
 use PHPUnit\Framework\TestCase;
 use org\bovigo\vfs\vfsStreamWrapper;
 use org\bovigo\vfs\vfsStreamDirectory;
@@ -54,7 +55,7 @@ class DbServiceTest extends TestCase
         vfsStreamWrapper::setRoot(new vfsStreamDirectory('test'));
         mkdir(vfsStream::url('test/content/'), 0777, true);
         touch(vfsStream::url('test/content/dlcounter.csv'));
-        $this->subject = new DbService(vfsStream::url('test/content/'));
+        $this->subject = new DbService(vfsStream::url('test/content/'), new TsvFile());
     }
 
     public function testReadEmptyDb()
