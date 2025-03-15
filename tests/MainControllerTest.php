@@ -17,7 +17,7 @@ class MainControllerTest extends TestCase
 
     public function testReportsUnreadableDownload(): void
     {
-        $sut = $this->sut($this->dbService(false), $this->downloadService());
+        $sut = $this->sut($this->dbService(), $this->downloadService(false));
         $this->assertStringContainsString(
             "Can't read file &quot;test.txt&quot;!",
             $sut->defaultAction(new FakeRequest(), "test.txt")->output()
@@ -53,7 +53,7 @@ class MainControllerTest extends TestCase
 
     public function testRespondsWith404ForUnreadableDownload(): void
     {
-        $sut = $this->sut($this->dbService(false), $this->downloadService());
+        $sut = $this->sut($this->dbService(), $this->downloadService(false));
         $this->assertSame(404, $sut->downloadAction(new FakeRequest(), "text.txt")->status());
     }
 
@@ -67,19 +67,20 @@ class MainControllerTest extends TestCase
     }
 
     /** @return DbService&MockObject */
-    private function dbService(bool $readable = true)
+    private function dbService()
     {
         $dbService = $this->createMock(DbService::class);
-        $dbService->method("isReadable")->willReturn($readable);
-        $dbService->method("fileSize")->willReturn(12345);
         $dbService->method("getDownloadCountOf")->willReturn(123);
         return $dbService;
     }
 
     /** @return DownloadService&MockObject */
-    private function downloadService()
+    private function downloadService(bool $readable = true)
     {
-        return $this->createMock(DownloadService::class);
+        $downloadService = $this->createMock(DownloadService::class);
+        $downloadService->method("isReadable")->willReturn($readable);
+        $downloadService->method("fileSize")->willReturn(12345);
+        return $downloadService;
     }
 
     private function view(): View

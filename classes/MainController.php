@@ -56,7 +56,7 @@ class MainController
     public function defaultAction(Request $request, string $basename): Response
     {
         $filename = $this->downloadFolder . basename($basename);
-        if (!$this->dbService->isReadable($filename)) {
+        if (!$this->downloadService->isReadable($filename)) {
             return Response::create($this->view->message("fail", "message_cantread", $filename));
         }
         return Response::create($this->view->render("download-form", [
@@ -73,7 +73,7 @@ class MainController
      */
     private function determineSize($filename)
     {
-        $filesize = $this->dbService->fileSize($filename);
+        $filesize = $this->downloadService->fileSize($filename);
         $units = array('B', 'KB', 'MB', 'GB');
         $log = (int) log((float) $filesize, 1024);
         return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
@@ -82,7 +82,7 @@ class MainController
     public function downloadAction(Request $request, string $basename): Response
     {
         $filename = $this->downloadFolder . basename($basename);
-        if ($this->dbService->isReadable($filename)) {
+        if ($this->downloadService->isReadable($filename)) {
             if (!$request->admin()) {
                 if (!$this->dbService->log($request->time(), $filename)) {
                     return Response::create($this->view->message("fail", "message_cantwrite", $filename));

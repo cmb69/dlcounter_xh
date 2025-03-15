@@ -40,4 +40,14 @@ class DownloadService
         readfile($filename);
         XH_exit();
     }
+
+    public function isReadable(string $filename): bool
+    {
+        return is_readable($filename);
+    }
+
+    public function fileSize(string $filename): int
+    {
+        return (int) filesize($filename);
+    }
 }
