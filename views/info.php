@@ -16,7 +16,7 @@ use Plib\View;
 </div>
 <div>
   <h2><?php echo $this->text('syscheck_title')?></h2>
-<?php foreach ($checks as $check):?>
+<?foreach ($checks as $check):?>
   <p class="<?php echo $this->esc($check['class'])?>"><?php echo $this->text('syscheck_message', $check['label'], $check['stateLabel'])?></p>
-<?php endforeach?>
+<?endforeach?>
 </div>

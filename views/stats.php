@@ -20,12 +20,12 @@ use Plib\View;
       </tr>
     </thead>
     <tbody>
-<?php foreach ($totals as $filename => $count):?>
+<?foreach ($totals as $filename => $count):?>
       <tr>
         <td><?=$filename?></td>
         <td><?=$count?></td>
       </tr>
-<?php endforeach?>
+<?endforeach?>
     </tbody>
   </table>
   <h4><?=$this->text('label_individual')?></h4>
@@ -37,12 +37,12 @@ use Plib\View;
       </tr>
     </thead>
     <tbody>
-<?php foreach ($details as $rec):?>
+<?foreach ($details as $rec):?>
       <tr>
         <td><?=date('Y-m-d H:i:s', (int) $rec->time)?></td>
         <td><?=$rec->name?></td>
       </tr>
-<?php endforeach?>
+<?endforeach?>
     </tbody>
   </table>
 </div>
