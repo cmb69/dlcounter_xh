@@ -35,4 +35,63 @@
     </exec>
   </target>
 
+  <target name="build">
+    <exec executable="git" checkreturn="true">
+      <arg line="archive -o export.zip HEAD"/>
+    </exec>
+    <unzip file="export.zip" todir="export"/>
+    <delete file="export.zip"/>
+    <move todir="dist">
+      <fileset dir="export">
+        <include name="views/*.php"/>
+      </fileset>
+      <filterchain>
+        <replaceregexp>
+          <regexp pattern="&lt;\?(?!=|php)" replace="&lt;?php "/>
+        </replaceregexp>
+      </filterchain>
+    </move>
+    <move todir="dist">
+      <fileset dir="export">
+        <exclude name=".github/**"/>
+        <exclude name=".phive/**"/>
+        <exclude name="help/template.htm"/>
+        <exclude name="tests/**"/>
+        <exclude name="README*.md"/>
+        <exclude name="build.xml"/>
+        <exclude name="composer.*"/>
+        <exclude name="phpstan.*"/>
+        <exclude name="phpunit.xml"/>
+        <exclude name="teplad.xml"/>
+      </fileset>
+    </move>
+    <delete dir="export"/>
+    <copy file="dist/config/config.php" tofile="dist/config/defaultconfig.php"/>
+    <copy file="dist/languages/en.php" tofile="dist/languages/default.php"/>
+    <zip destfile="Dlcounter_XH-1.0.zip" basedir="dist" prefix="dlcounter/"/>
+    <delete dir="dist"/>
+  </target>
+
+  <target name="build-patch" description="builds a distributable update package">
+    <fail unless="patchee" message="patchee is not defined!"/>
+    <unzip file="Dlcounter_XH-1.0.zip" todir="current"/>
+    <unzip file="${patchee}" todir="patchee"/>
+    <copy todir="dist">
+      <fileset dir="current">
+        <different targetdir="patchee" ignoreFileTimes="true"/>
+      </fileset>
+    </copy>
+    <delete>
+      <fileset dir="dist/dlcounter">
+        <include name="config/config.php"/>
+        <include name="languages/??.php"/>
+        <include name="css/stylesheet.css"/>
+      </fileset>
+    </delete>
+    <zip destfile="Dlcounter_XH-1.0-update-from-1.x.zip" basedir="dist" includeemptydirs="false"/>
+    <delete dir="patchee" quiet="true"/>
+    <delete dir="current" quiet="true"/>
+    <delete dir="dist" quiet="true"/>
+  </target>
+
 </project>
