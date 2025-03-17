@@ -25,6 +25,7 @@ $plugin_tx['dlcounter']['syscheck_extension']="the PHP extension '%s' is loaded"
 $plugin_tx['dlcounter']['syscheck_fail']="failure";
 $plugin_tx['dlcounter']['syscheck_message']="Checking that %1\$s … %2\$s";
 $plugin_tx['dlcounter']['syscheck_phpversion']="the PHP version is at least %s";
+$plugin_tx['dlcounter']['syscheck_plibversion']="the Plib_XH version is at least %s";
 $plugin_tx['dlcounter']['syscheck_plugin']="the CMSimple_XH plugin '%s' is installed";
 $plugin_tx['dlcounter']['syscheck_success']="okay";
 $plugin_tx['dlcounter']['syscheck_title']="System check";
