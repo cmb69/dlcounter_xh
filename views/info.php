@@ -1,4 +1,15 @@
-<h1>Dlcounter <?=$version?></h1>
+<?php
+
+use Plib\View;
+
+/**
+ * @var View $this
+ * @var string $version
+ * @var list<array{class:string,label:string,stateLabel:string}> $checks
+ */
+?>
+
+<h1>Dlcounter <?=$this->esc($version)?></h1>
 <div>
     <h2><?=$this->text('synopsis_title')?></h2>
     <pre>{{{dlcounter('<?=$this->text('synopsis_filename')?>')}}}</pre>

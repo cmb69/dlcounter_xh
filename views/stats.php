@@ -1,3 +1,14 @@
+<?php
+
+use Plib\View;
+
+/**
+ * @var View $this
+ * @var array<string,int> $totals
+ * @var list<object{name:string,time:string}> $details
+ */
+?>
+
 <h1>Dlcounter – <?=$this->text('menu_main')?></h1>
 <div id="dlcounter_stats">
     <h4><?=$this->text('label_totals')?></h4>
@@ -28,7 +39,7 @@
         <tbody>
 <?php foreach ($details as $rec):?>
             <tr>
-                <td><?=date('Y-m-d H:i:s', (string) $rec->time)?></td>
+                <td><?=date('Y-m-d H:i:s', (int) $rec->time)?></td>
                 <td><?=$rec->name?></td>
             </tr>
 <?php endforeach?>
