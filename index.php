@@ -30,11 +30,5 @@ const DLCOUNTER_VERSION = "1.0beta2";
  */
 function dlcounter($filename)
 {
-    $controller = Dic::mainController();
-    if (isset($_POST['dlcounter']) && $_POST['dlcounter'] === $filename) {
-        $action = 'downloadAction';
-    } else {
-        $action = 'defaultAction';
-    }
-    return $controller->{$action}(Request::current(), $filename)();
+    return Dic::mainController()(Request::current(), $filename)();
 }

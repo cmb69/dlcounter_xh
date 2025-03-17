@@ -53,7 +53,16 @@ class MainController
         $this->view = $view;
     }
 
-    public function defaultAction(Request $request, string $basename): Response
+    public function __invoke(Request $request, string $basename): Response
+    {
+        if ($request->post("dlcounter") === $basename) {
+            return $this->downloadAction($request, $basename);
+        } else {
+            return $this->defaultAction($request, $basename);
+        }
+    }
+
+    private function defaultAction(Request $request, string $basename): Response
     {
         $filename = $this->downloadFolder . basename($basename);
         if (!$this->downloadService->isReadable($filename)) {
@@ -79,7 +88,7 @@ class MainController
         return round($filesize / pow(1024, $log), 1) . ' ' . $units[$log];
     }
 
-    public function downloadAction(Request $request, string $basename): Response
+    private function downloadAction(Request $request, string $basename): Response
     {
         $filename = $this->downloadFolder . basename($basename);
         if ($this->downloadService->isReadable($filename)) {

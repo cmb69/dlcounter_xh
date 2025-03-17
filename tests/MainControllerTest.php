@@ -12,7 +12,7 @@ class MainControllerTest extends TestCase
     public function testRendersDownloadForm(): void
     {
         $sut = $this->sut($this->dbService(), $this->downloadService());
-        Approvals::verifyHtml($sut->defaultAction(new FakeRequest(), "test.txt")->output());
+        Approvals::verifyHtml($sut(new FakeRequest(), "test.txt")->output());
     }
 
     public function testReportsUnreadableDownload(): void
@@ -20,7 +20,7 @@ class MainControllerTest extends TestCase
         $sut = $this->sut($this->dbService(), $this->downloadService(false));
         $this->assertStringContainsString(
             "Can't read file &quot;test.txt&quot;!",
-            $sut->defaultAction(new FakeRequest(), "test.txt")->output()
+            $sut(new FakeRequest(), "test.txt")->output()
         );
     }
 
@@ -29,7 +29,8 @@ class MainControllerTest extends TestCase
         $downloadService = $this->downloadService();
         $downloadService->expects($this->once())->method("deliverDownload")->with("test.txt");
         $sut = $this->sut($this->dbService(), $downloadService);
-        $sut->downloadAction(new FakeRequest(["admin" => true]), "test.txt");
+        $request = new FakeRequest(["post" => ["dlcounter" => "test.txt"], "admin" => true]);
+        $sut($request, "test.txt");
     }
 
     public function testLogsDownload(): void
@@ -37,7 +38,8 @@ class MainControllerTest extends TestCase
         $dbService = $this->dbService();
         $dbService->expects($this->once())->method("log")->with(1234567, "test.txt")->willReturn(true);
         $sut = $this->sut($dbService, $this->downloadService());
-        $sut->downloadAction(new FakeRequest(["time" => 1234567]), "test.txt");
+        $request = new FakeRequest(["post" => ["dlcounter" => "test.txt"], "time" => 1234567]);
+        $sut($request, "test.txt");
     }
 
     public function testReportsFailureToLogDownload(): void
@@ -45,16 +47,18 @@ class MainControllerTest extends TestCase
         $dbService = $this->dbService();
         $dbService->expects($this->once())->method("log")->willReturn(false);
         $sut = $this->sut($dbService, $this->downloadService());
+        $request = new FakeRequest(["post" => ["dlcounter" => "test.txt"], "time" => 1234567]);
         $this->assertStringContainsString(
             "Can't write to file &quot;test.txt&quot;!",
-            $sut->downloadAction(new FakeRequest(["time" => 1234567]), "test.txt")->output()
+            $sut($request, "test.txt")->output()
         );
     }
 
     public function testRespondsWith404ForUnreadableDownload(): void
     {
         $sut = $this->sut($this->dbService(), $this->downloadService(false));
-        $this->assertSame(404, $sut->downloadAction(new FakeRequest(), "text.txt")->status());
+        $request = new FakeRequest(["post" => ["dlcounter" => "test.txt"]]);
+        $this->assertSame(404, $sut($request, "test.txt")->status());
     }
 
     /** @return MainController&MockObject */
