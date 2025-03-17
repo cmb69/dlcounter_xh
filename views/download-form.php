@@ -2,6 +2,8 @@
 
 use Plib\View;
 
+if (!isset($this)) {http_response_code(403); exit;}
+
 /**
  * @var View $this
  * @var string $actionUrl
