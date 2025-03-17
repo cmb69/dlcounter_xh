@@ -37,9 +37,7 @@ class DbService
         $this->tsvFile = $tsvFile;
     }
 
-    /**
-     * @return list<object{name:string,time:string}>
-     */
+    /** @return list<object{name:string,time:string}> */
     public function readDb()
     {
         $result = [];
@@ -54,11 +52,7 @@ class DbService
         return $result;
     }
 
-    /**
-     * @param string $basename
-     * @return int
-     */
-    public function getDownloadCountOf($basename)
+    public function getDownloadCountOf(string $basename): int
     {
         $result = 0;
         foreach ($this->tsvFile->records($this->dataFolder() . 'dlcounter.csv') as $record) {
@@ -69,12 +63,7 @@ class DbService
         return $result;
     }
 
-    /**
-     * @param int $timestamp
-     * @param string $basename
-     * @return bool
-     */
-    public function log($timestamp, $basename)
+    public function log(int $timestamp, string $basename): bool
     {
         return $this->tsvFile->append($this->dataFolder() . 'dlcounter.csv', [
             (string) $timestamp,
@@ -82,10 +71,7 @@ class DbService
         ]);
     }
 
-    /**
-     * @return string
-     */
-    private function dataFolder()
+    private function dataFolder(): string
     {
         return $this->dataFolder;
     }

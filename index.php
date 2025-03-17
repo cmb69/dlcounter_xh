@@ -24,11 +24,7 @@ use Plib\Request;
 
 const DLCOUNTER_VERSION = "1.0beta2";
 
-/**
- * @param string $filename
- * @return string
- */
-function dlcounter($filename)
+function dlcounter(string $filename): string
 {
     return Dic::mainController()(Request::current(), $filename)();
 }

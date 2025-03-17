@@ -23,11 +23,7 @@ namespace Dlcounter;
 
 class DownloadService
 {
-    /**
-     * @param string $filename
-     * @return void
-     */
-    public function deliverDownload($filename, string $mimeType)
+    public function deliverDownload(string $filename, string $mimeType): void
     {
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
         $basename = urlencode(basename($filename));

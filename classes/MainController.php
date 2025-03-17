@@ -30,9 +30,7 @@ class MainController
     /** @var string */
     private $downloadFolder;
 
-    /**
-     * @var DbService
-     */
+    /** @var DbService */
     private $dbService;
 
     /** @var DownloadService */
@@ -79,11 +77,7 @@ class MainController
         ]));
     }
 
-    /**
-     * @param string $filename
-     * @return string
-     */
-    private function determineSize($filename)
+    private function determineSize(string $filename): string
     {
         $filesize = $this->downloadService->fileSize($filename);
         $units = array('B', 'KB', 'MB', 'GB');
