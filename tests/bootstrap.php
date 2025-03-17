@@ -22,4 +22,4 @@ require_once './classes/MainAdminController.php';
 require_once './classes/MainController.php';
 
 const CMSIMPLE_XH_VERSION = "CMSimple_XH 1.7.5";
-const DLCOUNTER_VERSION = "1.0";
+const DLCOUNTER_VERSION = "1.1-dev";

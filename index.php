@@ -22,7 +22,7 @@
 use Dlcounter\Dic;
 use Plib\Request;
 
-const DLCOUNTER_VERSION = "1.0";
+const DLCOUNTER_VERSION = "1.1-dev";
 
 function dlcounter(string $filename): string
 {
