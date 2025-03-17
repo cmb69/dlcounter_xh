@@ -9,6 +9,13 @@ use Plib\View;
 
 class MainControllerTest extends TestCase
 {
+    public function testDoesNothingWhenSearching(): void
+    {
+        $sut = $this->sut($this->dbService(), $this->downloadService());
+        $request = new FakeRequest(["url" => "http://example.com/?&function=search"]);
+        $this->assertSame("", $sut($request, "test.txt")->output());
+    }
+
     public function testRendersDownloadForm(): void
     {
         $sut = $this->sut($this->dbService(), $this->downloadService());

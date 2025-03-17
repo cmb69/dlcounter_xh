@@ -55,7 +55,10 @@ class MainController
 
     public function __invoke(Request $request, string $basename): Response
     {
-        if ($request->post("dlcounter") === $basename) {
+        if ($request->get("function") === "search") {
+            return Response::create();
+        }
+       if ($request->post("dlcounter") === $basename) {
             return $this->downloadAction($request, $basename);
         } else {
             return $this->defaultAction($request, $basename);
