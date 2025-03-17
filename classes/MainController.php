@@ -58,7 +58,7 @@ class MainController
         if ($request->get("function") === "search") {
             return Response::create();
         }
-       if ($request->post("dlcounter") === $basename) {
+        if ($request->post("dlcounter") === $basename) {
             return $this->downloadAction($request, $basename);
         } else {
             return $this->defaultAction($request, $basename);
