@@ -36,5 +36,5 @@ function dlcounter($filename)
     } else {
         $action = 'defaultAction';
     }
-    return $controller->{$action}(Request::current(), $filename);
+    return $controller->{$action}(Request::current(), $filename)();
 }
